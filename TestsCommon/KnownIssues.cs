@@ -1,7 +1,7 @@
 ﻿using static TestsCommon.JavaKnownIssues;
 using static TestsCommon.CSharpKnownIssues;
 using static TestsCommon.PowerShellKnownIssues;
-using static TestsCommon.TypescriptKnownIssues;
+using static TestsCommon.TypeScriptKnownIssues;
 
 namespace TestsCommon;
 

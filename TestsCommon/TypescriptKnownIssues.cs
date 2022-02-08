@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestsCommon
 {
-    public static class TypescriptKnownIssues
+    public static class TypeScriptKnownIssues
     {
 
         internal static readonly KnownIssue TypescriptMissingObjectTypeKnownIssue = new KnownIssue(Category.Documentation, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/813");

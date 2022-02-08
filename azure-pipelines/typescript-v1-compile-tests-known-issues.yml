@@ -1,6 +1,25 @@
 # Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 
 trigger: none # disable triggers based on commits.
+pr:
+  branches:
+    include:
+      - dev
+      - main
+  paths:
+    include:
+      - azure-pipelines/typescript*
+      - TypeScript*
+      - msgraph-sdk-raptor-compiler-lib/MicrosoftGraphTypeScriptCompiler.cs
+      - TestsCommon/TypeScriptTestRunner.cs
+      - TestsCommon/TypeScriptKnownIssues.cs
+schedules:
+  - cron: "0 3 * * *" # everyday at 3AM UTC (off hours for Redmond, Nairobi and Montréal)
+    displayName: 'Daily V1 TypeScript Snippet Compilation Tests - Known Issues'
+    branches:
+      include:
+      - dev
+    always: true
 name: 'V1 TypeScript Snippet Compilation Tests - Known Issues'
 
 resources:

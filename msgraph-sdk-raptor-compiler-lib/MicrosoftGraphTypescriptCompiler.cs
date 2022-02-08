@@ -14,7 +14,7 @@ using System.Collections.ObjectModel;
 
 namespace MsGraphSDKSnippetsCompiler
 {
-    public class MicrosoftGraphTypescriptCompiler : IMicrosoftGraphSnippetsCompiler
+    public class MicrosoftGraphTypeScriptCompiler : IMicrosoftGraphSnippetsCompiler
     {
 
         public CompilationResultsModel CompileSnippet(string codeSnippet, Versions version)
