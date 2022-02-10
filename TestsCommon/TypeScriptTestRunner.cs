@@ -72,7 +72,7 @@ const requestAdapter = new FetchRequestAdapter(authProvider);  ";
                 var result = MicrosoftGraphTypeScriptCompiler.GetDiagnostics(testData.FileName, npmResults[fileName]);
 
                 var compilationResultsModel = new CompilationResultsModel(false, result, testData.FileName);
-                var compilationOutputMessage = new CompilationOutputMessage(compilationResultsModel, File.ReadAllText(Path.Combine(TestsSetup.Config.Value.TypeScriptFolder, fileName)), testData.DocsLink, testData.KnownIssueMessage, testData.IsCompilationKnownIssue, Languages.TypeScript);
+                var compilationOutputMessage = new CompilationOutputMessage(compilationResultsModel.ToString(), File.ReadAllText(Path.Combine(TestsSetup.Config.Value.TypeScriptFolder, fileName)), testData.DocsLink, testData.KnownIssueMessage, testData.IsCompilationKnownIssue, Languages.TypeScript);
                 Assert.Fail($"{compilationOutputMessage}");
             }
         }

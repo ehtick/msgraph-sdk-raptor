@@ -1,49 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RunSettings>
-    <RunConfiguration>
-        <MaxCpuCount>0</MaxCpuCount>
-        <ResultsDirectory>./TestResults</ResultsDirectory>
-        <TreatNoTestsAsError>true</TreatNoTestsAsError>
-        <EnvironmentVariables>
-            <!-- Uncomment and Set these variables for Local Runs.
+  <RunConfiguration>
+    <MaxCpuCount>0</MaxCpuCount>
+    <ResultsDirectory>./TestResults</ResultsDirectory>
+    <TreatNoTestsAsError>true</TreatNoTestsAsError>
+    <EnvironmentVariables>
+      <!-- Uncomment and Set these variables for Local Runs.
                     * Use ConfigEndpoint to use Azure AD Authentication for Azure App Config.
                     * Use ConfigConnectionString to use Access Keys Authentication for Azure App Config
             -->
-            <!--
+      <!--
 
             <RAPTOR_CONFIGCONNECTIONSTRING>[ENTER_VALUE]</RAPTOR_CONFIGCONNECTIONSTRING>
             <RAPTOR_CONFIGENDPOINT>[ENTER_VALUE]</RAPTOR_CONFIGENDPOINT>
 
             -->
-        </EnvironmentVariables>
-    </RunConfiguration>
-    <LoggerRunSettings>
-        <Loggers>
-            <Logger friendlyName="console" enabled="True">
-                <Configuration>
-                    <Verbosity>normal</Verbosity>
-                </Configuration>
-            </Logger>
-            <Logger friendlyName="trx" enabled="True">
-                <Configuration>
-                    <LogFileName>RaptorTestResults.trx</LogFileName>
-                </Configuration>
-            </Logger>
-            <Logger friendlyName="html" enabled="True">
-                <Configuration>
-                    <LogFileName>RaptorTestResults.html</LogFileName>
-                </Configuration>
-            </Logger>
-            <Logger friendlyName="blame" enabled="True" />
-        </Loggers>
-    </LoggerRunSettings>
-    <TestRunParameters>
-        <Parameter name="Version" value="---VersionPlaceholder---" />
-        <Parameter name="DllPath" value="---DllPathPlaceholder---" />
-        <Parameter name="TestType" value="---TestTypePlaceholder---" />
-        <Parameter name="Language" value="---LanguagePlaceHolder---" />
-        <Parameter name="JavaCoreVersion" value="---JavaCoreVersionPlaceHolder---" />
-        <Parameter name="JavaLibVersion" value="---JavaLibVersionPlaceHolder---" />
-        <Parameter name="JavaPreviewLibPath" value="---JavaPreviewLibPathPlaceHolder---" />
-    </TestRunParameters>
+    </EnvironmentVariables>
+  </RunConfiguration>
+  <LoggerRunSettings>
+    <Loggers>
+      <Logger friendlyName="console" enabled="True">
+        <Configuration>
+          <Verbosity>normal</Verbosity>
+        </Configuration>
+      </Logger>
+      <Logger friendlyName="trx" enabled="True">
+        <Configuration>
+          <LogFileName>RaptorTestResults.trx</LogFileName>
+        </Configuration>
+      </Logger>
+      <Logger friendlyName="html" enabled="True">
+        <Configuration>
+          <LogFileName>RaptorTestResults.html</LogFileName>
+        </Configuration>
+      </Logger>
+      <Logger friendlyName="blame" enabled="True" />
+    </Loggers>
+  </LoggerRunSettings>
+  <TestRunParameters>
+    <Parameter name="Version" value="---VersionPlaceholder---" />
+    <Parameter name="DllPath" value="---DllPathPlaceholder---" />
+    <Parameter name="TestType" value="---TestTypePlaceholder---" />
+    <Parameter name="Language" value="---LanguagePlaceHolder---" />
+    <Parameter name="JavaCoreVersion" value="---JavaCoreVersionPlaceHolder---" />
+    <Parameter name="JavaLibVersion" value="---JavaLibVersionPlaceHolder---" />
+    <Parameter name="JavaPreviewLibPath" value="---JavaPreviewLibPathPlaceHolder---" />
+  </TestRunParameters>
 </RunSettings>

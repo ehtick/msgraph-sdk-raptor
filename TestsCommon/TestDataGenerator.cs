@@ -82,6 +82,21 @@ public static class TestDataGenerator
     }
 
     /// <summary>
+    /// From a given list of testData it selects known issues if asked through run settings
+    /// </summary>
+    /// <param name="testData">List of test data</param>
+    /// <param name="runSettings">Test run settings</param>
+    /// <returns>
+    /// TestCaseData to be consumed by compilation tests
+    /// </returns>
+    public static IEnumerable<TestCaseData> GetTestCaseData(IEnumerable<LanguageTestData> testData, RunSettings runSettings)
+    {
+        return testData
+            .Where(td => !(td.IsCompilationKnownIssue ^ runSettings.TestType == TestType.CompilationKnownIssues))
+            .Select(td => new TestCaseData(td).SetName(td.TestName).SetProperty("Owner", td.Owner));
+    }
+
+    /// <summary>
     /// For each snippet file creates a test case which takes the file name and version as reference
     /// Test case name is also set to to unique name based on file name
     /// </summary>

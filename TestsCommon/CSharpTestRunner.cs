@@ -64,7 +64,7 @@ public static class CSharpTestRunner
         var microsoftGraphCSharpCompiler = new MicrosoftGraphCSharpCompiler(testData);
         var compilationResultsModel = microsoftGraphCSharpCompiler.CompileSnippet(codeToCompile, testData.Version);
 
-        var compilationOutputMessage = new CompilationOutputMessage(compilationResultsModel, codeToCompile, testData.DocsLink, testData.KnownIssueMessage, testData.IsCompilationKnownIssue);
+        var compilationOutputMessage = new CompilationOutputMessage(compilationResultsModel.ToString(), codeToCompile, testData.DocsLink, testData.KnownIssueMessage, testData.IsCompilationKnownIssue);
         EvaluateCompilationResult(compilationResultsModel, testData, codeSnippetFormatted, compilationOutputMessage);
 
         Assert.Pass();
@@ -93,7 +93,7 @@ public static class CSharpTestRunner
             .ExecuteSnippet(codeToCompile, testData.Version)
             .ConfigureAwait(false);
         var compilationOutputMessage = new CompilationOutputMessage(
-            executionResultsModel.CompilationResult,
+            executionResultsModel.CompilationResult.ToString(),
             codeToCompile,
             testData.DocsLink,
             testData.KnownIssueMessage,
