@@ -46,9 +46,7 @@ public static class CSharpKnownIssues
                 { "create-basetask-from--csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/15575")},
                 { "create-tasklist-from--csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/15577")},
                 { "deploymentaudience-updateaudience-csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/12811")},
-                { "get-devicecompliancepolicysettingstatesummary-csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/13596")},
                 { "list-administrativeunit-csharp-V1-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/12770")},
-                { "list-devicecompliancepolicysettingstatesummary-csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/13597")},
                 { "update-tenantcustomizedinformation-csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/13556")},
                 { "update-basetask-csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/15576") },
                 { "update-tasklist-csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/15578")},
@@ -60,24 +58,10 @@ public static class CSharpKnownIssues
 
                 { "create-datasource-from--1-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
                 { "create-deployment-from--csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
+                { "create-directorysetting-from-settings-for-guests-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "GroupSetting instead of DirectorySetting used", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/878")},
                 { "create-noncustodialdatasource-from-email-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
                 { "create-noncustodialdatasource-from-siteurl-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
-                { "create-externalgroupmember-from--1-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Generation of non-existent class", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/821") },
-                { "create-externalgroupmember-from--2-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Generation of non-existent class", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/821") },
-                { "create-externalgroupmember-from--3-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Generation of non-existent class", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/821") },
                 { "create-externalregistration-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Online meeting registration uses addAsync instead of createAsync", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/857")},
-                { "basetask-delta-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Ids interpreted as path segments instead of as inputs", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/836")},
-                { "basetasklist-delta-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Ids interpreted as path segments instead of as inputs", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/836")},
-                { "delete-basetask-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Ids interpreted as path segments instead of as inputs", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/836")},
-                { "delete-checklistitem-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Ids interpreted as path segments instead of as inputs", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/836")},
-                { "delete-linkedresource-v2-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Ids interpreted as path segments instead of as inputs", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/836")},
-                { "get-basetask-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Ids interpreted as path segments instead of as inputs", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/836")},
-                { "get-basetasklist-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Ids interpreted as path segments instead of as inputs", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/836")},
-                { "get-checklistitem-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Ids interpreted as path segments instead of as inputs", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/836")},
-                { "get-linkedresource-v2-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Ids interpreted as path segments instead of as inputs", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/836")},
-                { "list-basetask-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Ids interpreted as path segments instead of as inputs", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/836")},
-                { "list-checklistitem-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Ids interpreted as path segments instead of as inputs", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/836")},
-                { "list-linkedresource-v2-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Ids interpreted as path segments instead of as inputs", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/836")},
                 { $"create-schema-from-connection-async-csharp-{version}-compiles", new KnownIssue(Category.SnippetGeneration, SnippetGenerationCreateAsyncSupport, SnippetGenerationCreateAsyncSupportGithubIssue) },
                 { "update-deployment-1-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
                 { "update-deployment-2-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
@@ -92,14 +76,12 @@ public static class CSharpKnownIssues
                 { "post-chatmessage-2-csharp-V1-compiles", IdentitySetAndIdentityShouldNestAdditionalDataKnownIssue},
 
                 { "create-educationrubric-from-educationassignment-csharp-V1-compiles", EducationAssignmentRubricContainsTargetPreprocessorKnownIssue},
-                { "create-directorysetting-from-settings-for-guests-csharp-Beta-compiles", new KnownIssue(Category.Metadata, "GroupSetting undefined in metadata")},
                 { "delete-educationrubric-from-educationassignment-csharp-V1-compiles", EducationAssignmentRubricContainsTargetPreprocessorKnownIssue},
                 { "add-educationcategory-to-educationassignment-csharp-V1-compiles", EducationAssignmentRubricContainsTargetPreprocessorKnownIssue},
 
                 { $"event-accept-csharp-{version}-compiles", EventActionsShouldNotBeReorderedKnownIssue },
                 { $"event-decline-csharp-{version}-compiles", EventActionsShouldNotBeReorderedKnownIssue },
                 { $"event-tentativelyaccept-csharp-{version}-compiles", EventActionsShouldNotBeReorderedKnownIssue },
-                { $"create-homerealmdiscoverypolicy-from-serviceprincipal-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefNeeded) },
                 { $"create-certificatebasedauthconfiguration-from-certificatebasedauthconfiguration-csharp-{version}-compiles", new KnownIssue(Category.HTTP, RefNeeded, "https://github.com/microsoftgraph/microsoft-graph-docs/issues/14004") },
                 { $"create-tokenlifetimepolicy-from-application-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefNeeded) },
                 { "accessreviewinstancedecisionitem-recordalldecisions-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "missing filterbycurrentuser param", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/868") },
@@ -111,7 +93,6 @@ public static class CSharpKnownIssues
                 { "update-passwordlessmicrosoftauthenticatorauthenticationmethodconfiguration-csharp-Beta-compiles", NeedsAnalysisKnownIssue },
                 { "create-connectorgroup-from-connector-csharp-Beta-compiles", NeedsAnalysisKnownIssue },
                 { "managementactiontenantdeploymentstatus-changedeploymentstatus-csharp-Beta-compiles", NeedsAnalysisKnownIssue },
-                { "search-query-csharp-Beta-compiles", NeedsAnalysisKnownIssue }
             };
     }
 
