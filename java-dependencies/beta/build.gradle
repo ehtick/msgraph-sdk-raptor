@@ -13,7 +13,7 @@ dependencies {
     toCopy 'com.google.code.gson:gson:2.8.9'
     toCopy 'com.squareup.okhttp3:okhttp:4.9.3'
     toCopy 'com.azure:azure-identity:1.4.3'
-    toCopy 'com.microsoft.graph:microsoft-graph-core:2.0.10'
+    toCopy 'com.microsoft.graph:microsoft-graph-core:2.0.11'
     toCopy 'com.microsoft.graph:microsoft-graph-beta:0.40.0-SNAPSHOT'
 }
 task download(type: Copy) {
