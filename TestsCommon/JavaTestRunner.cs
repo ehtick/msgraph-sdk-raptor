@@ -15,77 +15,6 @@ public class JavaTestRunner
     }
 
     private const int TimeoutForJavacInSeconds = 10;
-    private const string PreviewBuildFileContents = @"apply plugin: 'base'
-
-repositories {
-    mavenCentral()
-}
-
-configurations {
-    toCopy
-}
-
-dependencies {
-    --deps--
-}
-
-task download(type: Copy) {
-    from configurations.toCopy
-    into 'lib'
-}
-";
-
-    private const string V1BuildFileContents = @"apply plugin: 'base'
-
-repositories {
-    mavenCentral()
-}
-
-configurations {
-    toCopy
-}
-
-dependencies {
-    --deps--
-    toCopy 'com.microsoft.graph:microsoft-graph-core:--coreversion--'
-    toCopy 'com.microsoft.graph:microsoft-graph:--libversion--'
-}
-
-task download(type: Copy) {
-    from configurations.toCopy
-    into 'lib'
-}
-";
-
-    private const string BetaBuildFileContents = @"apply plugin: 'base'
-
-repositories {
-    mavenCentral()
-    maven {
-        url 'https://oss.sonatype.org/content/repositories/snapshots'
-	}
-}
-
-configurations {
-    toCopy
-}
-
-dependencies {
-    --deps--
-    toCopy 'com.microsoft.graph:microsoft-graph-core:--coreversion--'
-    toCopy 'com.microsoft.graph:microsoft-graph-beta:--libversion--'
-}
-
-task download(type: Copy) {
-    from configurations.toCopy
-    into 'lib'
-}
-";
-
-    private const string Deps = @"toCopy 'com.google.guava:guava:31.0.1-jre'
-    toCopy 'com.google.code.gson:gson:2.8.9'
-    toCopy 'com.squareup.okhttp3:okhttp:4.9.3'
-    toCopy 'com.azure:azure-identity:1.4.3'";
 
     /// <summary>
     /// template to compile snippets in
@@ -182,24 +111,12 @@ public class App
         var libDirectory = Path.Combine(CompilationDirectory, "lib");
         Directory.CreateDirectory(libDirectory);
 
-        var buildFile = Path.Combine(CompilationDirectory, "build.gradle");
-
-        var buildFileContents = (isPreview, firstLanguageTestData.Version) switch
-            {
-                (false, Versions.V1) => V1BuildFileContents,
-                (false, Versions.Beta) => BetaBuildFileContents,
-                (true, Versions.V1) => PreviewBuildFileContents,
-                _ => throw new ArgumentException("Unsupported version", nameof(languageTestData))
-            };
+        var buildFileDestination = Path.Combine(CompilationDirectory, "build.gradle");
 
         await TestContext.Out.WriteLineAsync("Writing build.gradle for downloading dependencies...").ConfigureAwait(false);
-        await File.WriteAllTextAsync(buildFile, buildFileContents
-            .Replace("--deps--", Deps)
-            .Replace("--coreversion--", firstLanguageTestData.JavaCoreVersion)
-            .Replace("--libversion--", firstLanguageTestData.JavaLibVersion)
-            ).ConfigureAwait(false);
+        File.Copy(GetBuildGradleSource(isPreview, firstLanguageTestData.Version), buildFileDestination, true);
 
-        await TestContext.Out.WriteLineAsync("Downloading dependencies dependencies...").ConfigureAwait(false);
+        await TestContext.Out.WriteLineAsync("Downloading dependencies...").ConfigureAwait(false);
         await DownloadDependencies(CompilationDirectory).ConfigureAwait(false);
         
         if (isPreview)
@@ -219,6 +136,25 @@ public class App
 
         await TestContext.Out.WriteLineAsync("Creating all java files to be compiled...").ConfigureAwait(false);
         await DumpJavaFiles(CompilationDirectory, languageTestData).ConfigureAwait(false);
+    }
+
+    private static string GetBuildGradleSource(bool isPreview, Versions version)
+    {
+        var buildGradleDirectory = (isPreview, version) switch
+            {
+                (false, _) => version.ToString(),
+                (true, Versions.V1) => "preview",
+                _ => throw new ArgumentException("Unsupported version", nameof(version))
+            };
+
+        return Path.Combine(
+            TestsSetup.Config.Value.SourcesDirectory,
+            "msgraph-sdk-raptor",
+            "java-dependencies",
+            #pragma warning disable CA1308 // Normalize strings to uppercase
+            buildGradleDirectory.ToLowerInvariant(),
+            #pragma warning restore CA1308 // Normalize strings to uppercase
+            "build.gradle");
     }
 
     private static async Task DownloadDependencies(string compilationDirectory)
@@ -291,7 +227,6 @@ public class App
             .Replace("\r\n        \r\n", "\r\n\r\n")    // remove indentation added to empty lines
             .Replace("\t", "    ")                      // do not use tabs
             .Replace("\r\n\r\n\r\n", "\r\n\r\n");       // do not have two consecutive empty lines
-        var isCurrentSdk = string.IsNullOrEmpty(testData.JavaPreviewLibPath);
         var codeToCompile = BaseTestRunner.ConcatBaseTemplateWithSnippet(codeSnippetFormatted, SDKShellTemplate
                                                                         .Replace("--auth--", authProviderCurrent));
 

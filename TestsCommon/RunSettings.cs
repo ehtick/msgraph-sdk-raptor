@@ -23,23 +23,6 @@ public record RunSettings
     {
         get; init;
     }
-    public string JavaCoreVersion { get; init; } = "2.0.0";
-    private string _javaLibVersion;
-    public string JavaLibVersion
-    {
-        get
-        {
-            if (string.IsNullOrEmpty(_javaLibVersion))
-            {
-                return Version == Versions.V1 ? "3.0.0" : "0.6.0-SNAPSHOT";
-            }
-            else
-            {
-                return _javaLibVersion;
-            }
-        }
-        set => _javaLibVersion = value;
-    }
     public string JavaPreviewLibPath
     {
         get; init;
@@ -104,8 +87,6 @@ public record RunSettings
             }
         }
 
-        JavaCoreVersion = InitializeParameter(parameters, nameof(JavaCoreVersion)) ?? JavaCoreVersion;
-        JavaLibVersion = InitializeParameter(parameters, nameof(JavaLibVersion)); // we don't have the Graph version information just yet as it could be provided later with parameter initizaliation
         JavaPreviewLibPath = InitializeParameter(parameters, nameof(JavaPreviewLibPath)) ?? JavaPreviewLibPath;
     }
 

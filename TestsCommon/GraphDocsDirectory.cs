@@ -27,7 +27,7 @@ public static class GraphDocsDirectory
             return SnippetsDirectory;
         }
 
-        var msGraphDocsRepoLocation = TestsSetup.Config.Value.DocsRepoCheckoutDirectory;
+        var msGraphDocsRepoLocation = TestsSetup.Config.Value.SourcesDirectory;
         SnippetsDirectory = Path.Join(msGraphDocsRepoLocation, $@"microsoft-graph-docs{Path.DirectorySeparatorChar}api-reference{Path.DirectorySeparatorChar}{new VersionString(version)}{Path.DirectorySeparatorChar}includes{Path.DirectorySeparatorChar}snippets{Path.DirectorySeparatorChar}{language.AsString()}");
 
         return SnippetsDirectory;
@@ -42,7 +42,7 @@ public static class GraphDocsDirectory
     /// </returns>
     public static string GetDocumentationDirectory(Versions version)
     {
-        var msGraphDocsRepoLocation = TestsSetup.Config.Value.DocsRepoCheckoutDirectory;
+        var msGraphDocsRepoLocation = TestsSetup.Config.Value.SourcesDirectory;
         return Path.Join(msGraphDocsRepoLocation, $@"microsoft-graph-docs{Path.DirectorySeparatorChar}api-reference{Path.DirectorySeparatorChar}{new VersionString(version)}{Path.DirectorySeparatorChar}api");
     }
 }

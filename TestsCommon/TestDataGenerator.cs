@@ -174,8 +174,6 @@ public static class TestDataGenerator
                        docsLink,
                        fileName,
                        runSettings.DllPath,
-                       runSettings.JavaCoreVersion,
-                       runSettings.JavaLibVersion,
                        runSettings.JavaPreviewLibPath,
                        testName,
                        owner,

@@ -1,0 +1,22 @@
+apply plugin: 'base'
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots'
+	}
+}
+configurations {
+    toCopy
+}
+dependencies {
+    toCopy 'com.google.guava:guava:30.1.1-jre'
+    toCopy 'com.google.code.gson:gson:2.8.9'
+    toCopy 'com.squareup.okhttp3:okhttp:4.9.3'
+    toCopy 'com.azure:azure-identity:1.4.3'
+    toCopy 'com.microsoft.graph:microsoft-graph-core:2.0.10'
+    toCopy 'com.microsoft.graph:microsoft-graph-beta:0.39.0-SNAPSHOT'
+}
+task download(type: Copy) {
+    from configurations.toCopy
+    into 'lib'
+}

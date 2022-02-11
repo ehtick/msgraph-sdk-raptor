@@ -22,7 +22,7 @@ public sealed class RaptorConfig
             EducationTenantID = config.GetNonEmptyValue(nameof(EducationTenantID)),
             EducationClientID = config.GetNonEmptyValue(nameof(EducationClientID)),
             EducationClientSecret = config.GetNonEmptyValue(nameof(EducationClientSecret)),
-            DocsRepoCheckoutDirectory = config.GetNonEmptyValue("BUILD_SOURCESDIRECTORY"),
+            SourcesDirectory = config.GetNonEmptyValue("BUILD_SOURCESDIRECTORY"),
             RaptorStorageConnectionString = config.GetNonEmptyValue(nameof(RaptorStorageConnectionString)),
             IsLocalRun = bool.Parse(config.GetNonEmptyValue(nameof(IsLocalRun))),
             TypeScriptFolder = Path.Join(config.GetNonEmptyValue("BUILD_SOURCESDIRECTORY"), "typescript-tests"),
@@ -32,7 +32,7 @@ public sealed class RaptorConfig
             AzureKeyVaultName = config.GetNonEmptyValue(nameof(AzureKeyVaultName)),
             AzureTenantID = config.GetNonEmptyValue(nameof(AzureTenantID))
         };
-        if (!Directory.Exists(Path.Join(raptorConfig.DocsRepoCheckoutDirectory, "microsoft-graph-docs")))
+        if (!Directory.Exists(Path.Join(raptorConfig.SourcesDirectory, "microsoft-graph-docs")))
         {
             throw new FileNotFoundException("If you are running this locally, please set environment" +
                 " variable BUILD_SOURCESDIRECTORY to the docs repo checkout location.");
@@ -167,7 +167,7 @@ public sealed class RaptorConfig
         init;
     }
 
-    public string DocsRepoCheckoutDirectory
+    public string SourcesDirectory
     {
         get;
         init;

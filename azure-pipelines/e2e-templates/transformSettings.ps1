@@ -26,12 +26,6 @@
 .Parameter Language
     Required. Language to run the tests against
 
-.Parameter JavaCoreVersion
-    Optional. Version number for the core library to use
-
-.Parameter JavaLibVersion
-    Optional. Version number for the service library to use
-
 .Parameter JavaPreviewLibPath
     Optional. Path containing the core and service library repositories. Using this setting will ignore Java Core and Service lib versions.
 #>
@@ -50,8 +44,6 @@ Param(
     [Parameter(Mandatory = $true, ParameterSetName="CSharp")]
     [Parameter(Mandatory = $true, ParameterSetName="Java")]
     [string]$RunSettingsPath,
-    [Parameter(Mandatory = $false, ParameterSetName="Java")][string]$JavaCoreVersion="",
-    [Parameter(Mandatory = $false, ParameterSetName="Java")][string]$JavaLibVersion="",
     [Parameter(Mandatory = $false, ParameterSetName="Java")][string]$JavaPreviewLibPath=""
 )
 
@@ -61,8 +53,6 @@ $mapping.Add("Version", $Version)
 $mapping.Add("TestType", $TestType)
 $mapping.Add("DllPath", $DllPath)
 $mapping.Add("Language", $Language)
-$mapping.Add("JavaCoreVersion", $JavaCoreVersion)
-$mapping.Add("JavaLibVersion", $JavaLibVersion)
 $mapping.Add("JavaPreviewLibPath", $JavaPreviewLibPath)
 
 [xml]$settings = Get-Content $RunSettingsPath
