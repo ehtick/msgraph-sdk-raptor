@@ -1,4 +1,9 @@
-﻿using static NUnit.Framework.TestContext;
+﻿using System.Collections.Concurrent;
+using System.Security.Cryptography.X509Certificates;
+
+using Azure.Core;
+
+using static NUnit.Framework.TestContext;
 
 namespace MsGraphSDKSnippetsCompiler;
 
@@ -10,9 +15,6 @@ public class PermissionManager
     /// <summary>
     /// The Graph resource ID. Constant across tenants.
     /// </summary>
-    const string GraphResourceId = "00000003-0000-0000-c000-000000000000";
-    const string DefaultAuthScope = "https://graph.microsoft.com/.default";
-    const string PermissionManagerAppName = "PermissionManager";
 
     /// <summary>
     /// Graph service client with application permissions
@@ -21,14 +23,20 @@ public class PermissionManager
 
     private readonly RaptorConfig _config;
 
-    private readonly bool IsEducation;
+    private readonly bool _isEducation;
 
     /// <summary>
     /// Delegated auth providers
     /// key: scopeName
     /// value: token credential auth provider instance
     /// </summary>
-    private readonly IDictionary<string, TokenCredentialAuthProvider> _authProviders;
+    private readonly ConcurrentDictionary<string, TokenCredentialAuthProvider> _authProviders;
+    private readonly ConcurrentDictionary<string, TokenCredential> _tokenCredentials;
+
+    public ClientCertificateCredential ClientCertificateCredential
+    {
+        get;
+    }
 
     /// <summary>
     /// Auth provider to initialize GraphServiceClients within the snippets
@@ -41,19 +49,30 @@ public class PermissionManager
 
     public PermissionManager(bool isEducation = false)
     {
-        IsEducation = isEducation;
+        _isEducation = isEducation;
         _config = TestsSetup.Config.Value;
-        var clientSecretCredential = IsEducation
+        var clientSecretCredential = _isEducation
             ? new ClientSecretCredential(_config.EducationTenantID, _config.EducationClientID, _config.EducationClientSecret)
             : new ClientSecretCredential(_config.TenantID, _config.ClientID, _config.ClientSecret);
 
         AuthProvider = new TokenCredentialAuthProvider(
             clientSecretCredential,
-            new List<string> { DefaultAuthScope });
+            new List<string> { ResourceConstants.DefaultAuthScope });
         _client = new GraphServiceClient(AuthProvider);
-        _authProviders = new Dictionary<string, TokenCredentialAuthProvider>();
+
+        _authProviders = new ConcurrentDictionary<string, TokenCredentialAuthProvider>();
+        _tokenCredentials = new ConcurrentDictionary<string, TokenCredential>();
+        ClientCertificateCredential = InitializeCerticateCredential();
     }
 
+    private ClientCertificateCredential InitializeCerticateCredential()
+    {
+        (string tenantId, string clientId, Lazy<X509Certificate2> certificate) = _isEducation
+            ? (_config.EducationTenantID, _config.EducationClientID, _config.Certificate)
+            : (_config.TenantID, _config.ClientID, _config.Certificate);
+        ClientCertificateCredential clientCertificateCredential = new ClientCertificateCredential(tenantId, clientId, certificate.Value);
+        return clientCertificateCredential;
+    }
     /// <summary>
     /// Gets service principal id for the permission manager
     /// </summary>
@@ -61,7 +80,7 @@ public class PermissionManager
     {
         var servicePrincipal = await _client.ServicePrincipals
             .Request()
-            .Filter($"displayName eq '{PermissionManagerAppName}'")
+            .Filter($"displayName eq '{ResourceConstants.PermissionManagerAppName}'")
             .GetAsync()
             .ConfigureAwait(false);
 
@@ -78,8 +97,6 @@ public class PermissionManager
 
         using var scopesRequest = new HttpRequestMessage(HttpMethod.Get, "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-devx-content/dev/permissions/permissions-descriptions.json");
 
-        var result = new Dictionary<string, string>();
-
         using var response = await httpClient.SendAsync(scopesRequest).ConfigureAwait(false);
         var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
         return JsonSerializer.Deserialize<PermissionDescriptions>(responseString);
@@ -90,25 +107,25 @@ public class PermissionManager
     /// </summary>
     /// <param name="prefix">prefix for the application name. e.g. DelegatedApp for querying DelegatedApp User.Read, DelegatedApp Group.Read etc.</param>
     /// <returns>application names matching the query</returns>
-    public async Task<HashSet<string>> GetExistingApplicationsWithPrefix(string prefix = "DelegatedApp ")
+    public async Task<Dictionary<string, string>> GetExistingApplicationsWithPrefix(string prefix = "DelegatedApp ")
     {
         var query = $"startswith(displayName, '{prefix}')";
-        var result = new HashSet<string>();
+        var result = new Dictionary<string, string>();
         var applications = await _client.Applications
             .Request()
             .Filter(query)
-            .Select("displayName")
+            .Select("appId,displayName")
             .GetAsync().ConfigureAwait(false);
 
         var pageIterator = PageIterator<Application>
             .CreatePageIterator(
-            _client,
-            applications,
-            (application) =>
-            {
-                result.Add(application.DisplayName);
-                return true;
-            });
+                _client,
+                applications,
+                (application) =>
+                {
+                    result.Add(application.AppId, application.DisplayName);
+                    return true;
+                });
         await pageIterator.IterateAsync().ConfigureAwait(false);
         return result;
     }
@@ -124,7 +141,7 @@ public class PermissionManager
         var application = await GetPermissionManagerApplication().ConfigureAwait(false);
 
         var requiredResourceAccess = application.RequiredResourceAccess
-            .SingleOrDefault(x => x.ResourceAppId == GraphResourceId);
+            .SingleOrDefault(x => x.ResourceAppId == ResourceConstants.GraphResourceId);
         if (requiredResourceAccess == null)
         {
             throw new InvalidDataException("Application PermissionManager has no required resource access");
@@ -180,10 +197,10 @@ public class PermissionManager
             Id = new Guid(scopeGuid)
         };
 
-        var requiredResourceAccess = new RequiredResourceAccess()
+        var requiredResourceAccess = new RequiredResourceAccess
         {
             ResourceAccess = new List<ResourceAccess> { resourceAccess },
-            ResourceAppId = GraphResourceId
+            ResourceAppId = ResourceConstants.GraphResourceId
         };
 
         var application = new Application
@@ -191,7 +208,7 @@ public class PermissionManager
             DisplayName = applicationName,
             PublicClient = new PublicClientApplication
             {
-                RedirectUris = new string[] { "http://localhost" }
+                RedirectUris = new[] { "http://localhost" }
             },
             RequiredResourceAccess = new List<RequiredResourceAccess> { requiredResourceAccess },
             SignInAudience = "AzureADMyOrg",
@@ -230,7 +247,7 @@ public class PermissionManager
         var requiredResourceAccess = new RequiredResourceAccess()
         {
             ResourceAccess = listOfResourceAccesses,
-            ResourceAppId = GraphResourceId
+            ResourceAppId = ResourceConstants.GraphResourceId
         };
 
         var application = new Application
@@ -354,52 +371,54 @@ public class PermissionManager
     /// <param name="delegatedScope">delegated scope</param>
     /// <exception cref="KeyNotFoundException">throws key not found if there is no app in the tenant representing the given scope</exception>
     /// <returns>token credential provider for the delegated scope</returns>
-    internal TokenCredentialAuthProvider GetDelegatedAuthProvider(Scope delegatedScope)
+    public TokenCredentialAuthProvider GetDelegatedAuthProvider(Scope delegatedScope)
     {
         return _authProviders[delegatedScope?.value];
     }
 
-    /// <summary>
-    /// Creates delegated auth providers
-    /// 1. Gets the list of all delegated permission scopes
-    /// 2. For all scopes
-    ///   2. a. Gets the corresponding preconfigured app in the tenant for a particular scope
-    ///   2. b. Creates a token credential provider for the app
-    /// </summary>
-    /// <returns></returns>
     internal async Task CreateDelegatedAuthProviders()
     {
         var permissionDescriptions = await GetPermissionDescriptions().ConfigureAwait(false);
-        (string username, string password, string tenantID) = IsEducation
+        (string username, string password, string tenantId) = _isEducation
             ? (_config.EducationUsername, _config.EducationPassword, _config.EducationTenantID)
             : (_config.Username, _config.Password, _config.TenantID);
-
+        var apps = await GetExistingApplicationsWithPrefix("DelegatedApp").ConfigureAwait(false);
         foreach (var delegatedPermissionScope in permissionDescriptions.delegatedScopesList)
         {
             var scopeName = delegatedPermissionScope.value;
             try
             {
-                var application = await GetApplication(delegatedPermissionScope).ConfigureAwait(false);
-                _authProviders[delegatedPermissionScope.value] = new TokenCredentialAuthProvider(
-                    new UsernamePasswordCredential(username, password, tenantID, application.AppId, new UsernamePasswordCredentialOptions
-                    {
-                        TokenCachePersistenceOptions = new TokenCachePersistenceOptions
+                var (clientId, _) = apps.FirstOrDefault(c => c.Value == $"DelegatedApp {scopeName}");
+                if (!string.IsNullOrWhiteSpace(clientId))
+                {
+                    var usernamePasswordCredential = new UsernamePasswordCredential(username, password,
+                        tenantId, clientId, new UsernamePasswordCredentialOptions
                         {
-                            Name = username + delegatedPermissionScope.value,
+                            TokenCachePersistenceOptions = new TokenCachePersistenceOptions
+                            {
+                                Name = username + delegatedPermissionScope.value,
                                 // there is no default linux implementation for safe storage. This project is run in 2 environments:
                                 // 1. local development
                                 // 2. disposable Azure DevOps machines
                                 // So we are OK to use unencrypted storage for Raptor tokens at the moment.
                                 UnsafeAllowUnencryptedStorage = true
-                        }
-                    }),
-                    new List<string> { scopeName });
+                            }
+                        });
+                    _authProviders[delegatedPermissionScope.value] =
+                        new TokenCredentialAuthProvider(usernamePasswordCredential, new List<string> { scopeName });
+                    _tokenCredentials[delegatedPermissionScope.value] = usernamePasswordCredential;
+                }
             }
             catch
             {
                 await Out.WriteLineAsync($"Couldn't create an auth provider for scope: {scopeName}").ConfigureAwait(false);
             }
         }
+    }
+
+    public TokenCredential GetTokenCredential(Scope delegatedScope)
+    {
+        return _tokenCredentials[delegatedScope?.value];
     }
 
     /// <summary>
@@ -410,7 +429,7 @@ public class PermissionManager
     {
         var collectionPage = await _client.Applications
                           .Request()
-                          .Filter($"displayName eq '{ PermissionManagerAppName }'")
+                          .Filter($"displayName eq '{ ResourceConstants.PermissionManagerAppName }'")
                           .GetAsync().ConfigureAwait(false);
         return collectionPage?.FirstOrDefault();
     }

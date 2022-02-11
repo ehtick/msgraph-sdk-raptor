@@ -11,8 +11,8 @@ steps:
             Install-Module Microsoft.Graph -Repository PSGallery -Scope AllUsers -Force -AllowClobber
             Import-Module Microsoft.Graph -Global -Force 
         }
-- template: common-templates/checkout.yml
-- template: compile-run-tests-template.yml
+- template: ../common-templates/checkout.yml
+- template: ../compile-run-tests-template.yml
   parameters:
     projectFileName: ${{ parameters.projectFileName }}
     runName: ${{ parameters.projectFileName }}

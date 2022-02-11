@@ -1,18 +1,5 @@
 # Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 
-trigger: none # disable triggers based on commits.
-pr:
-  branches:
-    include:
-      - dev
-      - main
-  paths:
-    include:
-      - azure-pipelines/powershell*
-      - PowerShell*
-      - TestsCommon/PowerShellTestRunner.cs
-      - TestsCommon/PowerShellKnownIssues.cs
-
 parameters:
 - name: BuildAgentPool
   displayName: Build Agent Pool
@@ -25,7 +12,7 @@ parameters:
   default: 600
 
 trigger: none # disable triggers based on commits.
-name: 'PowerShell Snippet Execution Tests'
+name: 'Beta PowerShell Snippet Execution Tests'
 
 resources:
  repositories:
@@ -39,20 +26,14 @@ variables:
   buildConfiguration: 'Release'
 
 jobs:
-- job: PowerShell
+- job: PowerShellBetaExecutionTests
   pool: ${{ parameters.BuildAgentPool }}
   timeoutInMinutes: ${{ parameters.PipelineTimeout }}
   strategy:
-    maxParallel: 4
+    maxParallel: 1
     matrix:
-        PowerShellV1ExecutionTests:
-            projectFileName: PowerShellV1ExecutionTests
-        PowerShellV1ExecutionKnownFailureTests:
-            projectFileName: PowerShellV1ExecutionKnownFailureTests
         PowerShellBetaExecutionTests:
             projectFileName: PowerShellBetaExecutionTests
-        PowerShellBetaExecutionKnownFailureTests:
-            projectFileName: PowerShellBetaExecutionKnownFailureTests
   steps:
   - template: powershell-execution-tests-template.yml
     parameters:

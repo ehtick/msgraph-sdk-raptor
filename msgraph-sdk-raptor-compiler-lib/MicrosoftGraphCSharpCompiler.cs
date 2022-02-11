@@ -34,13 +34,13 @@ global using KeyValuePair = Microsoft.Graph.KeyValuePair;
     const string GlobalUsingsSourceCodePath = "GlobalUsings.generated.cs";
     private readonly LanguageTestData TestData;
     private bool _isEducation;
-    private static readonly Lazy<SourceText> GlobalUsingsSourceText = new Lazy<SourceText>(() =>
+    private static readonly Lazy<SourceText> GlobalUsingsSourceText = new(() =>
     {
         var buffer = Encoding.UTF8.GetBytes(GlobalUsings);
         return SourceText.From(buffer, buffer.Length, Encoding.UTF8, canBeEmbedded: true);
     });
 
-    private static readonly Lazy<SyntaxTree> GlobalUsingsSyntaxTree = new Lazy<SyntaxTree>(() =>
+    private static readonly Lazy<SyntaxTree> GlobalUsingsSyntaxTree = new(() =>
     {
         SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(GlobalUsings, new CSharpParseOptions(), GlobalUsingsSourceCodePath);
         var syntaxRootNode = syntaxTree.GetRoot() as CSharpSyntaxNode;
@@ -57,16 +57,11 @@ global using KeyValuePair = Microsoft.Graph.KeyValuePair;
     /// for hiding bearer token
     private const string AuthHeaderPattern = "Authorization: Bearer .*";
     private const string AuthHeaderReplacement = "Authorization: Bearer <token>";
-    private static readonly Regex AuthHeaderRegex = new Regex(AuthHeaderPattern, RegexOptions.Compiled);
+    private static readonly Regex AuthHeaderRegex = new(AuthHeaderPattern, RegexOptions.Compiled);
 
     public MicrosoftGraphCSharpCompiler(LanguageTestData testData)
     {
-        if (testData is null)
-        {
-            throw new ArgumentNullException(nameof(testData));
-        }
-
-        TestData = testData;
+        TestData = testData ?? throw new ArgumentNullException(nameof(testData));
     }
 
     /// <summary>
@@ -259,60 +254,7 @@ global using KeyValuePair = Microsoft.Graph.KeyValuePair;
     /// </exception>
     private async Task<Scope[]> GetScopes(HttpRequestMessage httpRequestMessage)
     {
-        var path = httpRequestMessage.RequestUri.LocalPath;
-        var versionSegmentLength = "/v1.0".Length;
-        if (path.StartsWith("/v1.0", StringComparison.OrdinalIgnoreCase) || path.StartsWith("/beta", StringComparison.OrdinalIgnoreCase))
-        {
-            path = path[versionSegmentLength..];
-        }
-
-        // DevX API only knows about URLs from the documentation, so convert the URL back for DevX API call
-        // if we had an edge case replacement
-        var cases = new Dictionary<string, string>()
-        {
-            { "valueAxis", "seriesAxis" }
-        };
-
-        foreach (var (key, value) in cases)
-        {
-            path = path.Replace(key, value, StringComparison.OrdinalIgnoreCase);
-        }
-
-        using var httpClient = new HttpClient();
-
-        async Task<Scope[]> getScopesForScopeType(string scopeType)
-        {
-            using var scopesRequest = new HttpRequestMessage(HttpMethod.Get, $"https://graphexplorerapi.azurewebsites.net/permissions?requesturl={path}&method={httpRequestMessage.Method}&scopeType={scopeType}");
-            scopesRequest.Headers.Add("Accept-Language", "en-US");
-
-            using var response = await httpClient.SendAsync(scopesRequest).ConfigureAwait(false);
-            var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return JsonSerializer.Deserialize<Scope[]>(responseString);
-        }
-
-        try
-        {
-            return await getScopesForScopeType("DelegatedWork").ConfigureAwait(false);
-        }
-        catch
-        {
-            await TestContext.Out.WriteLineAsync($"Can't get scopes for scopeType=DelegatedWork, url={httpRequestMessage.RequestUri}").ConfigureAwait(false);
-        }
-
-        try
-        {
-            // we don't care about a specific Application permission, we only want to make sure that DevX API returns
-            // either delegated or application permissions.
-            _ = await getScopesForScopeType("Application").ConfigureAwait(false);
-            return null;
-        }
-        catch (Exception e)
-        {
-            await TestContext.Out.WriteLineAsync($"Can't get scopes for both delegated and application scopes").ConfigureAwait(false);
-            await TestContext.Out.WriteLineAsync($"url={httpRequestMessage.RequestUri}").ConfigureAwait(false);
-            await TestContext.Out.WriteLineAsync($"docslink={TestData.DocsLink}").ConfigureAwait(false);
-            throw new AggregateException("Can't get scopes for both delegated and application scopes", e);
-        }
+        return await PermissionScopes.GetScopes(testData: TestData, message: httpRequestMessage).ConfigureAwait(false);
     }
 
     /// <summary>

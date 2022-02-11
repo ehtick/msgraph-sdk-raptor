@@ -1,0 +1,63 @@
+# Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+
+trigger: none # disable triggers based on commits.
+pr:
+  branches:
+    include:
+      - dev
+      - main
+  paths:
+    include:
+      - azure-pipelines/powershell*
+      - PowerShell*
+      - TestsCommon/PowerShellTestRunner.cs
+      - TestsCommon/PowerShellKnownIssues.cs
+
+parameters:
+- name: BuildAgentPool
+  displayName: Build Agent Pool
+  type: string
+  default: MsGraphBuildAgentsWindowsRaptor
+
+- name: PipelineTimeout
+  displayName: PipelineTimeout
+  type: number
+  default: 600
+
+name: 'Weekly Beta PowerShell Snippet Execution Tests'
+
+schedules:
+  - cron: "0 3 * * WED"  # every Wednesday at 3AM UTC (off hours for Redmond, Nairobi and Montréal)
+    displayName: 'Weekly Beta PowerShell Snippet Execution Tests'
+    branches:
+      include:
+      - dev
+    always: true
+
+resources:
+ repositories:
+   - repository: microsoft-graph-docs
+     type: github
+     endpoint: microsoftgraph
+     name: microsoftgraph/microsoft-graph-docs
+     ref: main
+
+variables:
+  buildConfiguration: 'Release'
+
+jobs:
+- job: PowerShell
+  pool: ${{ parameters.BuildAgentPool }}
+  timeoutInMinutes: ${{ parameters.PipelineTimeout }}
+  strategy:
+    maxParallel: 4
+    matrix:
+        PowerShellBetaExecutionTests:
+            projectFileName: PowerShellBetaExecutionTests
+        PowerShellBetaExecutionKnownFailureTests:
+            projectFileName: PowerShellBetaExecutionKnownFailureTests
+  steps:
+  - template: powershell-execution-tests-template.yml
+    parameters:
+      projectFileName: $(projectFileName)
+      testType: 'Execution'

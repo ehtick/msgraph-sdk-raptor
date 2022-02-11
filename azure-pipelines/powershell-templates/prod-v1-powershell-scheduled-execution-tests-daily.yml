@@ -1,0 +1,51 @@
+# Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+parameters:
+- name: BuildAgentPool
+  displayName: Build Agent Pool
+  type: string
+  default: MsGraphBuildAgentsWindowsRaptor
+
+- name: PipelineTimeout
+  displayName: PipelineTimeout
+  type: number
+  default: 600
+
+trigger: none # disable triggers based on commits.
+pr: none
+name: 'Daily V1 PowerShell Snippet Execution Tests'
+
+variables:
+  buildConfiguration: 'Release'
+
+schedules:
+  - cron: "0 3 * * *" # everyday at 3AM UTC (off hours for Redmond, Nairobi and Montréal)
+    displayName: 'Daily V1 PowerShell Snippet Execution Tests'
+    branches:
+      include:
+      - dev
+    always: true
+
+resources:
+ repositories:
+   - repository: microsoft-graph-docs
+     type: github
+     endpoint: microsoftgraph
+     name: microsoftgraph/microsoft-graph-docs
+     ref: main
+
+jobs:
+- job: PowerShell
+  pool: ${{ parameters.BuildAgentPool }}
+  timeoutInMinutes: ${{ parameters.PipelineTimeout }}
+  strategy:
+    maxParallel: 2
+    matrix:
+        PowerShellV1ExecutionTests:
+            projectFileName: PowerShellV1ExecutionTests
+        PowerShellV1ExecutionKnownFailureTests:
+            projectFileName: PowerShellV1ExecutionKnownFailureTests
+  steps:
+  - template: powershell-execution-tests-template.yml
+    parameters:
+      projectFileName: $(projectFileName)
+      testType: 'Execution'

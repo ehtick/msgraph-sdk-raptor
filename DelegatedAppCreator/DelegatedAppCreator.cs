@@ -33,7 +33,7 @@ class DelegatedAppCreator
         const string Prefix = "DelegatedApp ";
         // get existing applications
         var existingApplicationSet = await permissionManagerApplication.GetExistingApplicationsWithPrefix(Prefix).ConfigureAwait(false);
-        PrintApplicationNames("Existing Applications", existingApplicationSet);
+        PrintApplicationNames("Existing Applications", existingApplicationSet.Values);
 
         // get expected applications
         var permissionDescriptions = await PermissionManager.GetPermissionDescriptions().ConfigureAwait(false);
@@ -44,7 +44,7 @@ class DelegatedAppCreator
 
         // find missing application scopes
         var missingScopes = delegatedScopes
-            .Where(x => !existingApplicationSet.Contains(x.DelegatedAppName(Prefix)));
+            .Where(x => !existingApplicationSet.ContainsValue(x.DelegatedAppName(Prefix)));
 
         if (!missingScopes.Any())
         {

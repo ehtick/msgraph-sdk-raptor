@@ -27,7 +27,7 @@ public class SnippetExecutionV1Tests
     /// Represents test runs generated from test case data
     /// </summary>
     [Test]
-    [TestCaseSource(typeof(SnippetExecutionV1Tests), nameof(TestDataV1))]
+    [RetryTestCaseSource(typeof(SnippetExecutionV1Tests), nameof(TestDataV1), MaxTries = 6)]
     public async Task Test(LanguageTestData testData)
     {
         await PowerShellTestRunner.Execute(testData).ConfigureAwait(false);
