@@ -16,7 +16,7 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
-        <PackageReference Include="Microsoft.Graph.Beta" Version="4.28.0-preview" />                                                                
+        <PackageReference Include="Microsoft.Graph.Beta" Version="4.29.0-preview" />                                                                
         <PackageReference Include="NUnit" Version="3.13.2" />
         <PackageReference Include="System.CodeDom" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
