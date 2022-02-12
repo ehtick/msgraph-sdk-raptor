@@ -9,7 +9,7 @@ dependencies {
     toCopy 'com.google.guava:guava:31.0.1-jre'
     toCopy 'com.google.code.gson:gson:2.8.9'
     toCopy 'com.squareup.okhttp3:okhttp:4.9.3'
-    toCopy 'com.azure:azure-identity:1.4.3'
+    toCopy 'com.azure:azure-identity:1.4.4'
     toCopy 'com.microsoft.graph:microsoft-graph-core:2.0.11'
     toCopy 'com.microsoft.graph:microsoft-graph:5.14.0'
 }
