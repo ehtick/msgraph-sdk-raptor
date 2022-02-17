@@ -10,7 +10,7 @@ pr:
     include:
       - azure-pipelines/typescript*
       - TypeScript*
-      - msgraph-sdk-raptor-compiler-lib/MicrosoftGraphTypeScriptCompiler.cs
+      - TestsCommon/MicrosoftGraphTypeScriptCompiler.cs
       - TestsCommon/TypeScriptTestRunner.cs
       - TestsCommon/TypeScriptKnownIssues.cs
 schedules:

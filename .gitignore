@@ -4,8 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # RaptorIgnoredFiles
-msgraph-sdk-raptor-compiler-lib/identifiers.json
-msgraph-sdk-raptor-compiler-lib/appsettings.json
+TestsCommon/identifiers.json
+TestsCommon/appsettings.json
 
 # User-specific files
 *.suo

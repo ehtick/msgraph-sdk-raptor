@@ -16,7 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\msgraph-sdk-raptor-compiler-lib\msgraph-sdk-raptor-compiler-lib.csproj" />
         <ProjectReference Include="..\TestsCommon\TestsCommon.csproj" />
     </ItemGroup>
 

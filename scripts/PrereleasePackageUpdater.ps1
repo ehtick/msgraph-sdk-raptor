@@ -2,7 +2,7 @@
 # expected to be run where working directory is the root of the repo
 
 $package = "Microsoft.Graph.Beta"
-$projectFile = "msgraph-sdk-raptor-compiler-lib/msgraph-sdk-raptor-compiler-lib.csproj"
+$projectFile = "TestsCommon/TestsCommon.csproj"
 
 dotnet remove $projectFile package $package
 dotnet add $projectFile package $package --prerelease

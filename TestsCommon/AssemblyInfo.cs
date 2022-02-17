@@ -2,4 +2,3 @@
 
 [assembly:CLSCompliant(false)]
 [assembly:InternalsVisibleTo("UnitTests")]
-

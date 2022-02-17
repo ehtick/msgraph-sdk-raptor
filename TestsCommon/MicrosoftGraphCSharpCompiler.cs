@@ -95,7 +95,7 @@ global using KeyValuePair = Microsoft.Graph.KeyValuePair;
                 MetadataReference.CreateFromFile(Path.Combine(commonAssemblyPath, "netstandard.dll")),
                 MetadataReference.CreateFromFile(Path.Combine(Path.GetDirectoryName(typeof(IAuthenticationProvider).Assembly.Location), "Microsoft.Graph.Core.dll")),
                 MetadataReference.CreateFromFile(Path.Combine(Path.GetDirectoryName(typeof(TokenCredential).Assembly.Location), "Azure.Core.dll")),
-                MetadataReference.CreateFromFile(Path.Combine(Path.GetDirectoryName(typeof(MicrosoftGraphCSharpCompiler).Assembly.Location), "msgraph-sdk-raptor-compiler-lib.dll")),
+                MetadataReference.CreateFromFile(Path.Combine(Path.GetDirectoryName(typeof(MicrosoftGraphCSharpCompiler).Assembly.Location), "TestsCommon.dll")),
                 MetadataReference.CreateFromFile(Path.Combine(Path.GetDirectoryName(typeof(Task).Assembly.Location), "System.Threading.Tasks.dll")),
                 MetadataReference.CreateFromFile(Path.Combine(Path.GetDirectoryName(typeof(HttpClient).Assembly.Location), "System.Net.Http.dll")),
                 MetadataReference.CreateFromFile(Path.Combine(Path.GetDirectoryName(typeof(Expression).Assembly.Location), "System.Linq.Expressions.dll")),

@@ -38,7 +38,7 @@ function Get-AppSettings ()
 }
 
 function Get-CurrentIdentifiers (
-    [string] $IdentifiersPath = (Join-Path $MyInvocation.PSScriptRoot "../../../../msgraph-sdk-raptor-compiler-lib/identifiers.json")
+    [string] $IdentifiersPath = (Join-Path $MyInvocation.PSScriptRoot "../../../../TestsCommon/identifiers.json")
 )
 {
     $identifiers = Get-Content $IdentifiersPath -Raw | ConvertFrom-Json

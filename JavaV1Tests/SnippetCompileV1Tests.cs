@@ -1,7 +1,8 @@
-﻿using MsGraphSDKSnippetsCompiler.Models;
-using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using NUnit.Framework;
+
+using MsGraphSDKSnippetsCompiler.Models;
 using TestsCommon;
 
 namespace JavaV1Tests;

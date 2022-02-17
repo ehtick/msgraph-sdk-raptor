@@ -9,3 +9,4 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "English only")]
 [assembly: SuppressMessage("Globalization", "CA1307:Specify StringComparison", Justification = "English only")]
+[assembly: SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "All exceptions represent failure and we manually investigate each of them.", Scope = "module")]

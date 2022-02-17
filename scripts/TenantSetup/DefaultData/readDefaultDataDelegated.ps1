@@ -5,7 +5,7 @@
 # - uses delegated permissions to access the data.
 
 Param(
-    [string] $IdentifiersPath = (Join-Path $PSScriptRoot "../../../msgraph-sdk-raptor-compiler-lib/identifiers.json" -Resolve)
+    [string] $IdentifiersPath = (Join-Path $PSScriptRoot "../../../TestsCommon/identifiers.json" -Resolve)
 )
 
 $raptorUtils = Join-Path $PSScriptRoot "../RaptorUtils.ps1" -Resolve
