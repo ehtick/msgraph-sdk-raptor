@@ -37,7 +37,7 @@ jobs:
   pool: ${{ parameters.BuildAgentPool }}
   timeoutInMinutes: ${{ parameters.PipelineTimeout }}
   strategy:
-    maxParallel: 4
+    maxParallel: 2
     matrix:
         PowerShellBetaExecutionTests:
             projectFileName: PowerShellBetaExecutionTests
