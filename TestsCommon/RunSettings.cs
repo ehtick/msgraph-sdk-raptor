@@ -75,7 +75,7 @@ public record RunSettings
             Version = VersionString.GetVersion(versionString);
         }
 
-        if (!string.IsNullOrEmpty(testType))
+        if (!string.IsNullOrEmpty(testType) && !testType.Contains(DashDash))
         {
             if (Enum.TryParse(testType, out TestType testTypeEnum))
             {
