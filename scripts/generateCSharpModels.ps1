@@ -9,7 +9,7 @@ $raptorUtils = Join-Path $PSScriptRoot "./TenantSetup/RaptorUtils.ps1" -Resolve
 $outputPath = Join-Path -Path $env:BUILD_SOURCESDIRECTORY -ChildPath "output"
 Write-Output "Path to typewriter output $outputPath"
 
-$typewriterDirectory = Join-Path -Path $env:BUILD_SOURCESDIRECTORY -ChildPath "MSGraph-SDK-Code-Generator" "src" "Typewriter" "bin" $env:BuildConfiguration "net5.0"
+$typewriterDirectory = Join-Path -Path $env:BUILD_SOURCESDIRECTORY -ChildPath "MSGraph-SDK-Code-Generator" "src" "Typewriter" "bin" $env:BuildConfiguration "net6.0"
 $typewriterPath = Join-Path $typewriterDirectory "Typewriter"
 Write-Output "Path to typewriter tool: $typewriterPath"
 
