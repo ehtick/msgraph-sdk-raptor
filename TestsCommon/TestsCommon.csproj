@@ -3,6 +3,7 @@
     <Import Project="$(MSBuildProjectDirectory)\..\RaptorShared.targets" />
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.Graph.Beta" Version="4.29.0-preview" />
         <PackageReference Include="System.CodeDom" Version="6.0.0" />
         <PackageReference Include="Azure.Core" Version="1.22.0" />
         <PackageReference Include="Azure.Identity" Version="1.5.0" />
@@ -24,7 +25,6 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
-        <PackageReference Include="Microsoft.Graph.Beta" Version="4.29.0-preview" />
         <PackageReference Include="Microsoft.Graph" Version="4.18.0" />
         <PackageReference Include="Microsoft.Graph.Core" Version="2.*" />
         <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.2.1" />
