@@ -22,7 +22,7 @@ jobs:
       - name: search for updates
         shell: pwsh
         run: |
-          & .\scripts\PrereleasePackageUpdater.ps1
+          & .\scripts\tasks\PrereleasePackageUpdater.ps1
 
       - name: Create Pull Request
         id: cpr

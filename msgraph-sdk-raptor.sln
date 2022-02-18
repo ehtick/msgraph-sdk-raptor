@@ -48,27 +48,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestResults", "TestResults"
 		TestResults\RaptorTestResults.trx = TestResults\RaptorTestResults.trx
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{18C77891-80EF-41BE-A5D2-B8641CAB713B}"
-	ProjectSection(SolutionItems) = preProject
-		scripts\applyReadPermissionsToManifest.ps1 = scripts\applyReadPermissionsToManifest.ps1
-		scripts\extract-permission-missing-issues.ps1 = scripts\extract-permission-missing-issues.ps1
-		scripts\filterTests.ps1 = scripts\filterTests.ps1
-		scripts\generateCSharpModels.ps1 = scripts\generateCSharpModels.ps1
-		scripts\PrereleasePackageUpdater.ps1 = scripts\PrereleasePackageUpdater.ps1
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tasks", "tasks", "{FC60FBE5-C477-4BD5-BFE8-AF512C168BD7}"
-	ProjectSection(SolutionItems) = preProject
-		scripts\tasks\checkout-docs-repo.ps1 = scripts\tasks\checkout-docs-repo.ps1
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DefaultData", "DefaultData", "{43D999BB-4730-4FCC-8676-1F85D3A15E06}"
-	ProjectSection(SolutionItems) = preProject
-		scripts\TenantSetup\DefaultData\readDefaultData.ps1 = scripts\TenantSetup\DefaultData\readDefaultData.ps1
-		scripts\TenantSetup\DefaultData\readDefaultDataDelegated.ps1 = scripts\TenantSetup\DefaultData\readDefaultDataDelegated.ps1
-		scripts\TenantSetup\DefaultData\readDefaultEducationData.ps1 = scripts\TenantSetup\DefaultData\readDefaultEducationData.ps1
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportGenerator", "ReportGenerator\ReportGenerator.csproj", "{D5F3C37D-D95B-4E8B-9C4E-8955A974276C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeScriptV1Tests", "TypeScriptV1Tests\TypeScriptV1Tests.csproj", "{2DE901F3-7896-4A96-84F5-81FD8AC6104E}"
@@ -83,7 +62,32 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerShellBetaExecutionTest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationPermissionsUpdater", "ApplicationPermissionsUpdater\ApplicationPermissionsUpdater.csproj", "{7008F2BA-A803-493D-969B-90DC0A56CD98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeScriptV1KnownFailureTests", "TypeScriptV1KnownFailureTests\TypeScriptV1KnownFailureTests.csproj", "{AC4C7622-E869-4231-851D-6B47C0848C8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeScriptV1KnownFailureTests", "TypeScriptV1KnownFailureTests\TypeScriptV1KnownFailureTests.csproj", "{AC4C7622-E869-4231-851D-6B47C0848C8C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{BCE87895-D733-4EF4-BD75-ADEE82013646}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tasks", "tasks", "{BB382A75-5BC7-4337-9463-19F6ABDF6200}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\tasks\applyReadPermissionsToManifest.ps1 = scripts\tasks\applyReadPermissionsToManifest.ps1
+		scripts\tasks\checkout-docs-repo.ps1 = scripts\tasks\checkout-docs-repo.ps1
+		scripts\tasks\extract-permission-missing-issues.ps1 = scripts\tasks\extract-permission-missing-issues.ps1
+		scripts\tasks\filterTests.ps1 = scripts\tasks\filterTests.ps1
+		scripts\tasks\generateCSharpModels.ps1 = scripts\tasks\generateCSharpModels.ps1
+		scripts\tasks\PrereleasePackageUpdater.ps1 = scripts\tasks\PrereleasePackageUpdater.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TenantSetup", "TenantSetup", "{4418F9CC-5A48-438C-BE9B-C7F83E142A7D}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\TenantSetup\InitTenant.ps1 = scripts\TenantSetup\InitTenant.ps1
+		scripts\TenantSetup\RaptorUtils.ps1 = scripts\TenantSetup\RaptorUtils.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DefaultData", "DefaultData", "{24CEA751-CAFF-4C75-A157-18BDFB1D68F9}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\TenantSetup\DefaultData\readDefaultData.ps1 = scripts\TenantSetup\DefaultData\readDefaultData.ps1
+		scripts\TenantSetup\DefaultData\readDefaultDataDelegated.ps1 = scripts\TenantSetup\DefaultData\readDefaultDataDelegated.ps1
+		scripts\TenantSetup\DefaultData\readDefaultEducationData.ps1 = scripts\TenantSetup\DefaultData\readDefaultEducationData.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -197,9 +201,9 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{33125DE2-9431-46CD-8331-062D3B167A89} = {C5324E4B-456A-46FE-99B4-63FEA5A026B9}
-		{18C77891-80EF-41BE-A5D2-B8641CAB713B} = {C5324E4B-456A-46FE-99B4-63FEA5A026B9}
-		{FC60FBE5-C477-4BD5-BFE8-AF512C168BD7} = {18C77891-80EF-41BE-A5D2-B8641CAB713B}
-		{43D999BB-4730-4FCC-8676-1F85D3A15E06} = {18C77891-80EF-41BE-A5D2-B8641CAB713B}
+		{BB382A75-5BC7-4337-9463-19F6ABDF6200} = {BCE87895-D733-4EF4-BD75-ADEE82013646}
+		{4418F9CC-5A48-438C-BE9B-C7F83E142A7D} = {BCE87895-D733-4EF4-BD75-ADEE82013646}
+		{24CEA751-CAFF-4C75-A157-18BDFB1D68F9} = {4418F9CC-5A48-438C-BE9B-C7F83E142A7D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6D272E02-FD54-4685-89B9-A8E9B3144C4B}

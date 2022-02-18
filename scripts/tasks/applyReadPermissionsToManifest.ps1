@@ -30,7 +30,7 @@ Param(
   [string]$permissionFileUri = "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-devx-content/dev/permissions/permissions-descriptions.json"
 )
 
-$raptorUtils = Join-Path $PSScriptRoot "./TenantSetup/RaptorUtils.ps1" -Resolve
+$raptorUtils = Join-Path $PSScriptRoot "./../TenantSetup/RaptorUtils.ps1" -Resolve
 . $raptorUtils
 
 if (-not (Test-Path $manifestPath))

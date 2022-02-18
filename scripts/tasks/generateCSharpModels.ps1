@@ -2,7 +2,7 @@
 [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPositionalParameters', '')]
 param()
 
-$raptorUtils = Join-Path $PSScriptRoot "./TenantSetup/RaptorUtils.ps1" -Resolve
+$raptorUtils = Join-Path $PSScriptRoot "./../TenantSetup/RaptorUtils.ps1" -Resolve
 . $raptorUtils
 
 # set output and typewriter executable path

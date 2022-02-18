@@ -9,7 +9,7 @@ steps:
     projects: '$(typewriterSolution)'
     arguments: '--configuration $(buildConfiguration)'
 
-- pwsh: '$(Build.SourcesDirectory)/msgraph-sdk-raptor/scripts/generateCSharpModels.ps1'
+- pwsh: '$(Build.SourcesDirectory)/msgraph-sdk-raptor/scripts/tasks/generateCSharpModels.ps1'
   displayName: 'Transform metadata, run Typewriter and update models'
   env:
     BuildConfiguration: $(buildConfiguration)

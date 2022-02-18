@@ -39,7 +39,7 @@ steps:
     $txtFilePath = "$(Build.ArtifactStagingDirectory)/KnownFailures/PassedTests.txt"
 
     Write-Host "--- Passed Tests ---"
-    ./msgraph-sdk-raptor/scripts/filterTests.ps1  -trxFilePath $trxFilePath -outcome Passed -txtOutputFilePath $txtFilePath
+    ./msgraph-sdk-raptor/scripts/tasks/filterTests.ps1  -trxFilePath $trxFilePath -outcome Passed -txtOutputFilePath $txtFilePath
     Write-Host "--------------------"
   displayName: 'Print unexpected test results'
   workingDirectory: '$(Build.SourcesDirectory)'
