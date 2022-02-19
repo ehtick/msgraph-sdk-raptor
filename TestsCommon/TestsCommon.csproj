@@ -3,7 +3,7 @@
     <Import Project="$(MSBuildProjectDirectory)\..\RaptorShared.targets" />
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Graph.Beta" Version="4.29.0-preview" />
+        <PackageReference Include="Microsoft.Graph.Beta" Version="4.30.0-preview" />
         <PackageReference Include="System.CodeDom" Version="6.0.0" />
         <PackageReference Include="Azure.Core" Version="1.22.0" />
         <PackageReference Include="Azure.Identity" Version="1.5.0" />
