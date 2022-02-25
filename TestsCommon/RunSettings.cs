@@ -1,5 +1,4 @@
 ﻿// Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
-
 namespace TestsCommon;
 
 /// <summary>
@@ -32,7 +31,7 @@ public record RunSettings
     {
     }
 
-    public RunSettings(TestParameters parameters)
+    public RunSettings(TestParameters parameters, RunSettings runsettingsOverride=null)
     {
         if (parameters == null)
         {
@@ -42,9 +41,17 @@ public record RunSettings
         var versionString = parameters.Get("Version");
         var dllPath = parameters.Get("DllPath");
         var testType = parameters.Get("TestType");
-
         var lng = parameters.Get("Language");
-        if (!string.IsNullOrEmpty(lng) && !lng.Contains(DashDash))
+
+        /*
+            Expected behaviour: runsettings will be provided via Test.runsettings file.
+            If runsettings file contains placeholder defaults or no parameters, then override values must be provided.
+            Prefer values on settings file, if set, over manual overrides
+        */
+        if (IsPlaceholderValueOrEmpty(lng)){
+                Language = ReplaceUnprovidedSettingsValueWithOverride<Languages>(runsettingsOverride, nameof(Language));
+        }
+        else
         {
             Language = lng.ToUpperInvariant() switch
             {
@@ -62,7 +69,10 @@ public record RunSettings
             };
         }
 
-        if (!string.IsNullOrEmpty(dllPath) && !dllPath.Contains(DashDash))
+        if (IsPlaceholderValueOrEmpty(dllPath)){
+                DllPath = ReplaceUnprovidedSettingsValueWithOverride<string>(runsettingsOverride, nameof(DllPath));
+        }
+        else
         {
             DllPath = dllPath;
             if (Language == Languages.CSharp && !File.Exists(dllPath))
@@ -70,21 +80,25 @@ public record RunSettings
                 throw new ArgumentException("File specified with DllPath in Test.runsettings doesn't exist!");
             }
         }
-        if (!string.IsNullOrEmpty(versionString) && !versionString.Contains(DashDash))
+
+        if (IsPlaceholderValueOrEmpty(versionString)){
+                Version = ReplaceUnprovidedSettingsValueWithOverride<Versions>(runsettingsOverride, nameof(Version));
+        }
+        else
         {
             Version = VersionString.GetVersion(versionString);
         }
 
-        if (!string.IsNullOrEmpty(testType))
-        {
-            if (Enum.TryParse(testType, out TestType testTypeEnum))
-            {
-                TestType = testTypeEnum;
-            }
-            else
-            {
-                throw new ArgumentException($"Unexpected test type specified: {testType}");
-            }
+        if (IsPlaceholderValueOrEmpty(testType)){
+            /*
+                If TestType hasn't been supplied from Test.runsettings file it will contain ---(DashDash)/default placeholder values.
+                If this is the case use the provided runsettingsOverride.TestType value
+            */
+            TestType = ReplaceUnprovidedSettingsValueWithOverride<TestType>(runsettingsOverride, nameof(TestType));
+        }
+        else{
+            var testTypeExists = Enum.TryParse(testType, out TestType testTypeEnum);
+            TestType = testTypeExists ? testTypeEnum : throw new ArgumentException($"Unexpected test type specified: {testType}");
         }
 
         JavaPreviewLibPath = InitializeParameter(parameters, nameof(JavaPreviewLibPath)) ?? JavaPreviewLibPath;
@@ -102,5 +116,20 @@ public record RunSettings
         {
             return null;
         }
+    }
+    private static bool IsPlaceholderValueOrEmpty(string propertyName){
+        return string.IsNullOrEmpty(propertyName) || propertyName.Contains(DashDash);
+    }
+
+    private static T ReplaceUnprovidedSettingsValueWithOverride<T>(RunSettings overrideSettings, string propertyName){
+        if (overrideSettings == null){
+            throw new ArgumentException("override settings expected but not supplied");
+        }
+        bool propertyExists = overrideSettings.GetType().GetProperty(propertyName) != null;
+        if (!propertyExists){
+            throw new ArgumentException($"{propertyName} not specified in override settings");
+        }
+        TestContext.WriteLine($"{propertyName} is empty or contains placeholder value in file and will be replaced with value in override settings");
+        return (T)overrideSettings.GetType().GetProperty(propertyName).GetValue(overrideSettings);
     }
 }

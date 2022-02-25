@@ -10,12 +10,15 @@ namespace JavaV1KnownFailureTests;
 public class KnownFailuresV1
 {
     private static IEnumerable<LanguageTestData> languageTestData => TestDataGenerator.GetLanguageTestCaseData(runSettings);
-    private static RunSettings runSettings => new RunSettings(TestContext.Parameters)
+    private static RunSettings runSettings => new RunSettings(
+        TestContext.Parameters,
+        new RunSettings()
         {
             Version = Versions.V1,
             Language = Languages.Java,
             TestType = TestType.CompilationKnownIssues
-        };
+        }
+    );
     private JavaTestRunner javaTestRunner;
 
     [OneTimeSetUp]

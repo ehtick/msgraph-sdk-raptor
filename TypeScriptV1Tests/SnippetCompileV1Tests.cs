@@ -15,12 +15,14 @@ namespace TypeScriptV1Tests
         /// </summary>
         private static Dictionary<string, Collection<Dictionary<string, string>>> NpmResults;
 
-        private static RunSettings TestRunSettings = new RunSettings(TestContext.Parameters)
-        {
-            Version = Versions.V1,
-            Language = Languages.TypeScript,
-            TestType = TestType.CompilationStable
-        };
+        private static RunSettings TestRunSettings = new RunSettings(
+            TestContext.Parameters,
+            new RunSettings(){
+                Version = Versions.V1,
+                Language = Languages.TypeScript,
+                TestType = TestType.CompilationStable
+            }
+        );
 
         /// <summary>
         /// Prepares the test directory if none exists

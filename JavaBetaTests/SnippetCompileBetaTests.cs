@@ -10,12 +10,14 @@ namespace JavaBetaTests;
 public class SnippetCompileBetaTests
 {
     private static IEnumerable<LanguageTestData> languageTestData => TestDataGenerator.GetLanguageTestCaseData(runSettings);
-    private static RunSettings runSettings => new RunSettings(TestContext.Parameters)
-        {
+    private static RunSettings runSettings => new RunSettings(
+        TestContext.Parameters,
+        new RunSettings(){
             Version = Versions.Beta,
             Language = Languages.Java,
             TestType = TestType.CompilationStable
-        };
+        }
+    );
     private JavaTestRunner javaTestRunner;
     [OneTimeSetUp]
     public async Task OneTimeSetup()
