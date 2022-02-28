@@ -1,5 +1,8 @@
 # Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 
+trigger: none # disable triggers based on commits.
+name: 'V1 PowerShell Snippet Execution Tests'
+
 parameters:
 - name: BuildAgentPool
   displayName: Build Agent Pool
@@ -10,9 +13,6 @@ parameters:
   displayName: PipelineTimeout
   type: number
   default: 600
-
-trigger: none # disable triggers based on commits.
-name: 'V1 PowerShell Snippet Execution Tests'
 
 resources:
  repositories:

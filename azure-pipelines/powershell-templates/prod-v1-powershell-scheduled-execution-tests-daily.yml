@@ -1,4 +1,16 @@
 # Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+
+
+trigger: none # disable triggers based on commits.
+name: 'Daily V1 PowerShell Snippet Execution Tests'
+schedules:
+  - cron: "0 3 * * *" # everyday at 3AM UTC (off hours for Redmond, Nairobi and Montréal)
+    displayName: 'Daily V1 PowerShell Snippet Execution Tests'
+    branches:
+      include:
+      - dev
+    always: true
+
 parameters:
 - name: BuildAgentPool
   displayName: Build Agent Pool
@@ -10,21 +22,6 @@ parameters:
   type: number
   default: 600
 
-trigger: none # disable triggers based on commits.
-pr: none
-name: 'Daily V1 PowerShell Snippet Execution Tests'
-
-variables:
-  buildConfiguration: 'Release'
-
-schedules:
-  - cron: "0 3 * * *" # everyday at 3AM UTC (off hours for Redmond, Nairobi and Montréal)
-    displayName: 'Daily V1 PowerShell Snippet Execution Tests'
-    branches:
-      include:
-      - dev
-    always: true
-
 resources:
  repositories:
    - repository: microsoft-graph-docs
@@ -32,6 +29,9 @@ resources:
      endpoint: microsoftgraph
      name: microsoftgraph/microsoft-graph-docs
      ref: main
+
+variables:
+  buildConfiguration: 'Release'
 
 jobs:
 - job: PowerShell

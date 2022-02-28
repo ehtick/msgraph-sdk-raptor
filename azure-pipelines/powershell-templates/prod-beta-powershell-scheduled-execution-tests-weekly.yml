@@ -1,17 +1,14 @@
 # Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 
 trigger: none # disable triggers based on commits.
-pr:
-  branches:
-    include:
+name: 'Weekly Beta PowerShell Snippet Execution Tests'
+schedules:
+  - cron: "0 3 * * WED"  # every Wednesday at 3AM UTC (off hours for Redmond, Nairobi and Montréal)
+    displayName: 'Weekly Beta PowerShell Snippet Execution Tests'
+    branches:
+      include:
       - dev
-      - main
-  paths:
-    include:
-      - azure-pipelines/powershell*
-      - PowerShell*
-      - TestsCommon/PowerShellTestRunner.cs
-      - TestsCommon/PowerShellKnownIssues.cs
+    always: true
 
 parameters:
 - name: BuildAgentPool
@@ -23,16 +20,6 @@ parameters:
   displayName: PipelineTimeout
   type: number
   default: 600
-
-name: 'Weekly Beta PowerShell Snippet Execution Tests'
-
-schedules:
-  - cron: "0 3 * * WED"  # every Wednesday at 3AM UTC (off hours for Redmond, Nairobi and Montréal)
-    displayName: 'Weekly Beta PowerShell Snippet Execution Tests'
-    branches:
-      include:
-      - dev
-    always: true
 
 resources:
  repositories:
@@ -50,7 +37,7 @@ jobs:
   pool: ${{ parameters.BuildAgentPool }}
   timeoutInMinutes: ${{ parameters.PipelineTimeout }}
   strategy:
-    maxParallel: 4
+    maxParallel: 2
     matrix:
         PowerShellBetaExecutionTests:
             projectFileName: PowerShellBetaExecutionTests
