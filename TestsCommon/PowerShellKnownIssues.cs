@@ -727,6 +727,16 @@ public static class PowerShellKnownIssues
                 { "get-applicationtemplate-powershell-V1-executes", MissingPermissionScopeKnownIssue },
                 { "planner-get-tasks-powershell-V1-executes", NeedsAnalysisKnownIssue },
                 { "get-accesspackageassignmentrequest-powershell-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-swapshiftschangerequest-2-powershell-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-rubrics-powershell-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-accesspackage-powershell-V1-executes", NeedsAnalysisKnownIssue },
+                { "accesspackage-filterbycurrentuser-powershell-V1-executes", NeedsAnalysisKnownIssue },
+                { "list-accesspackageassignmentrequest-powershell-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-entitlementmanagementsettings-powershell-V1-executes", NeedsAnalysisKnownIssue },
+                { "list-connectedorganization-powershell-V1-executes", NeedsAnalysisKnownIssue },
+                { "list-accesspackagecatalog-powershell-V1-executes", NeedsAnalysisKnownIssue },
+                { "list-accesspackage-powershell-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-connectedorganization-powershell-V1-executes", NeedsAnalysisKnownIssue },
         };
     }
 }
