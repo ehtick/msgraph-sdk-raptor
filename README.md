@@ -7,7 +7,7 @@
 * [Known Issue Distribution and Detailed Description Tables](./README.md#known-issue-distribution-and-detailed-description-tables)
 * [Onboarding New Language Onto Raptor](./README.md#onboarding-new-language-onto-raptor)
 * [Defining a Compilable Unit ](./README.md#defining-a-compilable-unit)
-* [Raptor in Microsoft Graph Ecosystem Diagram](.README.md#raptor-in-microsoft-graph-ecosystem)
+* [Raptor in Microsoft Graph Ecosystem Diagram](./README.md#raptor-in-microsoft-graph-ecosystem)
 
 ## Overview
 This repository consists of test projects which are broadly categorized into 2.
