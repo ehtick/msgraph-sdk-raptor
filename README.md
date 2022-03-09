@@ -7,6 +7,7 @@
 * [Known Issue Distribution and Detailed Description Tables](./README.md#known-issue-distribution-and-detailed-description-tables)
 * [Onboarding New Language Onto Raptor](./README.md#onboarding-new-language-onto-raptor)
 * [Defining a Compilable Unit ](./README.md#defining-a-compilable-unit)
+* [Raptor in Microsoft Graph Ecosystem Diagram](./README.md#raptor-in-microsoft-graph-ecosystem)
 
 ## Overview
 This repository consists of test projects which are broadly categorized into 2.
@@ -207,3 +208,124 @@ The following table provides an overview of the languages currently supported by
 |ObjectiveC| [OData](https://github.com/microsoftgraph/microsoft-graph-devx-api/blob/dev/CodeSnippetsReflection.OData/LanguageGenerators/ObjectiveCGenerator.cs) | Main | ❌ | ❌ | ❌ | ❌ |
 
 > Legend: ✔ -> in preview, ❌ -> not started, ▶ -> in progress.
+## Raptor in Microsoft Graph Ecosystem
+```mermaid
+flowchart TB
+   workload1[Workload 1]
+   workload2[Workload 2]
+   workload3[Workload 3]
+   CSDL1[CSDL 1]
+   CSDL2[CSDL 2]
+   CSDL3[CSDL 3]
+   metadata[Metadata]
+   preprocessing[/Metadata Preprocessing/]
+   clean_metadata[Clean Metadata]
+   api_doctor[/API Doctor/]
+   clean_metadata_with_annotations[Clean Metadata with Annotations]
+   VIPR[/VIPR/]
+   object_model[Object Model]
+   Typewriter[/Typewriter/]
+   SDK[SDK]
+   docs[Docs with HTTP Snippets]
+   snippet_generator[/Snippet Generator/]
+   docs_with_sdk_snippets[Docs with SDK Snippets]
+
+   raptor_compilation[/Raptor Compilation/]
+   raptor_execution[/Raptor Execution/]
+   sdk_core_library[SDK Core Library]
+   permissions[Permissions]
+   compiled_assembly[Compiled Assembly]
+   compilation_result[Compilation Result]
+   execution_result[Execution Result]
+
+   classDef result fill:green,color:white;
+   class execution_result,compilation_result result;
+
+   classDef artifact fill:blue,color:white;
+   class CSDL1,CSDL2,CSDL3,metadata,clean_metadata,clean_metadata_with_annotations,object_model,SDK,docs,docs_with_sdk_snippets,sdk_core_library,permissions,compiled_assembly artifact;
+
+   click metadata href "https://graph.microsoft.com/v1.0/$metadata";
+   click preprocessing href "https://github.com/microsoftgraph/msgraph-metadata/blob/master/transforms/csdl/preprocess_csdl.xsl";
+   click api_doctor href "https://github.com/OneDrive/apidoctor";
+   click clean_metadata href "https://github.com/microsoftgraph/msgraph-metadata/tree/master/clean_v10_metadata"
+   click clean_metadata_with_annotations href "https://github.com/microsoftgraph/msgraph-metadata/tree/master/clean_v10_metadata"
+   click VIPR href "https://github.com/microsoft/Vipr"
+   click Typewriter href "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator"
+   click SDK href "https://github.com/microsoftgraph/msgraph-sdk-dotnet"
+   click sdk_core_library href "https://github.com/microsoftgraph/msgraph-sdk-dotnet-core"
+   click permissions href "https://github.com/microsoftgraph/microsoft-graph-devx-content/tree/dev/permissions"
+   click snippet_generator href "https://github.com/microsoftgraph/microsoft-graph-devx-api/tree/dev/CodeSnippetsReflection.App";
+
+   subgraph AGS
+      workload1 --> CSDL1 --> metadata
+      workload2 --> CSDL2 --> metadata
+      workload3 --> CSDL3 --> metadata
+   end
+
+   subgraph sdkgeneration[SDK Generation]
+      metadata --> preprocessing --> clean_metadata --> api_doctor --> clean_metadata_with_annotations --> VIPR --> object_model --> Typewriter --> SDK
+   end
+
+   subgraph snippetprocessing[Snippet Processing]
+      docs --> snippet_generator --> docs_with_sdk_snippets
+   end
+
+   docs_with_sdk_snippets --> raptor_compilation
+
+   docs --> api_doctor
+
+   sdk_core_library --> raptor_compilation
+   SDK --> raptor_compilation
+
+   subgraph raptor[Raptor]
+      raptor_compilation --> compiled_assembly
+      raptor_compilation --> compilation_result
+
+      compiled_assembly --> raptor_execution
+      raptor_execution --> execution_result
+   end
+
+   permissions --> raptor_execution
+
+   classDef default padding:100;
+```
+## Definitions
+- **AGS**: Microsoft Graph Aggregator Service
+  A very simplified view of the aggregator service that is relevant to the Raptor project. The service is responsible for aggregating the metadata from various workloads into a single metadata.
+- **Workload**: A single workload in Microsoft Graph, e.g. SharePoint
+- **CSDL**: Workload specific metadata in OData standard.
+- **Metadata**: A single metadata file that contains merged CSDLs from different workloads.
+  - https://graph.microsoft.com/v1.0/$metadata
+  - https://graph.microsoft.com/beta/$metadata
+  - https://graph.microsoft.com/stagingv1.0/$metadata
+  - https://graph.microsoft.com/stagingbeta/$metadata
+- **Metadata Preprocessing**: An XSL transform that takes published metadata and prepares it for SDK generation. Rules can be found here:
+  - https://github.com/microsoftgraph/msgraph-metadata/blob/master/transforms/csdl/preprocess_csdl.xsl
+- **Clean Metadata**: A metadata file that has been cleaned up after preprocessing.
+  - https://github.com/microsoftgraph/msgraph-metadata/tree/master/clean_v10_metadata
+  - https://github.com/microsoftgraph/msgraph-metadata/tree/master/clean_beta_metadata
+- **API Doctor**: The tool that injects additional annotations into the metadata from the documentation.
+  - https://github.com/OneDrive/apidoctor
+- **Clean Metadata with Annotations**: A metadata file that has been cleaned up after preprocessing and has been annotated with additional annotations.
+- **VIPR**: The tool that generates object models from metadata in OData standard.
+  - https://github.com/microsoft/Vipr
+- **Object Model**: Generated object model that is used by the SDK generation process.
+- **Typewriter**: OData based SDK generation tool.
+  - https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator
+- **SDK**: SDK generated in a framework/programming language.
+  - https://github.com/microsoftgraph/msgraph-sdk-dotnet
+  - https://github.com/microsoftgraph/msgraph-sdk-java
+  - https://github.com/microsoftgraph/msgraph-typescript-typings (types only)
+- **SDK Core Library**: Microsoft Graph Client Library in a particular framework/programming language.
+  - https://github.com/microsoftgraph/msgraph-sdk-dotnet-core
+  - https://github.com/microsoftgraph/msgraph-sdk-java-core
+- **Docs with HTTP Snippets**: Microsoft Graph documentation with HTTP snippets as posted by documentation writers and workload owners.
+- **Snippet Generator**: The tool that takes an HTTP snippet from the documentation and generates a language specific snippet that uses request builders and types from generated client library.
+  - https://github.com/microsoftgraph/microsoft-graph-devx-api/tree/dev/CodeSnippetsReflection.App
+- **Docs with SDK Snippets**: Microsoft Graph documentation with SDK snippets generated and injected.
+- **Raptor Compilation**: The process that extracts SDK snippets out of Microsoft Graph documentation and attempts to compile them against the generated SDK.
+- **Compiled Assembly**: The binary that is generated after compiling a snippet. The binary is expected to provide an entry point for the execution process.
+- **Raptor Execution**: The process that runs the compiled SDK snippets against a demo tenant after requesting the necessary permissions.
+- **Permissions**: A set of permissions that are required to run snippets.
+  - Stored here: https://github.com/microsoftgraph/microsoft-graph-devx-content/tree/dev/permissions
+  - Served by DevX API: https://github.com/microsoftgraph/microsoft-graph-devx-api/tree/dev/PermissionsService

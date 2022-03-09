@@ -58,7 +58,6 @@ public static class CSharpKnownIssues
 
                 { "create-datasource-from--1-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
                 { "create-deployment-from--csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
-                { "create-directorysetting-from-settings-for-guests-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "GroupSetting instead of DirectorySetting used", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/878")},
                 { "create-noncustodialdatasource-from-email-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
                 { "create-noncustodialdatasource-from-siteurl-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
                 { "create-externalregistration-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Online meeting registration uses addAsync instead of createAsync", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/857")},
@@ -88,8 +87,6 @@ public static class CSharpKnownIssues
                 { "synchronization-secrets-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Property Segment in Odata URL not handled", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/485")},
 
                 { "team-put-schedule-2-csharp-Beta-compiles", NeedsAnalysisKnownIssue},
-                { "create-directoryobject-from-orgcontact-1-csharp-Beta-compiles", NeedsAnalysisKnownIssue },
-                { "create-directoryobject-from-orgcontact-2-csharp-Beta-compiles", NeedsAnalysisKnownIssue },
                 { "update-passwordlessmicrosoftauthenticatorauthenticationmethodconfiguration-csharp-Beta-compiles", NeedsAnalysisKnownIssue },
                 { "create-connectorgroup-from-connector-csharp-Beta-compiles", NeedsAnalysisKnownIssue },
                 { "managementactiontenantdeploymentstatus-changedeploymentstatus-csharp-Beta-compiles", NeedsAnalysisKnownIssue },
