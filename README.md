@@ -224,11 +224,21 @@ flowchart TB
    clean_metadata_with_annotations[Clean Metadata with Annotations]
    VIPR[/VIPR/]
    object_model[Object Model]
-   Typewriter[/Typewriter/]
-   SDK[SDK]
+   typewriter[/Typewriter/]
+   SDK[Language Specific<br>SDK Published Package<br>e.g. NuGet Package]
    docs[Docs with HTTP Snippets]
    snippet_generator[/Snippet Generator/]
    docs_with_sdk_snippets[Docs with SDK Snippets]
+   open_api_description[Open API Description]
+   kiota[/kiota/]
+   hidi[/hidi/]
+   devx_api[/DevX API/]
+   powershell_open_api_description[PowerShell Specific<br>Open API Description]
+   autorest[/autorest/]
+
+   kiota_sdks[C#, Go, Java, PHP, Python,<br> Ruby, TypeScript SDKs]
+   typewriter_sdks[C#, Java, ObjC, PHP,<br> TypeScript SDKs]
+   autorest_sdks[PowerShell SDK]
 
    raptor_compilation[/Raptor Compilation/]
    raptor_execution[/Raptor Execution/]
@@ -242,19 +252,22 @@ flowchart TB
    class execution_result,compilation_result result;
 
    classDef artifact fill:blue,color:white;
-   class CSDL1,CSDL2,CSDL3,metadata,clean_metadata,clean_metadata_with_annotations,object_model,SDK,docs,docs_with_sdk_snippets,sdk_core_library,permissions,compiled_assembly artifact;
+   class CSDL1,CSDL2,CSDL3,metadata,clean_metadata,clean_metadata_with_annotations,object_model,open_api_description,powershell_open_api_description,kiota_sdks,autorest_sdks,typewriter_sdks,SDK,docs,docs_with_sdk_snippets,sdk_core_library,permissions,compiled_assembly artifact;
 
-   click metadata href "https://graph.microsoft.com/v1.0/$metadata";
-   click preprocessing href "https://github.com/microsoftgraph/msgraph-metadata/blob/master/transforms/csdl/preprocess_csdl.xsl";
-   click api_doctor href "https://github.com/OneDrive/apidoctor";
+   click metadata href "https://graph.microsoft.com/v1.0/$metadata"
+   click preprocessing href "https://github.com/microsoftgraph/msgraph-metadata/blob/master/transforms/csdl/preprocess_csdl.xsl"
+   click api_doctor href "https://github.com/OneDrive/apidoctor"
    click clean_metadata href "https://github.com/microsoftgraph/msgraph-metadata/tree/master/clean_v10_metadata"
    click clean_metadata_with_annotations href "https://github.com/microsoftgraph/msgraph-metadata/tree/master/clean_v10_metadata"
    click VIPR href "https://github.com/microsoft/Vipr"
-   click Typewriter href "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator"
+   click typewriter href "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator"
    click SDK href "https://github.com/microsoftgraph/msgraph-sdk-dotnet"
    click sdk_core_library href "https://github.com/microsoftgraph/msgraph-sdk-dotnet-core"
    click permissions href "https://github.com/microsoftgraph/microsoft-graph-devx-content/tree/dev/permissions"
-   click snippet_generator href "https://github.com/microsoftgraph/microsoft-graph-devx-api/tree/dev/CodeSnippetsReflection.App";
+   click snippet_generator href "https://github.com/microsoftgraph/microsoft-graph-devx-api/tree/dev/CodeSnippetsReflection.App"
+   click autorest href "https://azure.github.io/autorest/"
+   click kiota href "https://microsoft.github.io/kiota/"
+   click hidi href "https://github.com/microsoft/OpenAPI.NET/tree/vnext/src/Microsoft.OpenApi.Hidi"
 
    subgraph AGS
       workload1 --> CSDL1 --> metadata
@@ -263,7 +276,20 @@ flowchart TB
    end
 
    subgraph sdkgeneration[SDK Generation]
-      metadata --> preprocessing --> clean_metadata --> api_doctor --> clean_metadata_with_annotations --> VIPR --> object_model --> Typewriter --> SDK
+      metadata --> preprocessing --> clean_metadata --> api_doctor --> clean_metadata_with_annotations
+      clean_metadata_with_annotations --> VIPR & hidi & devx_api
+
+      subgraph kiotasubgraph[ ]
+        hidi --> open_api_description --> kiota --> kiota_sdks
+      end
+      subgraph autorestsubgraph[ ]
+        devx_api --> powershell_open_api_description --> autorest --> autorest_sdks
+      end
+      subgraph typewritersubgraph[ ]
+        VIPR --> object_model --> typewriter --> typewriter_sdks
+      end
+
+      kiota_sdks & autorest_sdks & typewriter_sdks --> SDK
    end
 
    subgraph snippetprocessing[Snippet Processing]
@@ -277,6 +303,7 @@ flowchart TB
    sdk_core_library --> raptor_compilation
    SDK --> raptor_compilation
 
+   permissions ----> raptor_execution
    subgraph raptor[Raptor]
       raptor_compilation --> compiled_assembly
       raptor_compilation --> compilation_result
@@ -284,10 +311,6 @@ flowchart TB
       compiled_assembly --> raptor_execution
       raptor_execution --> execution_result
    end
-
-   permissions --> raptor_execution
-
-   classDef default padding:100;
 ```
 ## Definitions
 - **AGS**: Microsoft Graph Aggregator Service
@@ -312,10 +335,20 @@ flowchart TB
 - **Object Model**: Generated object model that is used by the SDK generation process.
 - **Typewriter**: OData based SDK generation tool.
   - https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator
+- **hidi**: The tool that converts OData CSDL into an Open API description.
+  - https://github.com/microsoft/OpenAPI.NET/tree/vnext/src/Microsoft.OpenApi.Hidi
+- **Open API Description**: The Microsoft Graph service description in Open API format.
+- **PowerShell Specific Open API Description**: The Microsoft Graph service description in Open API format with modifications tailored towards PowerShell SDK generation.
+- **kiota**: OpenAPI based SDK generation tool, will soon replace all Typewriter based SDKs.
+  - https://microsoft.github.io/kiota/
+- **Autorest**: OpenAPI based SDK generation tool. We only use it to generate PowerShell SDK.
+  - https://azure.github.io/autorest/
 - **SDK**: SDK generated in a framework/programming language.
   - https://github.com/microsoftgraph/msgraph-sdk-dotnet
   - https://github.com/microsoftgraph/msgraph-sdk-java
   - https://github.com/microsoftgraph/msgraph-typescript-typings (types only)
+  - https://github.com/microsoftgraph/msgraph-sdk-go
+  - https://github.com/microsoftgraph/msgraph-sdk-powershell
 - **SDK Core Library**: Microsoft Graph Client Library in a particular framework/programming language.
   - https://github.com/microsoftgraph/msgraph-sdk-dotnet-core
   - https://github.com/microsoftgraph/msgraph-sdk-java-core
