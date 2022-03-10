@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 
-
 trigger: none # disable triggers based on commits.
+pr: none # disable as a PR gate.
 name: 'Daily V1 PowerShell Snippet Execution Tests'
 schedules:
   - cron: "0 3 * * *" # everyday at 3AM UTC (off hours for Redmond, Nairobi and Montréal)
