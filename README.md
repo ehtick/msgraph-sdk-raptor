@@ -366,10 +366,10 @@ flowchart TB
   - Served by DevX API: https://github.com/microsoftgraph/microsoft-graph-devx-api/tree/dev/PermissionsService
 
 ## Permissions in Raptor
-We have a set of permissions that are required to execute each snippet. These permissions can be either application or delegated permissions (read more on permissions [here](https://docs.microsoft.com/en-us/graph/permissions-reference)). An AAD app registration can have these application or delegated permissions granted. There is a limit for the number of delegated permissions that a single token can hold, so we cannot have a single application having all the delegated permissions. We have the following applications instead in our demo tenant:
+We have a set of permissions that are required to execute each snippet. These permissions can be either application or delegated permissions (read more on permissions [here](https://docs.microsoft.com/en-us/graph/permissions-reference)). An AAD app registration can have these application or delegated permissions granted. There is a limit for the number of delegated permissions that a single token can hold, so we cannot have a single application having all the delegated permissions. We have the following app registrations instead in our demo tenant:
 
 1. An AAD app registration **per** delegated permission with a display name of the format: `DelegatedApp <permission name>`, e.g. `DelegatedApp User.ReadWrite.All`.
-2. A `Permission Manager` application that has all the application permissions (no limit here).
+2. An AAD app registration with name: `Permission Manager` that has all the application permissions (no limit here).
 
 So the total number of AAD applications we have in the tenant is the number of delegated permissions plus one.
 
