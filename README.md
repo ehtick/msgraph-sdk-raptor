@@ -8,6 +8,8 @@
 * [Onboarding New Language Onto Raptor](./README.md#onboarding-new-language-onto-raptor)
 * [Defining a Compilable Unit ](./README.md#defining-a-compilable-unit)
 * [Raptor in Microsoft Graph Ecosystem Diagram](./README.md#raptor-in-microsoft-graph-ecosystem)
+* [Permissions in Raptor](./README.md#permissions-in-raptor)
+  * [Periodic Tasks to Update Permissions](./README.md#periodic-tasks-to-update-permissions)
 
 ## Overview
 This repository consists of test projects which are broadly categorized into 2.
@@ -362,3 +364,69 @@ flowchart TB
 - **Permissions**: A set of permissions that are required to run snippets.
   - Stored here: https://github.com/microsoftgraph/microsoft-graph-devx-content/tree/dev/permissions
   - Served by DevX API: https://github.com/microsoftgraph/microsoft-graph-devx-api/tree/dev/PermissionsService
+
+## Permissions in Raptor
+We have a set of permissions that are required to execute each snippet. These permissions can be either application or delegated permissions (read more on permissions [here](https://docs.microsoft.com/en-us/graph/permissions-reference)). An AAD app registration can have these application or delegated permissions granted. There is a limit for the number of delegated permissions that a single token can hold, so we cannot have a single application having all the delegated permissions. We have the following app registrations instead in our demo tenant:
+
+1. An AAD app registration **per** delegated permission with a display name of the format: `DelegatedApp <permission name>`, e.g. `DelegatedApp User.ReadWrite.All`.
+2. An AAD app registration with name: `Permission Manager` that has all the application permissions (no limit here).
+
+So the total number of AAD applications we have in the tenant is the number of delegated permissions plus one.
+
+The primary focus of Raptor is not to validate permissions, but to test developer experience components around SDK generation and snippet generation. For that, we need only one of the documented permissions that are applicable to the test case to unblock us from making the call to a demo tenant.
+
+```mermaid
+flowchart TB
+    start([Start])
+
+    build_url_using_sdk[1. Build URL using SDK]
+    get_all_delegated_permissions[2. Get all delegated permissions]
+
+    delegated_permissions_left{3. Any delegated<br>permissions left?}
+    acquire_token_with_delegated_permission[3.1. Acquire token with<br>the delegated permission]
+    make_call_with_delegated["3.2. Make a call with<br>the delegated permission"]
+    delegated_permissions_succeeded{3.3. Call with delegated<br>permission succeeded?}
+
+    acquire_token_with_application_permissions[4.1. Acquire a token with<br>all the application permissions<br>using Permission Manager]
+    make_call_with_application["4.2. Make a call with<br>all the application permissions"]
+    application_call_succeeded{4.3. Call with all the<br>application<br>permissions succeeded?}
+
+    success([Test succeeded])
+    failure([Test failed])
+
+    start --> build_url_using_sdk --> get_all_delegated_permissions --> delegated_permissions_left
+    delegated_permissions_left --yes--> acquire_token_with_delegated_permission --> make_call_with_delegated --> delegated_permissions_succeeded
+    delegated_permissions_left ------no--> acquire_token_with_application_permissions --> make_call_with_application --> application_call_succeeded
+
+    delegated_permissions_succeeded --yes--> success
+    delegated_permissions_succeeded --no--> delegated_permissions_left
+
+    application_call_succeeded --yes--> success
+    application_call_succeeded --no--> failure
+
+    classDef successStyle fill:green,color:white
+    class success successStyle
+
+    classDef failureStyle fill:red,color:white
+    class failure failureStyle
+```
+**Diagram 1. Flow chart for testing execution of each snippet with permissions**
+1. Build Microsoft Graph URL using an SDK
+2. Get all delegated permissions applicable to the URL from DevX API
+3. For each delegated permission:
+  3.1. We acquire a token using the AAD application that corresponds to the delegated permission.
+  3.2. We attempt to execute the snippet with the token.
+  3.3. If the execution of the snippet succeeds, test case succeeds.
+4. If none of the delegated permissions results in making a successful execution
+  4.1. We acquire a token using `Permission Manager` app registration, which has all the application permissions granted.
+  4.2. We attempt to execute the snippet with the token.
+  4.3. If the snippet execution with application permissions succeeds, the test case succeeds. Otherwise the test case fails.
+
+**Note on caching for C# tests:** At the beginning of each test run for a snippet execution test suite, we use `UsernamePasswordCredential` to cache all the tokens for all the delegated permissions. Then each test case consumes the corresponding `TokenCredential` object to take advantage of the cached token. For application permissions, we use `ClientSecretCredential` to acquire the corresponding token. The details of caching can be found in [PermissionManager](./TestsCommon/PermissionManager.cs).
+
+### Periodic Tasks to Update Permissions
+Permissions are ever expanding in Microsoft Graph, so we need to periodically update the permissions in our AAD applications. We have a weekly schedule to run the following updates:
+- [Application Permissions Updater](./ApplicationPermissionsUpdater/ApplicationPermissionsUpdater.cs)
+  - Updates the `Permission Manager` application with the latest application permissions.
+- [Delegated App Creator](./DelegatedAppCreator/DelegatedAppCreator.cs)
+  - Creates new AAD app registrations for recently added delegated permissions, one app per permission.
