@@ -45,10 +45,13 @@ public static class CSharpKnownIssues
 
                 { "create-basetask-from--csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/15575")},
                 { "create-tasklist-from--csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/15577")},
+                { $"delete-extensionproperty-csharp-{version}-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/16135")},
                 { "deploymentaudience-updateaudience-csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/12811")},
+                { "get-auditevent-csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/16132")},
                 { "list-administrativeunit-csharp-V1-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/12770")},
                 { "update-tenantcustomizedinformation-csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/13556")},
                 { "update-basetask-csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/15576") },
+                { "update-cloudpcusersetting-csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/16133")},
                 { "update-tasklist-csharp-Beta-compiles", new KnownIssue(Category.HTTP, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/15578")},
 
                 { "put-b2cuserflows-apiconnectorconfiguration-postfederationsignup-csharp-Beta-compiles", StructuralPropertiesAreNotHandledKnownIssue },
