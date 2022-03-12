@@ -4,7 +4,7 @@ name: Add Typescript Issue to TypeScript project
 on:
   issues:
     types:
-      - labled
+      - labeled
 jobs:
   track_issue_if_label_matches:
     if: github.event.label.name == 'typescript'
