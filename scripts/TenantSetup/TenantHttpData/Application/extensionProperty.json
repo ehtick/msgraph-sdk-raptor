@@ -1,0 +1,7 @@
+{
+    "name": "jobGroup",
+    "dataType": "String",
+    "targetObjects": [
+        "User"
+    ]
+}

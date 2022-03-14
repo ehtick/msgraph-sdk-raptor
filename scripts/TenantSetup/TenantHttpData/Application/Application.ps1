@@ -29,5 +29,14 @@ if($null -eq $currentDeletedApplication){
 
 $identifiers = Add-Identifier $identifiers @("deletedDirectoryObject") $currentDeletedApplication.id
 
+# Get or create extensionProperty
+$extensionPropertyEndpoint = "applications/$($identifiers.application._value)/extensionProperties"
+$extensionProperty = Invoke-RequestHelper -Uri ($extensionPropertyEndpoint + "/?`$top=1") -Method "GET"
+if (!$extensionProperty) {
+    $extensionPropertyData = Get-RequestData -ChildEntity "extensionProperty"
+    $extensionProperty = Invoke-RequestHelper -Uri $extensionPropertyEndpoint -Method "POST" -Body $extensionPropertyData
+}
+$identifiers = Add-Identifier $identifiers @("application", "extensionProperty") $extensionProperty.id
+
 # save identifiers
 $identifiers | ConvertTo-Json -Depth 10 > $identifiersPath
