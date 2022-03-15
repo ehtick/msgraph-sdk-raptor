@@ -44,7 +44,6 @@ public static class KnownIssues
 
     internal const string ComplexTypeNavigationProperties = "Complex Type navigation properties are not generated";
     internal const string ComplexTypeNavigationPropertiesGithubIssue = "https://github.com/microsoftgraph/msgraph-sdk-dotnet/issues/1003";
-
     #endregion
 
     #region HTTP Snippet Issues
@@ -56,6 +55,7 @@ public static class KnownIssues
     #region Metadata Issues
     internal const string MetadataWrong = "Metadata should be fixed";
     internal const string IdentityRiskEvents = "identityRiskEvents not defined in metadata.";
+    internal const string IncorrectPowershellSnippetClassificationGithubIssue = "https://github.com/microsoftgraph/msgraph-metadata/issues/129";
     #endregion
 
     #region Metadata Preprocessing Issues
@@ -124,6 +124,7 @@ public static class KnownIssues
     internal static readonly KnownIssue ServiceTaskPrinterKnownIssue = new KnownIssue(Category.Service, "taskTrigger returns 404 even though it exists", "https://github.com/microsoftgraph/microsoft-graph-docs/issues/14774");
     internal static readonly KnownIssue PermissionsMoreThanOnePermissionKnownIssue = new KnownIssue(Category.MoreThanOnePermission, "More than one permission is required", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/778");
     internal static readonly KnownIssue Add_MS_APP_ACTS_CustomheaderIssue = new KnownIssue(Category.Metadata, GitHubIssue: "https://github.com/microsoftgraph/msgraph-metadata/issues/109");
+    internal static readonly KnownIssue IncorrectSnippetAPIClassificationKnownIssue = new KnownIssue(Category.Metadata, GitHubIssue: IncorrectPowershellSnippetClassificationGithubIssue);
     /// <summary>
     /// Constructs property not found message
     /// </summary>

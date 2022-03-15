@@ -105,7 +105,17 @@ public class IdentifierReplacer
         var baseEdgeCases = ReplaceEdgeCases(regexEdgeCases);
         return ReplaceIdsFromIdentifiersFile(baseEdgeCases);
     }
-
+    public string ReplacePowershellIds(string input)
+    {
+        if (input == null)
+        {
+            throw new ArgumentNullException(nameof(input));
+        }
+        // Start with Regex Edge Cases replacement.
+        var regexEdgeCases = RegexReplaceEdgeCases(EdgeCaseRegexes, input);
+        var baseEdgeCases = ReplaceEdgeCases(regexEdgeCases);
+        return ReplacePowershellIdsFromIdentifiersFile(baseEdgeCases);
+    }
     private static string ReplaceEdgeCases(string input)
     {
         var now = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
@@ -216,6 +226,50 @@ public class IdentifierReplacer
             }
         }
 
+        return input;
+    }
+    /// <summary>
+    /// Replaces ID placeholders of the form {nameId} by looking up name in the IDTree.
+    /// Recursively call the function based on the number of Ids that needs to be replaced on the snippet
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="InvalidDataException"></exception>
+    private string ReplacePowershellIdsFromIdentifiersFile(string input)
+    {
+        if (input == null)
+        {
+            throw new ArgumentNullException(nameof(input));
+        }
+
+        var matches = _identifierRegex.Matches(input);
+        IDTree currentIdNode = _tree;
+        foreach (Match match in matches)
+        {
+            var id = match.Groups[0].Value; 
+            var idType = match.Groups[1].Value;
+
+            currentIdNode.TryGetValue(idType, out IDTree localTree);
+           
+            if (localTree == null
+                || localTree.Value.EndsWith($"{idType}>", StringComparison.Ordinal)) // placeholder value, e.g. <teamsApp_teamsAppDefinition> for teamsApp->teamsAppDefinition
+            {   if (matches.Count == 1)
+                {
+                    throw new InvalidDataException($"no data found for id: {id} in identifiers.json file");
+                }
+            }
+            else
+            {
+                currentIdNode = localTree;
+                input = ReplaceFirst(input, id, currentIdNode.Value);
+            }
+            
+        }
+        for(int i = 1; i < matches.Count; i++)
+        {
+            input = ReplacePowershellIdsFromIdentifiersFile(input);
+        }
         return input;
     }
 
