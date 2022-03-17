@@ -27,7 +27,7 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
         <PackageReference Include="Microsoft.Graph" Version="4.20.0" />
         <PackageReference Include="Microsoft.Graph.Core" Version="2.*" />
-        <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.2.1" />
+        <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.2.2" />
     </ItemGroup>
     <ItemGroup>
         <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
