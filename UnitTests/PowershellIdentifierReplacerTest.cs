@@ -20,7 +20,7 @@ public class PowershellIdentifierReplacerTest
     private const string expectedSnippetWithMultiplePlaceHolders = @"
         Import-Module Microsoft.Graph.Calendar
         # A UPN can also be used as -UserId.
-        Get-MgUserEventAttachment -UserId user -EventId event";
+        Get-MgUserEventAttachment -UserId 03cc3d83-27e5-4174-812e-7ef53684264d -EventId AAMkAGM0NDJhMzNkLWFkMTEtNDcxNi1hMGJlLTZkYTIwNDM0YzIwOABGAAAAAADQ7qGnrGctQqjH2Wz1U4VlBwD95ClkZES4Rqe6dDtIEGPGAAAAAAENAAD95ClkZES4Rqe6dDtIEGPGAAAAAPiZAAA=";
 
     private const string snippetWithSinglePlaceHolders = @"
         Import-Module Microsoft.Graph.Calendar
@@ -30,7 +30,7 @@ public class PowershellIdentifierReplacerTest
     private const string expectedSnippetWithSinglePlaceHolders = @"
         Import-Module Microsoft.Graph.Calendar
         # A UPN can also be used as -UserId.
-        Get-MgUserEventAttachment -UserId user";
+        Get-MgUserEventAttachment -UserId 03cc3d83-27e5-4174-812e-7ef53684264d";
     /// <summary>
     /// Snippet with multiple placeholders should pass (indicating expected and recieved results are equal)  as long as the language is identified as powershell
     /// The replace id function was modified because, initially only one placeholder was replcaed with an Id
@@ -38,15 +38,15 @@ public class PowershellIdentifierReplacerTest
     /// <param name="testSnippet"></param>
     /// <param name="expectedTestSnippet"></param>
     [TestCase(snippetWithMultiplePlaceHolders, expectedSnippetWithMultiplePlaceHolders)]
-    public void SnippetWithMultiplePlaceHoldersShouldPass_AreEqual(string testSnippet, string expectedTestSnippet) => Assert.AreEqual(_idReplacer.ReplaceIds(testSnippet, Languages.PowerShell.ToString()), expectedTestSnippet);
+    public void SnippetWithMultiplePlaceHoldersShouldPass(string testSnippet, string expectedTestSnippet) => Assert.AreEqual(_idReplacer.ReplaceIds(testSnippet, Languages.PowerShell.ToString()), expectedTestSnippet);
     /// <summary>
-    ///  Snippet with multiple placeholders should pass (indicating expected and recieved results are not equal) as long as the language is not identified as powershell
+    ///  Snippet with multiple placeholders should throw an InvalidDataException as long as the language is not identified as powershell
     ///  This test indicates what used to happen before the modification of the Id replacement function
     /// </summary>
     /// <param name="testSnippet"></param>
     /// <param name="expectedTestSnippet"></param>
     [TestCase(snippetWithMultiplePlaceHolders, expectedSnippetWithMultiplePlaceHolders)]
-    public void SnippetWithMultiplePlaceHoldersShouldPass_AreNotEqual(string testSnippet, string expectedTestSnippet) => Assert.AreNotEqual(_idReplacer.ReplaceIds(testSnippet, Languages.CSharp.ToString()), expectedTestSnippet);
+    public void SnippetWithMultiplePlaceHoldersShouldThrowAnException(string testSnippet, string expectedTestSnippet) => Assert.Throws<InvalidDataException>(()=>_idReplacer.ReplaceIds(testSnippet, Languages.CSharp.ToString()));
 
     /// <summary>
     ///  Snippet with a single placeholder should pass (indicating expected and recieved results are equal) as long as the language is not identified as powershell
@@ -66,5 +66,7 @@ public class PowershellIdentifierReplacerTest
 
     [TestCase(snippetWithSinglePlaceHolders, expectedSnippetWithSinglePlaceHolders)]
     public void SinglePlaceHolderSnippetNotIdentifiedAsPowerShellShouldPass(string snippetWithSinglePlaceHolders, string expectedSnippetWithSinglePlaceHolders) => Assert.AreEqual(_idReplacer.ReplaceIds(snippetWithSinglePlaceHolders, Languages.CSharp.ToString()), expectedSnippetWithSinglePlaceHolders);
+
+
 
 }
