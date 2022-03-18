@@ -55,10 +55,10 @@ public class IdentifierReplacer
         )
     };
 
-    public IdentifierReplacer(IDTree tree)
+    public IdentifierReplacer(IDTree tree,string language)
     {
         this._tree = tree;
-        _identifierRegex = IdentifierRegexes.CsharpIdRegex;
+        _identifierRegex =  language==Languages.CSharp.ToString()?IdentifierRegexes.CsharpIdRegex:IdentifierRegexes.PowerShellIdRegex;
     }
 
     public IdentifierReplacer(Regex identifierRegex) : this()
