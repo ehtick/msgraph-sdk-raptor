@@ -20,7 +20,7 @@ public class PowershellIdentifierReplacerTest
     private const string expectedSnippetWithMultiplePlaceHolders = @"
         Import-Module Microsoft.Graph.Calendar
         # A UPN can also be used as -UserId.
-        Get-MgUserEventAttachment -UserId 03cc3d83-27e5-4174-812e-7ef53684264d -EventId AAMkAGM0NDJhMzNkLWFkMTEtNDcxNi1hMGJlLTZkYTIwNDM0YzIwOABGAAAAAADQ7qGnrGctQqjH2Wz1U4VlBwD95ClkZES4Rqe6dDtIEGPGAAAAAAENAAD95ClkZES4Rqe6dDtIEGPGAAAAAPiZAAA=";
+        Get-MgUserEventAttachment -UserId user -EventId event";
 
     private const string snippetWithSinglePlaceHolders = @"
         Import-Module Microsoft.Graph.Calendar
@@ -30,7 +30,7 @@ public class PowershellIdentifierReplacerTest
     private const string expectedSnippetWithSinglePlaceHolders = @"
         Import-Module Microsoft.Graph.Calendar
         # A UPN can also be used as -UserId.
-        Get-MgUserEventAttachment -UserId 03cc3d83-27e5-4174-812e-7ef53684264d";
+        Get-MgUserEventAttachment -UserId user";
     /// <summary>
     /// Snippet with multiple placeholders should pass (indicating expected and recieved results are equal)  as long as the language is identified as powershell
     /// The replace id function was modified because, initially only one placeholder was replcaed with an Id
