@@ -3,7 +3,7 @@
     <Import Project="$(MSBuildProjectDirectory)\..\RaptorShared.targets" />
 
     <ItemGroup>
-        <PackageReference Include="NUnit" Version="3.13.2" />
+        <PackageReference Include="NUnit" Version="3.13.3" />
         <PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
         <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.2.2" />
