@@ -94,7 +94,7 @@ public class IdentifierReplacer
         _tree = JsonSerializer.Deserialize<IDTree>(json);
     }
 
-    public string ReplaceIds(string input,string language)
+    public string ReplaceIds(string input, Languages language)
     {
         if (input == null)
         {
@@ -191,7 +191,7 @@ public class IdentifierReplacer
     /// </summary>
     /// <param name="input">String containing ID placeholders</param>
     /// <returns>input string, but its placeholders replaced from IDTree</returns>
-    private string ReplaceIdsFromIdentifiersFile(string input,string language)
+    private string ReplaceIdsFromIdentifiersFile(string input, Languages language)
     {
         if (input == null)
         {
@@ -200,7 +200,6 @@ public class IdentifierReplacer
 
         int count=0;
         var matches = _identifierRegex.Matches(input);
-        List<Match>matchList = matches.ToList();
         IDTree currentIdNode = _tree;
         foreach (Match match in matches)
         {
@@ -212,9 +211,9 @@ public class IdentifierReplacer
                 || localTree.Value.EndsWith($"{idType}>", StringComparison.Ordinal)) // placeholder value, e.g. <teamsApp_teamsAppDefinition> for teamsApp->teamsAppDefinition
             {
                 string errorMessage = $"no data found for id: {id} in identifiers.json file";
-                if (language == Languages.PowerShell.ToString())
+                if (language == Languages.PowerShell)
                 {
-                    if (matchList.Count == 1)
+                    if (matches.Count == 1)
                     {
                         throw new InvalidDataException(errorMessage);
                     }
@@ -224,7 +223,7 @@ public class IdentifierReplacer
                         throw new InvalidDataException(errorMessage);
                     }
 
-                    if (count == matchList.Count)
+                    if (count == matches.Count)
                     {
                         throw new InvalidDataException(errorMessage);
                     }
@@ -244,7 +243,7 @@ public class IdentifierReplacer
             }
             count++;
         }
-        if (language == Languages.PowerShell.ToString())
+        if (language == Languages.PowerShell)
         {
             for (int i = 1; i < matches.Count; i++)
             {

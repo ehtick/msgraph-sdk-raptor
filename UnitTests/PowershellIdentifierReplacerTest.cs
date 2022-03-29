@@ -32,41 +32,57 @@ public class PowershellIdentifierReplacerTest
         # A UPN can also be used as -UserId.
         Get-MgUserEventAttachment -UserId user";
     /// <summary>
-    /// Snippet with multiple placeholders should pass (indicating expected and recieved results are equal)  as long as the language is identified as powershell
-    /// The replace id function was modified because, initially only one placeholder was replcaed with an Id
+    /// Snippet with multiple placeholders should pass as long as the language is identified as powershell
+    /// The replace id function was modified because,
+    /// initially only one placeholder was replcaed with an Id
     /// </summary>
     /// <param name="testSnippet"></param>
     /// <param name="expectedTestSnippet"></param>
     [TestCase(snippetWithMultiplePlaceHolders, expectedSnippetWithMultiplePlaceHolders)]
-    public void SnippetWithMultiplePlaceHoldersShouldPass(string testSnippet, string expectedTestSnippet) => Assert.AreEqual(_idReplacer.ReplaceIds(testSnippet, Languages.PowerShell.ToString()), expectedTestSnippet);
+    public void SnippetWithMultiplePlaceHoldersShouldPass(string testSnippet, string expectedTestSnippet)
+    {
+        var identifierReplacer = _idReplacer.ReplaceIds(testSnippet, Languages.PowerShell);
+        Assert.AreEqual(identifierReplacer, expectedTestSnippet);
+    }
     /// <summary>
-    ///  Snippet with multiple placeholders should throw an InvalidDataException as long as the language is not identified as powershell
+    ///  Snippet with multiple placeholders should throw an InvalidDataException,
+    ///  as long as the language is not identified as powershell
     ///  This test indicates what used to happen before the modification of the Id replacement function
     /// </summary>
     /// <param name="testSnippet"></param>
+    [TestCase(snippetWithMultiplePlaceHolders)]
+    public void SnippetWithMultiplePlaceHoldersShouldThrowAnException(string testSnippet)
+    {
+        Assert.Throws<InvalidDataException>(() => _idReplacer.ReplaceIds(testSnippet, Languages.CSharp));
+    }
+
+    /// <summary>
+    ///  Snippet with a single placeholder should pass as long as the language is not identified as powershell
+    /// </summary>
+    /// <param name="testSnippet"></param>
     /// <param name="expectedTestSnippet"></param>
-    [TestCase(snippetWithMultiplePlaceHolders, expectedSnippetWithMultiplePlaceHolders)]
-    public void SnippetWithMultiplePlaceHoldersShouldThrowAnException(string testSnippet, string expectedTestSnippet) => Assert.Throws<InvalidDataException>(()=>_idReplacer.ReplaceIds(testSnippet, Languages.CSharp.ToString()));
-
-    /// <summary>
-    ///  Snippet with a single placeholder should pass (indicating expected and recieved results are equal) as long as the language is not identified as powershell
-    /// </summary>
-    /// <param name="snippetWithSinglePlaceHolders"></param>
-    /// <param name="expectedSnippetWithSinglePlaceHolders"></param>
 
     [TestCase(snippetWithSinglePlaceHolders, expectedSnippetWithSinglePlaceHolders)]
-    public void SinglePlaceHolderSnippetIdentifiedAsPowerShellShouldPass(string snippetWithSinglePlaceHolders, string expectedSnippetWithSinglePlaceHolders) => Assert.AreEqual(_idReplacer.ReplaceIds(snippetWithSinglePlaceHolders, Languages.PowerShell.ToString()), expectedSnippetWithSinglePlaceHolders);
+    public void SinglePlaceHolderSnippetIdentifiedAsPowerShellShouldPass(string testSnippet, string expectedTestSnippet)
+    {
+        var identifierReplacer = _idReplacer.ReplaceIds(testSnippet, Languages.PowerShell);
+        Assert.AreEqual(identifierReplacer, expectedTestSnippet);
+    }
 
     /// <summary>
-    ///  Snippet with a single placeholder should pass (indicating expected and recieved results are equal) even if the language is not identified as powershell
-    ///  This test indicates what used to happen before the modification. There was no problem with snippetes that have a single placeholder
+    ///  Snippet with a single placeholder should pass even if the language is not identified as powershell
+    ///  This test indicates what used to happen before the modification.
+    ///  There was no problem with snippetes that have a single placeholder
     /// </summary>
-    /// <param name="snippetWithSinglePlaceHolders"></param>
-    /// <param name="expectedSnippetWithSinglePlaceHolders"></param>
+    /// <param name="testSnippet"></param>
+    /// <param name="expectedTestSnippet"></param>
 
     [TestCase(snippetWithSinglePlaceHolders, expectedSnippetWithSinglePlaceHolders)]
-    public void SinglePlaceHolderSnippetNotIdentifiedAsPowerShellShouldPass(string snippetWithSinglePlaceHolders, string expectedSnippetWithSinglePlaceHolders) => Assert.AreEqual(_idReplacer.ReplaceIds(snippetWithSinglePlaceHolders, Languages.CSharp.ToString()), expectedSnippetWithSinglePlaceHolders);
-
-
+    public void SinglePlaceHolderSnippetNotIdentifiedAsPowerShellShouldPass(string testSnippet, string expectedTestSnippet)
+    {
+        var identifierReplacer = _idReplacer.ReplaceIds(testSnippet, Languages.CSharp);
+        Assert.AreEqual(identifierReplacer, expectedTestSnippet);
+    }
+ 
 
 }

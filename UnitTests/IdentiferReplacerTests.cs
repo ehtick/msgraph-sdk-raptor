@@ -32,7 +32,7 @@ public class Tests
     public void TestIds(string snippetUrl, string expectedUrl)
 #pragma warning restore CA1054 // URI-like parameters should not be strings
     {
-        var newUrl = _idReplacer.ReplaceIds(snippetUrl,Languages.CSharp.ToString());
+        var newUrl = _idReplacer.ReplaceIds(snippetUrl,Languages.CSharp);
         Assert.AreEqual(expectedUrl, newUrl);
     }
 
