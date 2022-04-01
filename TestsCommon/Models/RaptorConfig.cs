@@ -25,7 +25,6 @@ public sealed class RaptorConfig
             SourcesDirectory = config.GetNonEmptyValue("BUILD_SOURCESDIRECTORY"),
             RaptorStorageConnectionString = config.GetNonEmptyValue(nameof(RaptorStorageConnectionString)),
             IsLocalRun = bool.Parse(config.GetNonEmptyValue(nameof(IsLocalRun))),
-            TypeScriptFolder = Path.Join(config.GetNonEmptyValue("BUILD_SOURCESDIRECTORY"), "typescript-tests"),
             AzureKeyVaultUri = new Uri(config.GetNonEmptyValue(nameof(AzureKeyVaultUri))),
             AzureApplicationID = config.GetNonEmptyValue(nameof(AzureApplicationID)),
             AzureClientSecret = config.GetNonEmptyValue(nameof(AzureClientSecret)),
@@ -185,10 +184,4 @@ public sealed class RaptorConfig
         init;
     }
 
-    //TODO Move typescript code generation to use a temporary folder
-    public string TypeScriptFolder
-    {
-        get;
-        init;
-    }
 }

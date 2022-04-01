@@ -14,8 +14,9 @@ namespace TypeScriptV1KnownFailureTests
         /// Holds a static reference of errors from test evaluation
         /// </summary>
         private static Dictionary<string, Collection<Dictionary<string, string>>> NpmResults;
+        private static string testingPath;
 
-        private static RunSettings TestRunSettings = new RunSettings(TestContext.Parameters)
+        private static RunSettings TestRunSettings = new (TestContext.Parameters)
         {
             Version = Versions.V1,
             Language = Languages.TypeScript,
@@ -31,15 +32,11 @@ namespace TypeScriptV1KnownFailureTests
         {
             var data = TestDataGenerator.GetLanguageTestCaseData(TestRunSettings);
 
-            // clean out the test folder
-            foreach (string sFile in Directory.GetFiles(TestsSetup.Config.Value.TypeScriptFolder, "*.ts"))
-                File.Delete(sFile);
+            testingPath = TypeScriptTestRunner.PrepareFolder();
 
-            foreach (var testData in data)
-                TypeScriptTestRunner.GenerateFiles(testData);
+            TypeScriptTestRunner.GenerateFiles(testingPath, data);
 
-            // execute the typescript compilation
-            NpmResults = TypeScriptTestRunner.ParseNPMErrors(TestRunSettings.Version, TypeScriptTestRunner.CompileTypescriptFiles());
+            NpmResults = TypeScriptTestRunner.RunAndParseNPMErrors(TestRunSettings.Version, testingPath);
         }
 
 
@@ -59,7 +56,7 @@ namespace TypeScriptV1KnownFailureTests
         [TestCaseSource(typeof(KnownFailuresV1), nameof(TestDataV1))]
         public void Test(LanguageTestData testData)
         {
-            TypeScriptTestRunner.RunTest(testData, NpmResults);
+            TypeScriptTestRunner.RunTest(testingPath,testData, NpmResults);
         }
     }
 }

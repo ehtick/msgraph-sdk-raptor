@@ -15,12 +15,13 @@ pr:
       - TestsCommon/TypeScriptKnownIssues.cs
 schedules:
   - cron: "0 3 * * *" # everyday at 3AM UTC (off hours for Redmond, Nairobi and Montréal)
-    displayName: 'Daily V1 TypeScript Snippet Compilation Tests - Known Issues'
+    displayName: 'Daily V1 TypeScript Snippet Compilation Tests'
     branches:
       include:
       - dev
     always: true
-name: 'V1 TypeScript Snippet Compilation Tests - Known Issues'
+
+name: 'V1 TypeScript Snippet Compilation Tests'
 
 resources:
  repositories:
@@ -29,18 +30,27 @@ resources:
      endpoint: microsoftgraph
      name: microsoftgraph/microsoft-graph-docs
      ref: test-typescript-docs
+   - repository: msgraph-sdk-typescript
+     type: github
+     endpoint: microsoftgraph
+     name: microsoftgraph/msgraph-sdk-typescript
+     ref: dev
 
 variables:
   buildConfiguration: 'Release'
 
 jobs:
   - job: TypeScriptV1Tests
-    displayName: 'V1 TypeScript Snippet Compilation Tests - Known Issues'
+    displayName: 'V1 TypeScript Snippet Compilation Tests'
     pool: 'MsGraphBuildAgentsLinux'
     timeoutInMinutes: 30
 
     steps:
     - template: common-templates/checkout.yml
+
+    - checkout: msgraph-sdk-typescript
+      clean: true
+      fetchDepth: 1
 
     - task: NodeTool@0
       inputs:
@@ -58,12 +68,19 @@ jobs:
         RunSettingsPath: '$(Build.SourcesDirectory)/msgraph-sdk-raptor/Test.runsettings'
         Language: 'TypeScript'
         Version: 'v1.0'
-        TestType: 'CompilationKnownIssues'
+        TestType: 'CompilationStable'
       displayName: 'Replace test settings parameters'
+
+    - pwsh: $(Build.SourcesDirectory)/msgraph-sdk-raptor/azure-pipelines/typescript-templates/prepare-typescript-folder.ps1
+      displayName: 'Create npm directory'
+      env:
+        NPM_USERNAME: $(NPM_USERNAME)
+        NPM_PASSWORD: $(NPM_PASSWORD)
+        NPM_EMAIL: $(NPM_EMAIL)
 
     - script: dir $(Build.SourcesDirectory)
 
     - template: compile-run-tests-template.yml
       parameters:
-        projectFileName: TypeScriptV1KnownFailureTests
-        runName: 'V1 TypeScript Snippet Compilation Tests - Known Issues $(testRunTitle)'
+        projectFileName: TypeScriptV1Tests
+        runName: 'V1 TypeScript Snippet Compilation Tests $(testRunTitle)'
