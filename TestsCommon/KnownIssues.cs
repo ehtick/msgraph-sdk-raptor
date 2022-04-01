@@ -178,6 +178,7 @@ public static class KnownIssues
                 { $"delete-internalsponsor-from-connectedorganization-{lng}-V1-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "internalSponsor")) },
                 { $"delete-externalsponsor-from-connectedorganization-{lng}-V1-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "externalSponsor")) },
                 { $"list-directoryobject-{lng}-V1-compiles", new KnownIssue(Category.Metadata, MetadataAddContainsTargetMessage("accessPackageAssignment", "target"))},
+                { $"get-analytics-{lng}-V1-compiles", new KnownIssue(Category.Metadata, MetadataAddContainsTargetMessage("driveItem", "analytics"))},
                 { $"delete-directoryobject-from-featurerolloutpolicy-java-{version}-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("featureRolloutPolicy", "appliesTo")) },
                 { $"delete-directoryobject-from-featurerolloutpolicy-csharp-V1-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("featureRolloutPolicy", "appliesTo")) },
                 { $"delete-directoryobject-from-featurerolloutpolicy-policies-{lng}-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("featureRolloutPolicy", "appliesTo")) },
