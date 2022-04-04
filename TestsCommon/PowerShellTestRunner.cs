@@ -298,7 +298,7 @@ public static class PowerShellTestRunner
     private static string ReplaceIdentifiers(string codeSnippet)
     {
         var psIdentifierReplacer = PsIdentifiersReplacer.Instance;
-        codeSnippet = psIdentifierReplacer.ReplaceIds(codeSnippet,Languages.PowerShell);
+        codeSnippet = psIdentifierReplacer.ReplaceIds(codeSnippet);
         return codeSnippet;
     }
 }

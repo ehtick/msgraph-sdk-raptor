@@ -178,7 +178,7 @@ public static class CSharpTestRunner
     /// <returns>code to be executed</returns>
     private static (string, string) GetCodeToExecute(string fileContent)
     {
-        var (codeToCompile, codeSnippetFormatted) = GetCodeToCompile(IdentifierReplacer.Instance.ReplaceIds(fileContent,Languages.CSharp));
+        var (codeToCompile, codeSnippetFormatted) = GetCodeToCompile(IdentifierReplacer.Instance.ReplaceIds(fileContent));
 
         // have another transformation to insert GetRequestMessage method
         codeToCompile = codeToCompile.Replace("GraphServiceClient( authProvider );", "GraphServiceClient( authProvider, httpProvider );");

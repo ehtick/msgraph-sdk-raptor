@@ -13,7 +13,7 @@ public class Tests
         var identifiersJson = System.IO.File.ReadAllText("identifiers.json");
         var tree = JsonSerializer.Deserialize<IDTree>(identifiersJson);
 
-        _idReplacer = new IdentifierReplacer(tree,Languages.CSharp.ToString());
+        _idReplacer = new IdentifierReplacer(tree,Languages.CSharp);
     }
 
     [TestCase("https://graph.microsoft.com/v1.0/applications/{application-id}/owners",
@@ -32,7 +32,7 @@ public class Tests
     public void TestIds(string snippetUrl, string expectedUrl)
 #pragma warning restore CA1054 // URI-like parameters should not be strings
     {
-        var newUrl = _idReplacer.ReplaceIds(snippetUrl,Languages.CSharp);
+        var newUrl = _idReplacer.ReplaceIds(snippetUrl);
         Assert.AreEqual(expectedUrl, newUrl);
     }
 
