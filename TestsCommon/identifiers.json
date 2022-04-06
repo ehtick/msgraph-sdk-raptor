@@ -582,6 +582,15 @@
     "_value": "accessPackage"
   },
   "accessPackageAssignmentRequest": {
-    "_value": "accessPackage"
+    "_value": "accessPackage",
+    "approvalStage": {
+      "_value": "approvalStage"
+    }
+  },
+  "accessPackageAssignmentPolicy": {
+    "_value": "accessPackageAssignmentPolicy"
+  },
+  "accessPackageCatalog": {
+    "_value": "accessPackageCatalog"
   }
 }
