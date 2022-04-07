@@ -55,10 +55,10 @@ public class IdentifierReplacer
         )
     };
 
-    public IdentifierReplacer(IDTree tree)
+    public IdentifierReplacer(IDTree tree,Languages language)
     {
         this._tree = tree;
-        _identifierRegex = IdentifierRegexes.CsharpIdRegex;
+        _identifierRegex =  language==Languages.CSharp?IdentifierRegexes.CsharpIdRegex:IdentifierRegexes.PowerShellIdRegex;
     }
 
     public IdentifierReplacer(Regex identifierRegex) : this()
@@ -105,7 +105,6 @@ public class IdentifierReplacer
         var baseEdgeCases = ReplaceEdgeCases(regexEdgeCases);
         return ReplaceIdsFromIdentifiersFile(baseEdgeCases);
     }
-
     private static string ReplaceEdgeCases(string input)
     {
         var now = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
@@ -208,12 +207,14 @@ public class IdentifierReplacer
                 || localTree.Value.EndsWith($"{idType}>", StringComparison.Ordinal)) // placeholder value, e.g. <teamsApp_teamsAppDefinition> for teamsApp->teamsAppDefinition
             {
                 throw new InvalidDataException($"no data found for id: {id} in identifiers.json file");
+
             }
             else
             {
                 currentIdNode = localTree;
                 input = ReplaceFirst(input, id, currentIdNode.Value);
             }
+            
         }
 
         return input;

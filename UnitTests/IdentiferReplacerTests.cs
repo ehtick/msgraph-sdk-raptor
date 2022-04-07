@@ -13,7 +13,7 @@ public class Tests
         var identifiersJson = System.IO.File.ReadAllText("identifiers.json");
         var tree = JsonSerializer.Deserialize<IDTree>(identifiersJson);
 
-        _idReplacer = new IdentifierReplacer(tree);
+        _idReplacer = new IdentifierReplacer(tree,Languages.CSharp);
     }
 
     [TestCase("https://graph.microsoft.com/v1.0/applications/{application-id}/owners",

@@ -219,6 +219,9 @@
     },
     "userScopeTeamsAppInstallation": {
       "_value": "<user_userScopeTeamsAppInstallation>"
+    },
+    "event":{
+      "_value":"<event>"
     }
   },
   "call": {
