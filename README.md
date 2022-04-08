@@ -10,7 +10,7 @@
 * [Raptor in Microsoft Graph Ecosystem Diagram](./README.md#raptor-in-microsoft-graph-ecosystem)
 * [Permissions in Raptor](./README.md#permissions-in-raptor)
   * [Periodic Tasks to Update Permissions](./README.md#periodic-tasks-to-update-permissions)
-* [Snippets as Raptor's Input](./docs/snippets-as-raptor-s-input)
+* [Snippets as Raptor's Input](./docs/snippets-as-raptor-s-input.md)
 
 ## Overview
 This repository consists of test projects which are broadly categorized into 2.
