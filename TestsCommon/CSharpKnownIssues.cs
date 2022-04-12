@@ -324,6 +324,8 @@ public static class CSharpKnownIssues
                 { "get-mobilitymanagementpolicy-csharp-Beta-executes", MissingDataKnownIssue },
                 { "get-noncustodialdatasource-csharp-Beta-executes", MissingDataKnownIssue },
                 { "get-onenoteoperation-csharp-Beta-executes", EphemeralOnenoteOperationDataKnownIssue },
+                { "list-riskdetection-2-csharp-Beta-executes", EphemeralRiskDetectionKnownIssue},
+                { "get-riskdetection-2-csharp-Beta-executes", EphemeralRiskDetectionKnownIssue},
                 { "get-onlinemeeting-csharp-Beta-executes", MissingPermissionScopeKnownIssue },
                 { "get-onpremisesagent-csharp-Beta-executes", MissingDataKnownIssue },
                 { "get-onpremisesagentgroup-csharp-Beta-executes", MissingDataKnownIssue },
@@ -678,7 +680,7 @@ public static class CSharpKnownIssues
                 { "get-event-based-on-eventmessage-csharp-V1-executes", new KnownIssue(Category.Documentation, "Delegated permissions don't work as documented", "https://github.com/microsoftgraph/microsoft-graph-docs/issues/15507") },
 
                 { "get-onenoteoperation-csharp-V1-executes", EphemeralOnenoteOperationDataKnownIssue },
-
+                { "get-riskdetection-1-csharp-V1-executes", EphemeralRiskDetectionKnownIssue},
                 { "get-workbookoperation-csharp-V1-executes", EphemeralWorkbookOperationDataKnownIssue },
 
                 { "get-subjectrightsrequest-csharp-V1-executes", MissingPermissionDescriptionKnownIssue },

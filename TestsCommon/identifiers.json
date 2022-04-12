@@ -592,5 +592,11 @@
   },
   "accessPackageCatalog": {
     "_value": "accessPackageCatalog"
+  },
+  "riskyUser": {
+    "_value": "riskyUser"
+  },
+  "riskDetection": {
+    "_value": "riskDetection"
   }
 }

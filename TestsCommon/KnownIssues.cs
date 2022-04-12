@@ -118,6 +118,7 @@ public static class KnownIssues
     internal static readonly KnownIssue EphemeralOperationDataKnownIssue = EphemeralAlertDataKnownIssue with  { GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/692" };
     internal static readonly KnownIssue EphemeralWorkbookOperationDataKnownIssue = EphemeralAlertDataKnownIssue with  { GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/524" };
     internal static readonly KnownIssue EphemeralOnenoteOperationDataKnownIssue = EphemeralAlertDataKnownIssue with  { GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/520" };
+    internal static readonly KnownIssue EphemeralRiskDetectionKnownIssue = EphemeralDataKnownIssue with {GitHubIssue= "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/956"};
 
     internal static readonly KnownIssue ProtectedAPIKnownIssue = new KnownIssue(Category.ProtectedAPI, "Need resource specific consent", "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/506");
 
