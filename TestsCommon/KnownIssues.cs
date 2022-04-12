@@ -59,8 +59,6 @@ public static class KnownIssues
     #endregion
 
     #region Metadata Preprocessing Issues
-    internal const string EventActionsShouldNotBeReordered = "There is a reorder rule in XSLT. It should be removed";
-    internal const string EventActionsShouldNotBeReorderedGithubIssue = "https://github.com/microsoftgraph/msgraph-metadata/pull/64";
     internal const string EducationAssignmentRubricContainsTargetPreprocessor = "EducationRubric containsTarget should be False to use $ref.";
     internal const string EducationAssignmentRubricContainsTargetPreprocessorGithubIssue = "https://github.com/microsoftgraph/msgraph-metadata/issues/81";
     #endregion
@@ -98,7 +96,6 @@ public static class KnownIssues
     internal static readonly KnownIssue SearchHeaderIsNotSupportedKnownIssue = new KnownIssue(Category.SDK, SearchHeaderIsNotSupported, SearchHeaderIsNotSupportedGithubIssue);
     internal static readonly KnownIssue MissingContentPropertyKnownIssue = new KnownIssue(Category.SDK, MissingContentProperty, MissingContentPropertyGithubIssue);
     internal static readonly KnownIssue DeleteAsyncIsNotSupportedForReferencesKnownIssue = new KnownIssue(Category.SDK, DeleteAsyncIsNotSupportedForReferences, DeleteAsyncIsNotSupportedForReferencesGithubIssue);
-    internal static readonly KnownIssue EventActionsShouldNotBeReorderedKnownIssue = new KnownIssue(Category.MetadataPreprocessing, EventActionsShouldNotBeReordered, EventActionsShouldNotBeReorderedGithubIssue);
     internal static readonly KnownIssue StructuralPropertiesAreNotHandledKnownIssue = new KnownIssue(Category.SnippetGeneration, StructuralPropertiesAreNotHandled, StructuralPropertiesAreNotHandledGithubIssue);
     internal static readonly KnownIssue NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue = new KnownIssue(Category.SnippetGeneration, NamespaceOdataTypeAnnotationsWithoutHashSymbol, NamespaceOdataTypeAnnotationsWithoutHashSymbolGithubIssue);
     internal static readonly KnownIssue DateTimeOffsetHandlingInUrlsKnownIssue = new KnownIssue(Category.SnippetGeneration, DateTimeOffsetHandlingInUrls, DateTimeOffsetHandlingInUrlsGithubIssue);
