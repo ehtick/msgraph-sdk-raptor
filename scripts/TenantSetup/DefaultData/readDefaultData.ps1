@@ -159,7 +159,7 @@ $identifiers = Add-Identifier $identifiers @("subscribedSku") $subscribedSku.id
 $site = Invoke-RequestHelper -Uri "sites?search=site" |
     Where-Object { $_.displayName -eq 'The Landing' }
     Select-Object -First 1
-$identifiers = Add-Identifier $identifiers @("site","group") $site.id
+$identifiers = Add-Identifier $identifiers @("site") $site.id
 
 $siteList = Invoke-RequestHelper -Uri "sites/$($site.id)/lists" |
     Where-Object {$_.displayName -eq "Demo Docs"}
@@ -265,8 +265,7 @@ $userEvent = Invoke-RequestHelper -Uri "users/$($identifiers.user._value)/calend
     Where-Object { $_.recurrence -ne $null } | # need a recurring event for "get instances" API call
     Select-Object -First 1
 $identifiers = Add-Identifier $identifiers @("event") $userEvent.id
-$identifiers = Add-Identifier $identifiers @("user", "event","outlookCategory","notebook","todoTaskList","onenoteSection","sectionGroup") $userEvent.id
-
+$identifiers = Add-Identifier $identifiers @("user", "event") $userEvent.id
 # existing constant value in the tenant
 $identifiers = Add-Identifier $identifiers @("serviceHealth") "Exchange Online"
 
