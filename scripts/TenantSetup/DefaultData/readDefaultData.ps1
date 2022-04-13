@@ -266,7 +266,6 @@ $userEvent = Invoke-RequestHelper -Uri "users/$($identifiers.user._value)/calend
     Select-Object -First 1
 $identifiers = Add-Identifier $identifiers @("event") $userEvent.id
 $identifiers = Add-Identifier $identifiers @("user", "event") $userEvent.id
-
 # existing constant value in the tenant
 $identifiers = Add-Identifier $identifiers @("serviceHealth") "Exchange Online"
 
