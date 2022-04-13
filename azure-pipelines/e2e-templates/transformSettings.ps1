@@ -3,7 +3,7 @@
 
 <#
 .Synopsis
-    assigns runsettings values for Raptor tests
+    assigns runsettings values for Raptor tests.
 
 .Description
     assigns runsettings values for Raptor tests
@@ -29,22 +29,28 @@
 .Parameter JavaPreviewLibPath
     Optional. Path containing the core and service library repositories. Using this setting will ignore Java Core and Service lib versions.
 #>
-[CmdletBinding(DefaultParameterSetName='CSharp')]
+[CmdletBinding(DefaultParameterSetName='Default')]
 Param(
     [Parameter(Mandatory = $true, ParameterSetName="CSharp")]
     [Parameter(Mandatory = $false, ParameterSetName="Java")]
+    [Parameter(Mandatory = $false, ParameterSetName="Default")]
     [string]$Version,
     [Parameter(Mandatory = $true, ParameterSetName="CSharp")]
     [Parameter(Mandatory = $false, ParameterSetName="Java")]
+    [Parameter(Mandatory = $false, ParameterSetName="Default")]
     [string]$TestType,
-    [Parameter(Mandatory = $false, ParameterSetName="CSharp")][string]$DllPath,
+    [Parameter(Mandatory = $false, ParameterSetName="CSharp")]
+    [string]$DllPath,
     [Parameter(Mandatory = $true, ParameterSetName="CSharp")]
     [Parameter(Mandatory = $false, ParameterSetName="Java")]
+    [Parameter(Mandatory = $false, ParameterSetName="Default")]
     [string]$Language,
     [Parameter(Mandatory = $true, ParameterSetName="CSharp")]
     [Parameter(Mandatory = $true, ParameterSetName="Java")]
+    [Parameter(Mandatory = $true, ParameterSetName="Default")]
     [string]$RunSettingsPath,
-    [Parameter(Mandatory = $false, ParameterSetName="Java")][string]$JavaPreviewLibPath=""
+    [Parameter(Mandatory = $false, ParameterSetName="Java")]
+    [string]$JavaPreviewLibPath=""
 )
 
 $mapping = @{}

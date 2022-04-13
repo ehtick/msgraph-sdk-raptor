@@ -17,9 +17,10 @@ namespace TypeScriptV1Tests
         private static Dictionary<string, Collection<Dictionary<string, string>>> NpmResults;
         private static string testingPath;
 
-        private static readonly RunSettings TestRunSettings = new (
+        private static RunSettings TestRunSettings => new RunSettings(
             TestContext.Parameters,
-            new RunSettings(){
+            new RunSettings()
+            {
                 Version = Versions.V1,
                 Language = Languages.TypeScript,
                 TestType = TestType.CompilationStable

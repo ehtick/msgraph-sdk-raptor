@@ -54,12 +54,9 @@ jobs:
         customCommand: 'install -g typescript'
 
     - pwsh: |
-        $(Build.SourcesDirectory)/msgraph-sdk-raptor/azure-pipelines/e2e-templates/transformSettings.ps1 -RunSettingsPath $env:RunSettingsPath -Language $env:Language -Version $env:Version -TestType $env:TestType
+        $(Build.SourcesDirectory)/msgraph-sdk-raptor/azure-pipelines/e2e-templates/transformSettings.ps1 -RunSettingsPath $env:RunSettingsPath
       env:
         RunSettingsPath: '$(Build.SourcesDirectory)/msgraph-sdk-raptor/Test.runsettings'
-        Language: 'TypeScript'
-        Version: 'v1.0'
-        TestType: 'CompilationStable'
       displayName: 'Replace test settings parameters'
 
     - script: dir $(Build.SourcesDirectory)

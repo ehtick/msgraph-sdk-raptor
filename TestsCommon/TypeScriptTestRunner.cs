@@ -127,7 +127,7 @@ import { AzureIdentityAuthenticationProvider } from '@microsoft/kiota-authentica
             string[] lines = codeSnippetFormatted.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
             var imports = new HashSet<string>();
-            var excludedTypes = new List<string>() { "Map<string, unknown>", "DateTimeTimeZone", "Date", "GraphServiceClient" };
+            var excludedTypes = new List<string>() { "DateTimeTimeZone", "Date", "GraphServiceClient" };
 
             var declarationList = new HashSet<string>();
 
@@ -223,66 +223,8 @@ import { AzureIdentityAuthenticationProvider } from '@microsoft/kiota-authentica
             var ProcessName = isWindowsPlatform ? "powershell" : NpmProcessName;
             var ProcessArgs = isWindowsPlatform ? $"{NpmProcessName} {NpmProcessArgs}" : NpmProcessArgs;
 
-            using var tscProcess = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = ProcessName,
-                    Arguments = ProcessArgs,
-                    RedirectStandardError = true,
-                    RedirectStandardOutput = true,
-                    WorkingDirectory = WorkingDir,
-                },
-            };
-            tscProcess.Start();
-
-
-            var stdOuputSB = new StringBuilder();
-            var stdErrSB = new StringBuilder();
-            using var outputWaitHandle = new AutoResetEvent(false);
-            using var errorWaitHandle = new AutoResetEvent(false);
-            tscProcess.OutputDataReceived += (sender, e) => {
-                if (string.IsNullOrEmpty(e.Data))
-                {
-                    outputWaitHandle.Set();
-                }
-                else
-                {
-                    stdOuputSB.Append(e.Data);
-                }
-            };
-            tscProcess.ErrorDataReceived += (sender, e) =>
-            {
-                if (string.IsNullOrEmpty(e.Data))
-                {
-                    errorWaitHandle.Set();
-                }
-                else
-                {
-                    stdErrSB.Append(e.Data);
-                }
-            };
-            tscProcess.Start();
-            tscProcess.BeginOutputReadLine();
-            tscProcess.BeginErrorReadLine();
-
-            var hasExited = tscProcess.WaitForExit(TimeOutInSeconds * 1000);
-            if (!hasExited)
-            {
-                tscProcess.Kill(true);
-                Assert.Fail($"NPM Process '{ProcessName} {ProcessArgs}' timed out");
-            }
-
-            if (tscProcess.ExitCode != 0 && failOnErrorExit)
-            {
-                Assert.Fail($"Process '{ProcessName} {ProcessArgs}' exit code : {tscProcess.ExitCode}");
-            }
-
-
-            var stdOutput = stdOuputSB.ToString();
-            var stdErr = stdErrSB.ToString();
-
-            return (stdOutput, stdErr);
+            // TODO -- Refactor to Async Processing
+            return ProcessSpawner.SpawnProcess(ProcessName, ProcessArgs, WorkingDir, TimeOutInSeconds * 1000).GetAwaiter().GetResult(); 
         }
 
 
@@ -351,7 +293,7 @@ import { AzureIdentityAuthenticationProvider } from '@microsoft/kiota-authentica
 
         /// <summary>
         /// Returns a dictionary of errors by parsing the NPM process strrings.
-        /// 
+        ///
         /// The key is the fileName, and the Value is a collection of errors with an error code and a string
         ///
         /// i.e Dictionary<'fileName', Collection<Dictionary<'errorCode','errorMessage'>>>

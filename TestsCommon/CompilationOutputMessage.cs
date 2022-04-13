@@ -84,7 +84,7 @@ public record CompilationOutputMessage(string CompilationResult, string Code, st
         {
             Languages.CSharp => "GraphServiceClient graphClient = new GraphServiceClient( authProvider );",
             Languages.Java => "GraphServiceClient graphClient = GraphServiceClient.builder().authenticationProvider( authProvider ).buildClient();",
-            Languages.TypeScript => "const graphServiceClient = new GraphServiceClient(requestAdapter);",
+            Languages.TypeScript => "const graphServiceClient = GraphServiceClient.init({authProvider});",
             _ => throw new NotImplementedException($"Language {Language} is not supported"),
         };
     }

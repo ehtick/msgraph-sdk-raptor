@@ -16,12 +16,15 @@ namespace TypeScriptV1KnownFailureTests
         private static Dictionary<string, Collection<Dictionary<string, string>>> NpmResults;
         private static string testingPath;
 
-        private static RunSettings TestRunSettings = new (TestContext.Parameters)
-        {
-            Version = Versions.V1,
-            Language = Languages.TypeScript,
-            TestType = TestType.CompilationKnownIssues
-        };
+        private static RunSettings TestRunSettings => new RunSettings(
+            TestContext.Parameters,
+            new RunSettings()
+            {
+                Version = Versions.V1,
+                Language = Languages.TypeScript,
+                TestType = TestType.CompilationKnownIssues
+            }
+        );
 
         /// <summary>
         /// Prepares the test directory if none exists
