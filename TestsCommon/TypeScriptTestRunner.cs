@@ -202,7 +202,7 @@ import { AzureIdentityAuthenticationProvider } from '@microsoft/kiota-authentica
                 await ExecuteNPMProcess(BuildPath, NpmCommands[x, 0], NpmCommands[x, 1], 600).ConfigureAwait(false);
         }
 
-        /// Creates a temporary folder and initialize the typescript folder
+        /// Creates a temporary folder and initializes the typescript folder
         public static async Task<string> PrepareFolder()
         {
             var RootFolder = SetUpFolder();
