@@ -27,6 +27,9 @@ jobs:
       uses: actions/setup-dotnet@v1.8.2
       with:
         dotnet-version: 6.0.x
+    - name: Allow pushes to the repo
+      run: |
+        git config --global --add safe.directory /github/workspace/msgraph-sdk-raptor
     - name: set environment variables
       run: |
         $branchName = $Env:GITHUB_REF.replace("refs/heads/", "")
