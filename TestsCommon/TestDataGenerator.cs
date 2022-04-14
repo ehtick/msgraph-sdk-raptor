@@ -146,8 +146,8 @@ public static class TestDataGenerator
         var language = runSettings.Language;
         var version = runSettings.Version;
         var documentationLinks = GetDocumentationLinks(version, language);
-        var compilationKnownIssues = KnownIssues.GetCompilationKnownIssues(language, version);
-        var executionKnownIssues = KnownIssues.GetExecutionKnownIssues(language, version);
+        var compilationKnownIssues = GetCompilationKnownIssues(language);
+        var executionKnownIssues = GetExecutionKnownIssues(language);
         var snippetFileNames = documentationLinks.Keys.ToList();
         return from fileName in snippetFileNames                                            // e.g. application-addpassword-csharp-snippets.md
                let arbitraryDllPostfix = runSettings.DllPath == null || runSettings.Language != Languages.CSharp ? string.Empty : "arbitraryDll-"

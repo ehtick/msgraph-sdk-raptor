@@ -5,25 +5,33 @@ public static class CSharpKnownIssues
     /// <summary>
     /// Gets known issues
     /// </summary>
-    /// <param name="versionEnum">version to get the known issues for</param>
     /// <returns>A mapping of test names into known CSharp issues</returns>
-    public static Dictionary<string, KnownIssue> GetCSharpCompilationKnownIssues(Versions versionEnum)
+    public static Dictionary<string, KnownIssue> GetCSharpCompilationKnownIssues()
     {
-        var version = versionEnum.ToString();
         return new Dictionary<string, KnownIssue>()
             {
-                {$"delete-userflowlanguagepage-csharp-{version}-compiles", new KnownIssue(Category.SDK, StreamRequestDoesNotSupportDelete) },
-                {$"unfollow-site-csharp-{version}-compiles", new KnownIssue(Category.SDK, "SDK doesn't convert actions defined on collections to methods.", "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator/issues/250") },
-                {$"follow-site-csharp-{version}-compiles", new KnownIssue(Category.SDK, "SDK doesn't convert actions defined on collections to methods.", "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator/issues/250") },
+                {"delete-userflowlanguagepage-csharp-Beta-compiles", new KnownIssue(Category.SDK, StreamRequestDoesNotSupportDelete) },
+                {"delete-userflowlanguagepage-csharp-V1-compiles", new KnownIssue(Category.SDK, StreamRequestDoesNotSupportDelete) },
+                {"unfollow-site-csharp-Beta-compiles", new KnownIssue(Category.SDK, "SDK doesn't convert actions defined on collections to methods.", "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator/issues/250") },
+                {"unfollow-site-csharp-V1-compiles", new KnownIssue(Category.SDK, "SDK doesn't convert actions defined on collections to methods.", "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator/issues/250") },
+                {"follow-site-csharp-Beta-compiles", new KnownIssue(Category.SDK, "SDK doesn't convert actions defined on collections to methods.", "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator/issues/250") },
+                {"follow-site-csharp-V1-compiles", new KnownIssue(Category.SDK, "SDK doesn't convert actions defined on collections to methods.", "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator/issues/250") },
                 { "get-android-count-csharp-V1-compiles", CountIsNotSupportedKnownIssue },
-                {$"get-group-transitivemembers-count-csharp-{version}-compiles", CountIsNotSupportedKnownIssue },
+                {"get-group-transitivemembers-count-csharp-Beta-compiles", CountIsNotSupportedKnownIssue },
+                {"get-group-transitivemembers-count-csharp-V1-compiles", CountIsNotSupportedKnownIssue },
                 { "get-transitivereports-csharp-Beta-compiles", CountIsNotSupportedKnownIssue},
-                {$"get-phone-count-csharp-{version}-compiles", SearchHeaderIsNotSupportedKnownIssue },
-                {$"get-team-count-csharp-{version}-compiles", SearchHeaderIsNotSupportedKnownIssue },
-                {$"get-tier-count-csharp-{version}-compiles", SearchHeaderIsNotSupportedKnownIssue },
-                {$"get-wa-count-csharp-{version}-compiles", SearchHeaderIsNotSupportedKnownIssue },
-                {$"get-web-count-csharp-{version}-compiles", SearchHeaderIsNotSupportedKnownIssue },
-                {$"get-rooms-in-roomlist-csharp-{version}-compiles", new KnownIssue(Category.SDK, "SDK doesn't generate type segment in OData URL.", GitHubIssue: "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator/issues/239") },
+                {"get-phone-count-csharp-Beta-compiles", SearchHeaderIsNotSupportedKnownIssue },
+                {"get-phone-count-csharp-V1-compiles", SearchHeaderIsNotSupportedKnownIssue },
+                {"get-team-count-csharp-Beta-compiles", SearchHeaderIsNotSupportedKnownIssue },
+                {"get-team-count-csharp-V1-compiles", SearchHeaderIsNotSupportedKnownIssue },
+                {"get-tier-count-csharp-Beta-compiles", SearchHeaderIsNotSupportedKnownIssue },
+                {"get-tier-count-csharp-V1-compiles", SearchHeaderIsNotSupportedKnownIssue },
+                {"get-wa-count-csharp-Beta-compiles", SearchHeaderIsNotSupportedKnownIssue },
+                {"get-wa-count-csharp-V1-compiles", SearchHeaderIsNotSupportedKnownIssue },
+                {"get-web-count-csharp-Beta-compiles", SearchHeaderIsNotSupportedKnownIssue },
+                {"get-web-count-csharp-V1-compiles", SearchHeaderIsNotSupportedKnownIssue },
+                {"get-rooms-in-roomlist-csharp-Beta-compiles", new KnownIssue(Category.SDK, "SDK doesn't generate type segment in OData URL.", GitHubIssue: "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator/issues/239") },
+                {"get-rooms-in-roomlist-csharp-V1-compiles", new KnownIssue(Category.SDK, "SDK doesn't generate type segment in OData URL.", GitHubIssue: "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator/issues/239") },
                 { "create-externaldomainname-from--csharp-Beta-compiles", TypeCastIsNotSupportedKnownIssue},
                 { "list-externaldomainname-csharp-Beta-compiles", TypeCastIsNotSupportedKnownIssue},
                 { "reportroot-getm365appplatformusercounts-csv-csharp-Beta-compiles", MissingContentPropertyKnownIssue },
@@ -58,7 +66,8 @@ public static class CSharpKnownIssues
                 { "create-noncustodialdatasource-from-email-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
                 { "create-noncustodialdatasource-from-siteurl-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
                 { "create-externalregistration-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Online meeting registration uses addAsync instead of createAsync", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/857")},
-                { $"create-schema-from-connection-async-csharp-{version}-compiles", new KnownIssue(Category.SnippetGeneration, SnippetGenerationCreateAsyncSupport, SnippetGenerationCreateAsyncSupportGithubIssue) },
+                { "create-schema-from-connection-async-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, SnippetGenerationCreateAsyncSupport, SnippetGenerationCreateAsyncSupportGithubIssue) },
+                { "create-schema-from-connection-async-csharp-V1-compiles", new KnownIssue(Category.SnippetGeneration, SnippetGenerationCreateAsyncSupport, SnippetGenerationCreateAsyncSupportGithubIssue) },
                 { "update-deployment-1-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
                 { "update-deployment-2-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
                 { "reports-getuserarchivedprintjobs-csharp-Beta-compiles", DateTimeOffsetHandlingInUrlsKnownIssue },
@@ -75,8 +84,9 @@ public static class CSharpKnownIssues
                 { "delete-educationrubric-from-educationassignment-csharp-V1-compiles", EducationAssignmentRubricContainsTargetPreprocessorKnownIssue},
                 { "add-educationcategory-to-educationassignment-csharp-V1-compiles", EducationAssignmentRubricContainsTargetPreprocessorKnownIssue},
 
-                { $"create-certificatebasedauthconfiguration-from-certificatebasedauthconfiguration-csharp-{version}-compiles", new KnownIssue(Category.HTTP, RefNeeded, "https://github.com/microsoftgraph/microsoft-graph-docs/issues/14004") },
-                { $"create-tokenlifetimepolicy-from-application-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefNeeded) },
+                { "create-certificatebasedauthconfiguration-from-certificatebasedauthconfiguration-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefNeeded, "https://github.com/microsoftgraph/microsoft-graph-docs/issues/14004") },
+                { "create-certificatebasedauthconfiguration-from-certificatebasedauthconfiguration-csharp-V1-compiles", new KnownIssue(Category.HTTP, RefNeeded, "https://github.com/microsoftgraph/microsoft-graph-docs/issues/14004") },
+                { "create-tokenlifetimepolicy-from-application-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefNeeded) },
                 { "accessreviewinstancedecisionitem-recordalldecisions-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "missing filterbycurrentuser param", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/868") },
                 { "synchronization-secrets-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Property Segment in Odata URL not handled", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/485")},
 
@@ -84,17 +94,46 @@ public static class CSharpKnownIssues
                 { "update-passwordlessmicrosoftauthenticatorauthenticationmethodconfiguration-csharp-Beta-compiles", NeedsAnalysisKnownIssue },
                 { "create-connectorgroup-from-connector-csharp-Beta-compiles", NeedsAnalysisKnownIssue },
                 { "managementactiontenantdeploymentstatus-changedeploymentstatus-csharp-Beta-compiles", NeedsAnalysisKnownIssue },
+
+                { "create-directoryobject-from-featurerolloutpolicy-csharp-V1-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("featureRolloutPolicy", "appliesTo"))},
+                { "create-directoryobject-from-featurerolloutpolicy-policies-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("featureRolloutPolicy", "appliesTo"))},
+                { "create-educationrubric-from-educationassignment-csharp-Beta-compiles", EducationAssignmentRubricContainsTargetPreprocessorKnownIssue},
+                { "create-externalsponsor-from-connectedorganization-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "externalSponsor")) },
+                { "create-externalsponsor-from-connectedorganization-csharp-V1-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "externalSponsor")) },
+                { "create-internalsponsor-from-connectedorganization-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "internalSponsor")) },
+                { "create-internalsponsor-from-connectedorganization-csharp-V1-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "internalSponsor")) },
+                { "delete-internalsponsor-from-connectedorganization-csharp-V1-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "internalSponsor")) },
+                { "delete-externalsponsor-from-connectedorganization-csharp-V1-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "externalSponsor")) },
+                { "list-directoryobject-csharp-V1-compiles", new KnownIssue(Category.Metadata, MetadataAddContainsTargetMessage("accessPackageAssignment", "target"))},
+                { "get-analytics-csharp-V1-compiles", new KnownIssue(Category.Metadata, MetadataAddContainsTargetMessage("driveItem", "analytics"))},
+                { "delete-directoryobject-from-featurerolloutpolicy-csharp-V1-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("featureRolloutPolicy", "appliesTo")) },
+                { "delete-directoryobject-from-featurerolloutpolicy-policies-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("featureRolloutPolicy", "appliesTo")) },
+                { "delete-educationrubric-from-educationassignment-csharp-Beta-compiles", EducationAssignmentRubricContainsTargetPreprocessorKnownIssue},
+                { "delete-externalsponsor-from-connectedorganization-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "externalSponsor")) },
+                { "delete-internalsponsor-from-connectedorganization-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "internalSponsor")) },
+                { "remove-incompatiblegroup-from-accesspackage-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("accessPackage", "incompatibleGroups"))},
+
+                { "create-onpremisesagentgroup-from-publishedresource-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefShouldBeRemoved) },
+                { "delete-publishedresource-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefShouldBeRemoved) },
+                
+                { "participant-configuremixer-csharp-Beta-compiles", new KnownIssue(Category.Metadata, "ConfigureMixer doesn't exist in metadata") },
+                { "remove-group-from-rejectedsenderslist-of-group-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("group", "rejectedSender")) },
+                { "remove-user-from-rejectedsenderslist-of-group-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("group", "rejectedSender")) },
+                { "removeonpremisesagentfromanonpremisesagentgroup-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefShouldBeRemoved) },
+                { "securescorecontrolprofiles-update-csharp-Beta-compiles", new KnownIssue(Category.HTTP, HttpSnippetWrong + ": A list of SecureScoreControlStateUpdate objects should be provided instead of placeholder string.") },
+                { "shift-put-csharp-Beta-compiles", IdentitySetAndIdentityShouldNestAdditionalDataKnownIssue },
+                { "shift-put-csharp-V1-compiles", IdentitySetAndIdentityShouldNestAdditionalDataKnownIssue },
+                { "update-openidconnectprovider-csharp-Beta-compiles", new KnownIssue(Category.HTTP, "OpenIdConnectProvider should be specified") },
+                { "create-connector-from-connectorgroup-csharp-Beta-compiles", new KnownIssue(Category.SDK, "Missing method") },
             };
     }
 
     /// <summary>
     /// Gets execution known issues
     /// </summary>
-    /// <param name="versionEnum">version to get the execution known issues for</param>
     /// <returns>A mapping of test names into known CSharp issues</returns>
-    public static Dictionary<string, KnownIssue> GetCSharpExecutionKnownIssues(Versions versionEnum)
+    public static Dictionary<string, KnownIssue> GetCSharpExecutionKnownIssues()
     {
-        var version = versionEnum.ToString();
         return new Dictionary<string, KnownIssue>()
             {
                 // Beta Execution Issues
@@ -170,7 +209,8 @@ public static class CSharpKnownIssues
                 { "get-accesspackageresourceroles-csharp-Beta-executes", MissingDataKnownIssue },
                 { "get-accesspackageassignmentpolicy-expand-customextensionhandlers-csharp-Beta-executes", MissingDataKnownIssue with {GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/940"}},
                 { "get-accesspackageresourceroles2-csharp-Beta-executes", MissingDataKnownIssue },
-                { $"get-accessreviewhistorydefinition-csharp-{version}-executes", MissingDataKnownIssue with { GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/900"}},
+                { "get-accessreviewhistorydefinition-csharp-Beta-executes", MissingDataKnownIssue with { GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/900"}},
+                { "get-accessreviewhistorydefinition-csharp-V1-executes", MissingDataKnownIssue with { GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/900"}},
                 { "get-acronym-csharp-Beta-executes", MissingDataKnownIssue with {GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/960"}},
                 { "get-agentgroups-csharp-Beta-executes", MissingDataKnownIssue },
                 { "get-agents-csharp-Beta-executes", MissingDataKnownIssue },
@@ -198,7 +238,8 @@ public static class CSharpKnownIssues
                 { "get-b2cuserflow-list-userflowidentityproviders-csharp-Beta-executes", MissingPermissionScopeKnownIssue },
                 { "get-b2cuserflows-apiconnectorconfiguration-csharp-Beta-executes", NeedsAnalysisKnownIssue },
                 { "get-b2cuserflows-csharp-Beta-executes", NeedsAnalysisKnownIssue },
-                { $"get-b2xuserflows-apiconnectorconfiguration-csharp-{version}-executes", StructuralPropertiesAreNotHandledKnownIssue},
+                { "get-b2xuserflows-apiconnectorconfiguration-csharp-Beta-executes", StructuralPropertiesAreNotHandledKnownIssue},
+                { "get-b2xuserflows-apiconnectorconfiguration-csharp-V1-executes", StructuralPropertiesAreNotHandledKnownIssue},
                 { "get-bitlockerrecoverykey-1-csharp-Beta-executes", new KnownIssue(Category.Documentation, "endpoint requires UserAgent header", "https://github.com/microsoftgraph/microsoft-graph-docs/issues/15739")},
                 { "get-bitlockerrecoverykey-2-csharp-Beta-executes", new KnownIssue(Category.Documentation, "endpoint requires UserAgent header", "https://github.com/microsoftgraph/microsoft-graph-docs/issues/15739")},
                 { "get-bitlockerrecoverykey-3-csharp-Beta-executes", new KnownIssue(Category.Documentation, "endpoint requires UserAgent header", "https://github.com/microsoftgraph/microsoft-graph-docs/issues/15739")},
@@ -739,7 +780,8 @@ public static class CSharpKnownIssues
                 { "get-workbookpivottable-csharp-V1-executes", MissingPermissionScopeKnownIssue },
                 { "item-search-all-csharp-V1-executes", MissingPermissionScopeKnownIssue },
                 { "list-conversation-members-1-csharp-V1-executes", MissingPermissionScopeKnownIssue },
-                { $"list-serviceannouncementattachment-csharp-{version}-executes", MissingPermissionScopeKnownIssue},
+                { "list-serviceannouncementattachment-csharp-Beta-executes", MissingPermissionScopeKnownIssue},
+                { "list-serviceannouncementattachment-csharp-V1-executes", MissingPermissionScopeKnownIssue},
                 { "user-get-calendarview-csharp-V1-executes", MissingPermissionScopeKnownIssue },
                 { "user-reminderview-csharp-V1-executes", MissingPermissionScopeKnownIssue },
                 { "workbookrange-columnsafter-csharp-V1-executes", MissingPermissionScopeKnownIssue },

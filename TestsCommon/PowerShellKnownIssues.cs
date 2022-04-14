@@ -2,9 +2,8 @@
 
 public static class PowerShellKnownIssues
 {
-    public static Dictionary<string, KnownIssue> GetPowerShellExecutionKnownIssues(Versions versionEnum)
+    public static Dictionary<string, KnownIssue> GetPowerShellExecutionKnownIssues()
     {
-        var version = versionEnum.ToString();
         return new Dictionary<string, KnownIssue>
         {
                 { "list-printusagebyuser-1-powershell-V1-executes", PermissionsMoreThanOnePermissionKnownIssue },
@@ -91,7 +90,8 @@ public static class PowerShellKnownIssues
                 { "get-b2cuserflow-list-userflowidentityproviders-powershell-Beta-executes", MissingPermissionScopeKnownIssue },
                 { "get-b2cuserflows-apiconnectorconfiguration-powershell-Beta-executes", NeedsAnalysisKnownIssue },
                 { "get-b2cuserflows-powershell-Beta-executes", NeedsAnalysisKnownIssue },
-                { $"get-b2xuserflows-apiconnectorconfiguration-powershell-{version}-executes", StructuralPropertiesAreNotHandledKnownIssue},
+                { "get-b2xuserflows-apiconnectorconfiguration-powershell-Beta-executes", StructuralPropertiesAreNotHandledKnownIssue},
+                { "get-b2xuserflows-apiconnectorconfiguration-powershell-V1-executes", StructuralPropertiesAreNotHandledKnownIssue},
                 { "get-bitlockerrecoverykey-1-powershell-Beta-executes", NeedsAnalysisKnownIssue },
                 { "get-bitlockerrecoverykey-2-powershell-Beta-executes", NeedsAnalysisKnownIssue },
                 { "get-bitlockerrecoverykey-3-powershell-Beta-executes", MissingDataKnownIssue },

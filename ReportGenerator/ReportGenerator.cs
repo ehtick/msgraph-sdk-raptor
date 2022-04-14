@@ -88,8 +88,8 @@ class ReportGenerator
         var testNameSuffix = $"{lang}-{version}-{issueType.Suffix()}";
         return (issueType switch
         {
-            IssueType.Execution => CSharpKnownIssues.GetCSharpExecutionKnownIssues(version),
-            IssueType.Compilation => KnownIssues.GetCompilationKnownIssues(language, version),
+            IssueType.Execution => CSharpKnownIssues.GetCSharpExecutionKnownIssues(),
+            IssueType.Compilation => KnownIssues.GetCompilationKnownIssues(language),
             _ => throw new ArgumentException($"Unknown issue type: {issueType}")
         }).Where(kv => kv.Key.EndsWith(testNameSuffix)).ToDictionary(kv => kv.Key, kv => kv.Value);
     }

@@ -13,14 +13,13 @@ namespace TestsCommon
         internal static readonly KnownIssue TypescriptWrongFilterParameterSyntaxKnownIssue = new KnownIssue(Category.Documentation, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/814");
         internal static readonly KnownIssue TypescriptWrongAssignmentKnownIssue = new KnownIssue(Category.Documentation, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/814");
         internal static readonly KnownIssue TypescriptMissingBodyKnownIssue = new KnownIssue(Category.Documentation, GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/814");
+
         /// <summary>
         /// Gets known issues
         /// </summary>
-        /// <param name="versionEnum">version to get the known issues for</param>
         /// <returns>A mapping of test names into known CSharp issues</returns>
-        public static Dictionary<string, KnownIssue> GetTypescriptCompilationKnownIssues(Versions versionEnum)
+        public static Dictionary<string, KnownIssue> GetTypescriptCompilationKnownIssues()
         {
-            var version = versionEnum.ToString();
             return new Dictionary<string, KnownIssue>()
             {
                 {"accessreviewinstance-batchrecorddecisions-typescript-V1-compiles", TypescriptMissingObjectTypeKnownIssue },
