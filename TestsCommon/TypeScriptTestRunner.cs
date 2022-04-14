@@ -173,7 +173,7 @@ import { AzureIdentityAuthenticationProvider } from '@microsoft/kiota-authentica
             return folderPath;
         }
 
-        public static void RunNPMSetUp(string RootPath)
+        public async static Task RunNPMSetUp(string RootPath)
         {
 
             var BuildPath = Path.Combine(RootPath, BUILD_DIR);
@@ -199,14 +199,14 @@ import { AzureIdentityAuthenticationProvider } from '@microsoft/kiota-authentica
 #pragma warning restore CA1814 // Prefer jagged arrays over multidimensional
 
             for (int x = 0; x < NpmCommands.GetLength(0); x++)
-                ExecuteNPMProcess(BuildPath, NpmCommands[x, 0], NpmCommands[x, 1], 600);
+                await ExecuteNPMProcess(BuildPath, NpmCommands[x, 0], NpmCommands[x, 1], 600).ConfigureAwait(false);
         }
 
-        /// Creates a temporary folder and initialies the typescript folder
-        public static string PrepareFolder()
+        /// Creates a temporary folder and initialize the typescript folder
+        public static async Task<string> PrepareFolder()
         {
             var RootFolder = SetUpFolder();
-            RunNPMSetUp(RootFolder);
+            await RunNPMSetUp(RootFolder).ConfigureAwait(false);
 
             return RootFolder;
         }
@@ -216,15 +216,14 @@ import { AzureIdentityAuthenticationProvider } from '@microsoft/kiota-authentica
         /// Executes a tsc process and returns a Tuple of output and error string
         /// </summary>
         /// <returns></returns>
-        public static (string,string) ExecuteNPMProcess(string WorkingDir, string NpmProcessName, string NpmProcessArgs, int TimeOutInSeconds = 300, bool failOnErrorExit= false)
+        public async static Task<(string, string)> ExecuteNPMProcess(string WorkingDir, string NpmProcessName, string NpmProcessArgs, int TimeOutInSeconds = 300, bool failOnErrorExit= false)
         {
 
             var isWindowsPlatform = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             var ProcessName = isWindowsPlatform ? "powershell" : NpmProcessName;
             var ProcessArgs = isWindowsPlatform ? $"{NpmProcessName} {NpmProcessArgs}" : NpmProcessArgs;
 
-            // TODO -- Refactor to Async Processing
-            return ProcessSpawner.SpawnProcess(ProcessName, ProcessArgs, WorkingDir, TimeOutInSeconds * 1000).GetAwaiter().GetResult(); 
+            return await ProcessSpawner.SpawnProcess(ProcessName, ProcessArgs, WorkingDir, TimeOutInSeconds * 1000).ConfigureAwait(false);
         }
 
 
@@ -232,10 +231,10 @@ import { AzureIdentityAuthenticationProvider } from '@microsoft/kiota-authentica
         /// Executes tsc compile and return a string pair of the output and error message from the tsc statement
         /// </summary>
         /// <returns></returns>
-        private static (string, string) CompileTypescriptFiles(string RootPath)
+        private async static Task<(string, string)> CompileTypescriptFiles(string RootPath)
         {
             var BuildPath = Path.Combine(RootPath, "build");
-            return ExecuteNPMProcess(BuildPath, "tsc", "-p tsconfig.json --outDir ./build", 600, false);
+            return await ExecuteNPMProcess(BuildPath, "tsc", "-p tsconfig.json --outDir ./build", 600, false).ConfigureAwait(false);
         }
 
 
@@ -269,7 +268,7 @@ import { AzureIdentityAuthenticationProvider } from '@microsoft/kiota-authentica
         /// <param name="version"></param>
         /// <param name="rootPath"></param>
         /// <returns></returns>
-        public static Dictionary<string, Collection<Dictionary<string, string>>> RunAndParseNPMErrors(Versions version, string rootPath)
+        public async static Task<Dictionary<string, Collection<Dictionary<string, string>>>> RunAndParseNPMErrors(Versions version, string rootPath)
         {
             var result = new Dictionary<string, Collection<Dictionary<string, string>>>();
 
@@ -277,7 +276,7 @@ import { AzureIdentityAuthenticationProvider } from '@microsoft/kiota-authentica
             int retryCount = 0;
             while (retryCount < maxRetryCounts)
             {
-                var errors = ParseNPMErrors(version, CompileTypescriptFiles(rootPath));
+                var errors = ParseNPMErrors(version, await CompileTypescriptFiles(rootPath).ConfigureAwait(false));
                 Merge(result, errors);
 
                 foreach (var item in errors)

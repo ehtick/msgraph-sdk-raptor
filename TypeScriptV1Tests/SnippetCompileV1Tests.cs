@@ -32,15 +32,15 @@ namespace TypeScriptV1Tests
         /// NB: This function will require the pre-requisite packages to exist in the local file system
         /// </summary>
         [OneTimeSetUp]
-        public static void TestsSetUp()
+        public static async Task TestsSetUp()
         {
             var data = TestDataGenerator.GetLanguageTestCaseData(TestRunSettings);
 
-            testingPath = TypeScriptTestRunner.PrepareFolder();
+            testingPath = await TypeScriptTestRunner.PrepareFolder().ConfigureAwait(false);
 
             TypeScriptTestRunner.GenerateFiles(testingPath, data);
 
-            NpmResults = TypeScriptTestRunner.RunAndParseNPMErrors(TestRunSettings.Version, testingPath);
+            NpmResults = await TypeScriptTestRunner.RunAndParseNPMErrors(TestRunSettings.Version, testingPath).ConfigureAwait(false);
         }
 
 
