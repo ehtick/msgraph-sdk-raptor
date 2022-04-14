@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.IO;
 using TestsCommon;
 
@@ -31,15 +32,15 @@ namespace TypeScriptV1KnownFailureTests
         /// NB: This function will require the pre-requisite packages to exist in the local file system
         /// </summary>
         [OneTimeSetUp]
-        public static void TestsSetUp()
+        public async static Task TestsSetUp()
         {
             var data = TestDataGenerator.GetLanguageTestCaseData(TestRunSettings);
 
-            testingPath = TypeScriptTestRunner.PrepareFolder();
+            testingPath = await TypeScriptTestRunner.PrepareFolder().ConfigureAwait(false);
 
             TypeScriptTestRunner.GenerateFiles(testingPath, data);
 
-            NpmResults = TypeScriptTestRunner.RunAndParseNPMErrors(TestRunSettings.Version, testingPath);
+            NpmResults = await TypeScriptTestRunner.RunAndParseNPMErrors(TestRunSettings.Version, testingPath).ConfigureAwait(false);
         }
 
 
