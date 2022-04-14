@@ -14,12 +14,12 @@ jobs:
   create-reports:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2.3.5
+    - uses: actions/checkout@v2.4.1
       with:
         repository: microsoftgraph/microsoft-graph-docs
         path: microsoft-graph-docs
         persist-credentials: false
-    - uses: actions/checkout@v2.3.5
+    - uses: actions/checkout@v2.4.1
       with:
         path: msgraph-sdk-raptor
         persist-credentials: false

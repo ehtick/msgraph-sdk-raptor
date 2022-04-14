@@ -83,14 +83,6 @@ public static class KnownIssues
     internal const string EphemeralDataInServiceText = "Ephemeral Service data that is deleted after an unknown period of time.";
     internal const string NoProgrammaticWayText = "There is no programmatic way to generate this data";
 
-    #region HTTP methods
-    internal const string DELETE = nameof(DELETE);
-    internal const string PUT = nameof(PUT);
-    internal const string POST = nameof(POST);
-    internal const string GET = nameof(GET);
-    internal const string PATCH = nameof(PATCH);
-    #endregion
-
     internal static readonly KnownIssue ExcelItemAtDocumentationKnownIssue = new KnownIssue(Category.Documentation, "Excel documentation inconsistency between ID and itemAt. Could also be a service description issue.", "https://github.com/microsoftgraph/microsoft-graph-docs/issues/14853");
     internal static readonly KnownIssue TypeCastIsNotSupportedKnownIssue = new KnownIssue(Category.SDK, TypeCastIsNotSupported, TypeCastIsNotSupportedGithubIssue);
     internal static readonly KnownIssue SearchHeaderIsNotSupportedKnownIssue = new KnownIssue(Category.SDK, SearchHeaderIsNotSupported, SearchHeaderIsNotSupportedGithubIssue);
@@ -157,86 +149,32 @@ public static class KnownIssues
     }
 
     /// <summary>
-    /// Returns a mapping of issues of which the source comes from service/documentation/metadata and are common accross langauges
-    /// </summary>
-    /// <param name="language">language to generate the exception from</param>
-    /// <returns>mapping of issues of which the source comes from service/documentation/metadata and are common accross langauges</returns>
-    public static Dictionary<string, KnownIssue> GetCompilationCommonIssues(Languages language, Versions versionEnum)
-    {
-        var version = versionEnum.ToString();
-        var lng = language.AsString();
-        return new Dictionary<string, KnownIssue>()
-            {
-                { $"call-updatemetadata-java-Beta-compiles", new KnownIssue(Category.Metadata, "updateMetadata doesn't exist in metadata") },
-                { $"create-directoryobject-from-featurerolloutpolicy-java-{version}-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("featureRolloutPolicy", "appliesTo"))},
-                { $"create-directoryobject-from-featurerolloutpolicy-csharp-V1-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("featureRolloutPolicy", "appliesTo"))},
-                { $"create-directoryobject-from-featurerolloutpolicy-policies-{lng}-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("featureRolloutPolicy", "appliesTo"))},
-                { $"create-educationrubric-from-educationassignment-{lng}-Beta-compiles", EducationAssignmentRubricContainsTargetPreprocessorKnownIssue},
-                { $"create-externalsponsor-from-connectedorganization-{lng}-{version}-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "externalSponsor")) },
-                { $"create-internalsponsor-from-connectedorganization-{lng}-{version}-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "internalSponsor")) },
-                { $"delete-internalsponsor-from-connectedorganization-{lng}-V1-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "internalSponsor")) },
-                { $"delete-externalsponsor-from-connectedorganization-{lng}-V1-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "externalSponsor")) },
-                { $"list-directoryobject-{lng}-V1-compiles", new KnownIssue(Category.Metadata, MetadataAddContainsTargetMessage("accessPackageAssignment", "target"))},
-                { $"get-analytics-{lng}-V1-compiles", new KnownIssue(Category.Metadata, MetadataAddContainsTargetMessage("driveItem", "analytics"))},
-                { $"delete-directoryobject-from-featurerolloutpolicy-java-{version}-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("featureRolloutPolicy", "appliesTo")) },
-                { $"delete-directoryobject-from-featurerolloutpolicy-csharp-V1-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("featureRolloutPolicy", "appliesTo")) },
-                { $"delete-directoryobject-from-featurerolloutpolicy-policies-{lng}-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("featureRolloutPolicy", "appliesTo")) },
-                { $"delete-educationrubric-from-educationassignment-{lng}-Beta-compiles", EducationAssignmentRubricContainsTargetPreprocessorKnownIssue},
-                { $"delete-externalsponsor-from-connectedorganization-{lng}-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "externalSponsor")) },
-                { $"delete-internalsponsor-from-connectedorganization-{lng}-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "internalSponsor")) },
-                { $"directoryobject-delta-java-Beta-compiles", new KnownIssue(Category.Metadata, "Delta is not defined on directoryObject, but on user and group") },
-                { $"remove-incompatiblegroup-from-accesspackage-{lng}-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("accessPackage", "incompatibleGroups"))},
-
-                { $"create-onpremisesagentgroup-from-publishedresource-{lng}-Beta-compiles", new KnownIssue(Category.HTTP, RefShouldBeRemoved) },
-                { $"create-reference-attachment-with-post-java-V1-compiles", new KnownIssue(Category.HTTP, GetPropertyNotFoundMessage("ReferenceAttachment", "SourceUrl, ProviderType, Permission and IsFolder")) },
-                { $"create-directoryobject-from-orgcontact-java-Beta-compiles", new KnownIssue(Category.HTTP, RefNeeded) },
-                { $"delete-publishedresource-{lng}-Beta-compiles", new KnownIssue(Category.HTTP, RefShouldBeRemoved) },
-                { $"get-endpoint-java-V1-compiles", new KnownIssue(Category.HTTP, "This is only available in Beta") },
-                { $"get-endpoints-java-V1-compiles", new KnownIssue(Category.HTTP, "This is only available in Beta") },
-                { $"get-identityriskevent-java-Beta-compiles", new KnownIssue(Category.HTTP, IdentityRiskEvents) },
-                { $"get-identityriskevents-java-Beta-compiles", new KnownIssue(Category.HTTP, IdentityRiskEvents) },
-
-                { $"participant-configuremixer-{lng}-Beta-compiles", new KnownIssue(Category.Metadata, "ConfigureMixer doesn't exist in metadata") },
-                { $"remove-group-from-rejectedsenderslist-of-group-{lng}-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("group", "rejectedSender")) },
-                { $"remove-user-from-rejectedsenderslist-of-group-{lng}-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("group", "rejectedSender")) },
-                { $"removeonpremisesagentfromanonpremisesagentgroup-{lng}-Beta-compiles", new KnownIssue(Category.HTTP, RefShouldBeRemoved) },
-                { $"securescorecontrolprofiles-update-{lng}-Beta-compiles", new KnownIssue(Category.HTTP, HttpSnippetWrong + ": A list of SecureScoreControlStateUpdate objects should be provided instead of placeholder string.") },
-                { $"shift-put-{lng}-{version}-compiles", IdentitySetAndIdentityShouldNestAdditionalDataKnownIssue },
-                { $"update-openidconnectprovider-{lng}-Beta-compiles", new KnownIssue(Category.HTTP, "OpenIdConnectProvider should be specified") },
-                { $"update-teamsapp-java-V1-compiles", new KnownIssue(Category.Metadata, $"teamsApp needs hasStream=true. In addition to that, we need these fixed: {Environment.NewLine}https://github.com/microsoftgraph/msgraph-sdk-dotnet-core/issues/160 {Environment.NewLine}https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/336") },
-                { $"create-connector-from-connectorgroup-{lng}-Beta-compiles", new KnownIssue(Category.SDK, "Missing method") },
-            };
-    }
-
-    /// <summary>
     /// Gets known issues by language
     /// </summary>
     /// <param name="language">language to get the issues for</param>
-    /// <param name="version">version to get the issues for</param>
     /// <returns>A mapping of test names into known issues</returns>
-    public static Dictionary<string, KnownIssue> GetCompilationKnownIssues(Languages language, Versions version)
-    {
-        return (language switch
-        {
-            Languages.CSharp => GetCSharpCompilationKnownIssues(version),
-            Languages.Java => GetJavaCompilationKnownIssues(version),
-            Languages.TypeScript => GetTypescriptCompilationKnownIssues(version),
-            _ => new Dictionary<string, KnownIssue>()
-        }).Union(GetCompilationCommonIssues(language, version)).ToDictionary(x => x.Key, x => x.Value);
-    }
-
-    /// <summary>
-    /// Gets known issues by language
-    /// </summary>
-    /// <param name="language">language to get the issues for</param>
-    /// <param name="version">version to get the issues for</param>
-    /// <returns>A mapping of test names into known issues</returns>
-    public static Dictionary<string, KnownIssue> GetExecutionKnownIssues(Languages language, Versions version)
+    public static Dictionary<string, KnownIssue> GetCompilationKnownIssues(Languages language)
     {
         return language switch
         {
-            Languages.CSharp => GetCSharpExecutionKnownIssues(version),
-            Languages.PowerShell => GetPowerShellExecutionKnownIssues(version),
+            Languages.CSharp => GetCSharpCompilationKnownIssues(),
+            Languages.Java => GetJavaCompilationKnownIssues(),
+            Languages.TypeScript => GetTypescriptCompilationKnownIssues(),
+            _ => new Dictionary<string, KnownIssue>()
+        };
+    }
+
+    /// <summary>
+    /// Gets known issues by language
+    /// </summary>
+    /// <param name="language">language to get the issues for</param>
+    /// <returns>A mapping of test names into known issues</returns>
+    public static Dictionary<string, KnownIssue> GetExecutionKnownIssues(Languages language)
+    {
+        return language switch
+        {
+            Languages.CSharp => GetCSharpExecutionKnownIssues(),
+            Languages.PowerShell => GetPowerShellExecutionKnownIssues(),
             _ => new Dictionary<string, KnownIssue>()
         };
     }
