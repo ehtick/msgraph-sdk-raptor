@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Azure;
-using Microsoft.Extensions.Configuration.AzureAppConfiguration;
+﻿using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 
 namespace MsGraphSDKSnippetsCompiler;
 
@@ -72,10 +71,7 @@ public static class AppSettings
     /// </returns>
     public static string GetAppConfigLabel(IConfigurationRoot config, bool isLocalRun)
     {
-        if (config == null)
-        {
-            throw new ArgumentNullException(nameof(config));
-        }
+        ArgumentNullException.ThrowIfNull(config);
 
         const string RaptorConfigLabel = "RAPTOR_CONFIGLABEL";
         var customLabel = config[RaptorConfigLabel];

@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 
-using System;
-
 namespace TestsCommon;
 
 // Owner is used to categorize known test failures, so that we can redirect issues faster
@@ -107,10 +105,7 @@ public static class TestDataGenerator
     /// </returns>
     public static IEnumerable<TestCaseData> GetExecutionTestData(RunSettings runSettings)
     {
-        if (runSettings == null)
-        {
-            throw new ArgumentNullException(nameof(runSettings));
-        }
+        ArgumentNullException.ThrowIfNull(runSettings);
 
         bool CsharpFilter(LanguageTestData executionTestData) => executionTestData.FileContent.Contains("GetAsync()");
         bool PowerShellFilter(LanguageTestData executionTestData) => executionTestData.FileContent.Contains("Get-");
@@ -138,10 +133,7 @@ public static class TestDataGenerator
 
     private static IEnumerable<LanguageTestData> GetLanguageTestData(RunSettings runSettings)
     {
-        if (runSettings == null)
-        {
-            throw new ArgumentNullException(nameof(runSettings));
-        }
+        ArgumentNullException.ThrowIfNull(runSettings);
 
         var language = runSettings.Language;
         var version = runSettings.Version;

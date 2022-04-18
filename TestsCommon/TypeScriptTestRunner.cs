@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace TestsCommon
@@ -70,11 +69,8 @@ import { AzureIdentityAuthenticationProvider } from '@microsoft/kiota-authentica
         /// <param name="testData">Test data containing information such as snippet file name</param>
         public static void RunTest(string path, LanguageTestData testData, Dictionary<string, Collection<Dictionary<string, string>>> npmResults)
         {
-            if (npmResults == null)
-                throw new ArgumentNullException(nameof(npmResults));
-
-            if (testData == null)
-                throw new ArgumentNullException(nameof(testData));
+            ArgumentNullException.ThrowIfNull(npmResults);
+            ArgumentNullException.ThrowIfNull(testData);
 
 #pragma warning disable CA1308 // Normalize strings to uppercase
             var fileName = $"{FILE_PREFIX}-{testData.FileName.ToLowerInvariant().Replace(" ", "-")}.ts";
@@ -95,24 +91,24 @@ import { AzureIdentityAuthenticationProvider } from '@microsoft/kiota-authentica
         }
 
 
-        public static void GenerateFiles(string RootPath, IEnumerable<LanguageTestData> data)
+        public static void GenerateFiles(string rootPath, IEnumerable<LanguageTestData> data)
         {
-            if (data == null)
-                throw new ArgumentNullException(nameof(data));
+            ArgumentNullException.ThrowIfNull(rootPath);
+            ArgumentNullException.ThrowIfNull(data);
 
-            foreach (var testData in data) GenerateFiles(RootPath, testData);
+            foreach (var testData in data) GenerateFiles(rootPath, testData);
         }
 
         /// <summary>
         ///  Generates a file in the typescript test folder using the test language model
         /// </summary>
         /// <param name="testData"></param>
-        private static void GenerateFiles(string RootPath, LanguageTestData testData)
+        private static void GenerateFiles(string rootPath, LanguageTestData testData)
         {
-            var buildPath = Path.Combine(RootPath, BUILD_DIR);
+            ArgumentNullException.ThrowIfNull(rootPath);
+            ArgumentNullException.ThrowIfNull(testData);
 
-            if(testData == null)
-                throw new ArgumentNullException(nameof(testData));
+            var buildPath = Path.Combine(rootPath, BUILD_DIR);
 
             var fullPath = Path.Join(GraphDocsDirectory.GetSnippetsDirectory(testData.Version, Languages.TypeScript), testData.FileName);
             Assert.IsTrue(File.Exists(fullPath), "Snippet file referenced in documentation is not found!");

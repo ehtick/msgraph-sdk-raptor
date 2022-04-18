@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-namespace ReportGenerator;
+﻿namespace ReportGenerator;
 
 class ReportGenerator
 {

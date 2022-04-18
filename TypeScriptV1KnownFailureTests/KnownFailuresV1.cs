@@ -3,7 +3,6 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.IO;
 using TestsCommon;
 
 namespace TypeScriptV1KnownFailureTests

@@ -53,10 +53,7 @@ public static class CSharpTestRunner
     /// <param name="testData">Test data containing information such as snippet file name</param>
     public static void Compile(LanguageTestData testData)
     {
-        if (testData == null)
-        {
-            throw new ArgumentNullException(nameof(testData));
-        }
+        ArgumentNullException.ThrowIfNull(testData);
 
         var (codeToCompile, codeSnippetFormatted) = GetCodeToCompile(testData.FileContent);
 
@@ -80,10 +77,7 @@ public static class CSharpTestRunner
     /// <param name="testData">Test data containing information such as snippet file name</param>
     public static async Task Execute(LanguageTestData testData)
     {
-        if (testData == null)
-        {
-            throw new ArgumentNullException(nameof(testData));
-        }
+        ArgumentNullException.ThrowIfNull(testData);
 
         var (codeToCompile, codeSnippetFormatted) = GetCodeToExecute(testData.FileContent);
 

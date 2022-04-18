@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MsGraphSDKSnippetsCompiler.Models;
-using System.Diagnostics;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Threading;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace MsGraphSDKSnippetsCompiler
 {
@@ -29,10 +17,8 @@ namespace MsGraphSDKSnippetsCompiler
 
         public static IReadOnlyCollection<Diagnostic> GetDiagnostics(string fileName, Collection<Dictionary<string, string>> errorList)
         {
-            if (errorList == null)
-            {
-                throw new ArgumentNullException(nameof(errorList));
-            }
+            ArgumentNullException.ThrowIfNull(fileName);
+            ArgumentNullException.ThrowIfNull(errorList);
 
             var result = new List<Diagnostic>();
 

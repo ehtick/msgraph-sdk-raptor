@@ -1,5 +1,4 @@
 ﻿using System.Security.Cryptography.X509Certificates;
-using Azure;
 using Azure.Security.KeyVault.Certificates;
 
 namespace MsGraphSDKSnippetsCompiler.Models;

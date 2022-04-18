@@ -28,29 +28,14 @@
         public static async Task<Scope[]> GetScopes(LanguageTestData testData, string path, string method,
             Dictionary<string, string> edgeCases)
         {
-            if (testData == null)
-            {
-                throw new ArgumentNullException(nameof(testData));
-            }
-
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            if (method == null)
-            {
-                throw new ArgumentNullException(nameof(method));
-            }
-
-            if (edgeCases == null)
-            {
-                throw new ArgumentNullException(nameof(edgeCases));
-            }
+            ArgumentNullException.ThrowIfNull(testData);
+            ArgumentNullException.ThrowIfNull(path);
+            ArgumentNullException.ThrowIfNull(method);
+            ArgumentNullException.ThrowIfNull(edgeCases);
 
             if (string.IsNullOrWhiteSpace(path))
             {
-                throw new ArgumentNullException(nameof(path));
+                throw new ArgumentException("path shouldn't be white space!");
             }
 
             var versionSegmentLength = "/v1.0".Length;
@@ -104,10 +89,8 @@
 
         public static async Task<Scope[]> GetScopes(HttpRequestMessage message, LanguageTestData testData)
         {
-            if (message == null)
-            {
-                throw new ArgumentNullException(nameof(message));
-            }
+            ArgumentNullException.ThrowIfNull(message);
+            ArgumentNullException.ThrowIfNull(testData);
 
             return await GetScopes(testData, message.RequestUri.LocalPath, message.Method.ToString(), EdgeCases)
                 .ConfigureAwait(false);
@@ -115,14 +98,9 @@
 
         public static async Task<Scope[]> GetScopes(LanguageTestData testData, string path, string method)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-            if (method == null)
-            {
-                throw new ArgumentNullException(nameof(method));
-            }
+            ArgumentNullException.ThrowIfNull(testData);
+            ArgumentNullException.ThrowIfNull(path);
+            ArgumentNullException.ThrowIfNull(method);
 
             return await GetScopes(testData, path, method, EdgeCases)
                 .ConfigureAwait(false);
