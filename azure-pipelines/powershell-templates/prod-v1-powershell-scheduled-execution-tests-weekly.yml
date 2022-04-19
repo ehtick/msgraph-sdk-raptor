@@ -40,10 +40,10 @@ jobs:
   strategy:
     maxParallel: 2
     matrix:
-        PowerShellBetaExecutionTests:
-            projectFileName: PowerShellBetaExecutionTests
-        PowerShellBetaExecutionKnownFailureTests:
-            projectFileName: PowerShellBetaExecutionKnownFailureTests
+        PowerShellV1ExecutionTests:
+            projectFileName: PowerShellV1ExecutionTests
+        PowerShellV1ExecutionKnownFailureTests:
+            projectFileName: PowerShellV1ExecutionKnownFailureTests
   steps:
   - template: powershell-execution-tests-template.yml
     parameters:
