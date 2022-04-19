@@ -96,10 +96,7 @@ public class IdentifierReplacer
 
     public string ReplaceIds(string input)
     {
-        if (input == null)
-        {
-            throw new ArgumentNullException(nameof(input));
-        }
+        ArgumentNullException.ThrowIfNull(input);
         // Start with Regex Edge Cases replacement.
         var regexEdgeCases = RegexReplaceEdgeCases(EdgeCaseRegexes, input);
         var baseEdgeCases = ReplaceEdgeCases(regexEdgeCases);
@@ -190,10 +187,7 @@ public class IdentifierReplacer
     /// <returns>input string, but its placeholders replaced from IDTree</returns>
     private string ReplaceIdsFromIdentifiersFile(string input)
     {
-        if (input == null)
-        {
-            throw new ArgumentNullException(nameof(input));
-        }
+        ArgumentNullException.ThrowIfNull(input);
 
         var matches = _identifierRegex.Matches(input);
         IDTree currentIdNode = _tree;
@@ -229,20 +223,9 @@ public class IdentifierReplacer
     /// <returns>input string with first instance of substring replaced</returns>
     private static string ReplaceFirst(string input, string substring, string replacement)
     {
-        if (input == null)
-        {
-            throw new ArgumentNullException(nameof(input));
-        }
-
-        if (string.IsNullOrEmpty(substring))
-        {
-            throw new ArgumentNullException(nameof(substring));
-        }
-
-        if (replacement == null)
-        {
-            throw new ArgumentNullException(nameof(replacement));
-        }
+        ArgumentNullException.ThrowIfNull(input);
+        ArgumentNullException.ThrowIfNull(substring);
+        ArgumentNullException.ThrowIfNull(replacement);
 
         var index = input.IndexOf(substring, StringComparison.OrdinalIgnoreCase);
         if (index < 0)

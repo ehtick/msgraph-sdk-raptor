@@ -1,6 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Management.Automation;
-using System.Management.Automation.Runspaces;
 using Microsoft.PowerShell;
 
 namespace TestsCommon;
@@ -35,15 +33,8 @@ internal static class HostedRunSpace
         string scriptContents,
         Scope currentScope = default)
     {
-        if (commands == null)
-        {
-            throw new ArgumentNullException(nameof(commands));
-        }
-
-        if (output == null)
-        {
-            throw new ArgumentNullException(nameof(output));
-        }
+        ArgumentNullException.ThrowIfNull(commands);
+        ArgumentNullException.ThrowIfNull(output);
 
         var currentState = CreateDefaultState();
         using var ps = PowerShell.Create(currentState);

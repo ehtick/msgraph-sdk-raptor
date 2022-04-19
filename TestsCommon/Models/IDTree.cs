@@ -101,15 +101,8 @@ public class IDTreeConverter : JsonConverter<IDTree>
     public override void Write(Utf8JsonWriter writer, IDTree tree, JsonSerializerOptions options)
 #pragma warning restore CA1725 // Parameter names should match base declaration
     {
-        if (writer == null)
-        {
-            throw new ArgumentNullException(nameof(writer));
-        }
-
-        if (tree == null)
-        {
-            throw new ArgumentNullException(nameof(tree));
-        }
+        ArgumentNullException.ThrowIfNull(writer);
+        ArgumentNullException.ThrowIfNull(tree);
 
         writer.WriteStartObject();
         if (tree.Value is not null)

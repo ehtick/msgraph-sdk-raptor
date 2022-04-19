@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using System.Diagnostics;
 namespace TestsCommon;
 
 public class JavaTestRunner
@@ -77,10 +76,7 @@ public class App
     /// <param name="testData">Test data containing information such as snippet file name</param>
     public async Task Run(LanguageTestData testData)
     {
-        if (testData == null)
-        {
-            throw new ArgumentNullException(nameof(testData));
-        }
+        ArgumentNullException.ThrowIfNull(testData);
 
         var (stdout, stderr) = await ProcessSpawner.SpawnProcess
         (
@@ -103,7 +99,7 @@ public class App
 
     public async Task PrepareCompilationEnvironment(IEnumerable<LanguageTestData> languageTestData)
     {
-        _ = languageTestData ?? throw new ArgumentNullException(nameof(languageTestData));
+        ArgumentNullException.ThrowIfNull(languageTestData);
         
         var firstLanguageTestData = languageTestData.First();
         var isPreview = !string.IsNullOrEmpty(firstLanguageTestData.JavaPreviewLibPath);

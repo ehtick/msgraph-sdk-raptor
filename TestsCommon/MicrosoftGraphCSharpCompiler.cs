@@ -61,7 +61,8 @@ global using KeyValuePair = Microsoft.Graph.KeyValuePair;
 
     public MicrosoftGraphCSharpCompiler(LanguageTestData testData)
     {
-        TestData = testData ?? throw new ArgumentNullException(nameof(testData));
+        ArgumentNullException.ThrowIfNull(testData);
+        TestData = testData;
     }
 
     /// <summary>

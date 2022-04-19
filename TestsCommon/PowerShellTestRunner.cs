@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Management.Automation;
 using Azure.Core;
 using static MsGraphSDKSnippetsCompiler.PermissionScopes;
 using static TestsCommon.HostedRunSpace;
@@ -41,10 +40,8 @@ public static class PowerShellTestRunner
 
     public static async Task Execute(LanguageTestData testData)
     {
-        if (testData == null)
-        {
-            throw new ArgumentNullException(nameof(testData));
-        }
+        ArgumentNullException.ThrowIfNull(testData);
+
         var snippet = GetSnippetToExecute(testData.FileContent);
         var graphCommandDetails = GetGraphCommandDetails(testData, snippet);
         var delegatedScopes = await GetScopes(testData, graphCommandDetails.Uri, graphCommandDetails.Method)

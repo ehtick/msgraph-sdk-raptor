@@ -181,15 +181,8 @@ public class PermissionManager
     /// <returns>created application</returns>
     public async Task<Application> CreateApplication(string applicationName, string scopeGuid)
     {
-        if (applicationName is null)
-        {
-            throw new ArgumentNullException(nameof(applicationName));
-        }
-
-        if (scopeGuid is null)
-        {
-            throw new ArgumentNullException(nameof(scopeGuid));
-        }
+        ArgumentNullException.ThrowIfNull(applicationName);
+        ArgumentNullException.ThrowIfNull(scopeGuid);
 
         var resourceAccess = new ResourceAccess
         {
@@ -229,10 +222,7 @@ public class PermissionManager
     /// <returns>updated application</returns>
     public async Task<Application> UpdateApplication(IEnumerable<string> scopeGuids)
     {
-        if (scopeGuids is null)
-        {
-            throw new ArgumentNullException(nameof(scopeGuids));
-        }
+        ArgumentNullException.ThrowIfNull(scopeGuids);
 
         var listOfResourceAccesses = new List<ResourceAccess>();
         foreach (var scopeGuid in scopeGuids)
@@ -293,20 +283,9 @@ public class PermissionManager
     /// <returns>created permission grant object</returns>
     public async Task<OAuth2PermissionGrant> CreateOAuthPermission(string clientId, string resourceId, string scope)
     {
-        if (clientId is null)
-        {
-            throw new ArgumentNullException(nameof(clientId));
-        }
-
-        if (resourceId is null)
-        {
-            throw new ArgumentNullException(nameof(resourceId));
-        }
-
-        if (scope is null)
-        {
-            throw new ArgumentNullException(nameof(scope));
-        }
+        ArgumentNullException.ThrowIfNull(clientId);
+        ArgumentNullException.ThrowIfNull(resourceId);
+        ArgumentNullException.ThrowIfNull(scope);
 
         var oauthPermission = new OAuth2PermissionGrant
         {
@@ -331,10 +310,7 @@ public class PermissionManager
     /// <returns>created service principal</returns>
     public async Task<ServicePrincipal> CreateServicePrincipal(string appId)
     {
-        if (appId is null)
-        {
-            throw new ArgumentNullException(nameof(appId));
-        }
+        ArgumentNullException.ThrowIfNull(appId);
 
         var servicePrincipal = new ServicePrincipal
         {

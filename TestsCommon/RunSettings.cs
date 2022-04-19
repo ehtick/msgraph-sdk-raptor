@@ -33,10 +33,7 @@ public record RunSettings
 
     public RunSettings(TestParameters parameters, RunSettings runsettingsOverride=null)
     {
-        if (parameters == null)
-        {
-            throw new ArgumentNullException(nameof(parameters));
-        }
+        ArgumentNullException.ThrowIfNull(parameters);
 
         var versionString = parameters.Get("Version");
         var dllPath = parameters.Get("DllPath");

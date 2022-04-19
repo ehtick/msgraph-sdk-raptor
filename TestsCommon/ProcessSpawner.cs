@@ -1,15 +1,13 @@
-using System.Diagnostics;
-
-namespace TestsCommon;
+﻿namespace TestsCommon;
 
 public static class ProcessSpawner
 {
     // create a static method that spawns a process and waits for a timeout and returns stdout and stderr as a tuple
     public static async Task<(string stdout, string stderr)> SpawnProcess(string command, string arguments, string workingDirectory, int timeout)
     {
-        _ = command ?? throw new ArgumentNullException(nameof(command));
-        _ = arguments ?? throw new ArgumentNullException(nameof(arguments));
-        _ = workingDirectory ?? throw new ArgumentNullException(nameof(workingDirectory));
+        ArgumentNullException.ThrowIfNull(command);
+        ArgumentNullException.ThrowIfNull(arguments);
+        ArgumentNullException.ThrowIfNull(workingDirectory);
 
         ProcessStartInfo startInfo = new ProcessStartInfo(command, arguments)
         {
