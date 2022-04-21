@@ -23,7 +23,7 @@ public enum Category
     NoProgrammaticWay,
     ProtectedAPI,
     Service,
-    EphemeralData
+    EphemeralData,
 }
 
 public static class KnownIssues
@@ -115,6 +115,8 @@ public static class KnownIssues
     internal static readonly KnownIssue PermissionsMoreThanOnePermissionKnownIssue = new KnownIssue(Category.MoreThanOnePermission, "More than one permission is required", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/778");
     internal static readonly KnownIssue Add_MS_APP_ACTS_CustomheaderIssue = new KnownIssue(Category.Metadata, GitHubIssue: "https://github.com/microsoftgraph/msgraph-metadata/issues/109");
     internal static readonly KnownIssue IncorrectSnippetAPIClassificationKnownIssue = new KnownIssue(Category.Metadata, GitHubIssue: IncorrectPowershellSnippetClassificationGithubIssue);
+    internal static readonly KnownIssue ObjectCastingBugDeltaServices = new KnownIssue(Category.SDK, GitHubIssue: "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/991");
+    internal static readonly KnownIssue ObjectCastingBugDirectoryServices = new KnownIssue(Category.SDK, GitHubIssue: "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/992");
     /// <summary>
     /// Constructs property not found message
     /// </summary>

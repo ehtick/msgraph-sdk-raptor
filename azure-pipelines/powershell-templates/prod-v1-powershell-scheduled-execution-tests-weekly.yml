@@ -2,10 +2,10 @@
 
 trigger: none # disable triggers based on commits.
 pr: none # disable as a PR gate.
-name: 'Weekly Beta PowerShell Snippet Execution Tests'
+name: 'Weekly V1 PowerShell Snippet Execution Tests'
 schedules:
   - cron: "0 3 * * WED"  # every Wednesday at 3AM UTC (off hours for Redmond, Nairobi and Montréal)
-    displayName: 'Weekly Beta PowerShell Snippet Execution Tests'
+    displayName: 'Weekly V1 PowerShell Snippet Execution Tests'
     branches:
       include:
       - dev
