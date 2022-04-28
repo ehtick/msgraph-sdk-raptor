@@ -10,7 +10,7 @@ public static class CSharpKnownIssues
     {
         return new Dictionary<string, KnownIssue>()
             {
-                {"delete-userflowlanguagepage-csharp-Beta-compiles", new KnownIssue(Category.SDK, StreamRequestDoesNotSupportDelete) },
+                { "delete-userflowlanguagepage-csharp-Beta-compiles", new KnownIssue(Category.SDK, StreamRequestDoesNotSupportDelete) },
                 {"delete-userflowlanguagepage-csharp-V1-compiles", new KnownIssue(Category.SDK, StreamRequestDoesNotSupportDelete) },
                 {"unfollow-site-csharp-Beta-compiles", new KnownIssue(Category.SDK, "SDK doesn't convert actions defined on collections to methods.", "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator/issues/250") },
                 {"unfollow-site-csharp-V1-compiles", new KnownIssue(Category.SDK, "SDK doesn't convert actions defined on collections to methods.", "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator/issues/250") },
