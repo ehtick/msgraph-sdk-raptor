@@ -10,7 +10,8 @@ public enum Languages
     Java,
     ObjC,
     TypeScript,
-    PowerShell
+    PowerShell,
+    Go
 }
 
 public static class LanguagesExtension

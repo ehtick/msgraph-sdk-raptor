@@ -28,6 +28,7 @@ public static class GraphDocsDirectory
         }
 
         var msGraphDocsRepoLocation = TestsSetup.Config.Value.SourcesDirectory;
+
         SnippetsDirectory = Path.Join(msGraphDocsRepoLocation, $@"microsoft-graph-docs{Path.DirectorySeparatorChar}api-reference{Path.DirectorySeparatorChar}{new VersionString(version)}{Path.DirectorySeparatorChar}includes{Path.DirectorySeparatorChar}snippets{Path.DirectorySeparatorChar}{language.AsString()}");
 
         return SnippetsDirectory;

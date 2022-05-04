@@ -460,6 +460,44 @@
       }
     },
     {
+      "label": "Debug GoV1Tests",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "test",
+        "${workspaceFolder}/GoV1Tests/GoV1Tests.csproj",
+        "--filter",
+        "\"${input:testFilter}\""
+      ],
+      "isTestCommand": true,
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "VSTEST_HOST_DEBUG": "1"
+        }
+      }
+    },
+    {
+      "label": "Debug GoV1KnownFailureTests",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "test",
+        "${workspaceFolder}/GoV1KnownFailureTests/GoV1KnownFailureTests.csproj",
+        "--filter",
+        "\"${input:testFilter}\""
+      ],
+      "isTestCommand": true,
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "VSTEST_HOST_DEBUG": "1"
+        }
+      }
+    },
+    {
       "label": "Run UnitTests",
       "type": "process",
       "command": "dotnet",

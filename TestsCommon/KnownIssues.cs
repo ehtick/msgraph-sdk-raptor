@@ -2,6 +2,7 @@
 using static TestsCommon.CSharpKnownIssues;
 using static TestsCommon.PowerShellKnownIssues;
 using static TestsCommon.TypeScriptKnownIssues;
+using static TestsCommon.GoKnownIssues;
 
 namespace TestsCommon;
 
@@ -162,7 +163,8 @@ public static class KnownIssues
             Languages.CSharp => GetCSharpCompilationKnownIssues(),
             Languages.Java => GetJavaCompilationKnownIssues(),
             Languages.TypeScript => GetTypescriptCompilationKnownIssues(),
-            _ => new Dictionary<string, KnownIssue>()
+            Languages.Go => GetGoCompilationKnownIssues(),
+            _ => new Dictionary<string, KnownIssue>(),
         };
     }
 
