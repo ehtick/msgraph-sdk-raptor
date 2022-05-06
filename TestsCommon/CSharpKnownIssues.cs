@@ -68,6 +68,7 @@ public static class CSharpKnownIssues
                 { "create-externalregistration-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Online meeting registration uses addAsync instead of createAsync", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/857")},
                 { "create-schema-from-connection-async-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, SnippetGenerationCreateAsyncSupport, SnippetGenerationCreateAsyncSupportGithubIssue) },
                 { "create-schema-from-connection-async-csharp-V1-compiles", new KnownIssue(Category.SnippetGeneration, SnippetGenerationCreateAsyncSupport, SnippetGenerationCreateAsyncSupportGithubIssue) },
+                { "list-updatableasset-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "No way to typecast when odata.type is specified in url ", GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/146")},
                 { "update-deployment-1-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
                 { "update-deployment-2-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
                 { "reports-getuserarchivedprintjobs-csharp-Beta-compiles", DateTimeOffsetHandlingInUrlsKnownIssue },
@@ -84,6 +85,7 @@ public static class CSharpKnownIssues
                 { "delete-educationrubric-from-educationassignment-csharp-V1-compiles", EducationAssignmentRubricContainsTargetPreprocessorKnownIssue},
                 { "add-educationcategory-to-educationassignment-csharp-V1-compiles", EducationAssignmentRubricContainsTargetPreprocessorKnownIssue},
 
+                { "bookingbusiness-getstaffavailability-csharp-Beta-compiles", new KnownIssue(Category.HTTP, "An action documented as a GET instead of a POST request", "https://github.com/microsoftgraph/microsoft-graph-docs/issues/16796")},
                 { "create-certificatebasedauthconfiguration-from-certificatebasedauthconfiguration-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefNeeded, "https://github.com/microsoftgraph/microsoft-graph-docs/issues/14004") },
                 { "create-certificatebasedauthconfiguration-from-certificatebasedauthconfiguration-csharp-V1-compiles", new KnownIssue(Category.HTTP, RefNeeded, "https://github.com/microsoftgraph/microsoft-graph-docs/issues/14004") },
                 { "create-tokenlifetimepolicy-from-application-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefNeeded) },
@@ -115,7 +117,7 @@ public static class CSharpKnownIssues
 
                 { "create-onpremisesagentgroup-from-publishedresource-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefShouldBeRemoved) },
                 { "delete-publishedresource-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefShouldBeRemoved) },
-                
+
                 { "participant-configuremixer-csharp-Beta-compiles", new KnownIssue(Category.Metadata, "ConfigureMixer doesn't exist in metadata") },
                 { "remove-group-from-rejectedsenderslist-of-group-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("group", "rejectedSender")) },
                 { "remove-user-from-rejectedsenderslist-of-group-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("group", "rejectedSender")) },
