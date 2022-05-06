@@ -2,10 +2,10 @@
 
 trigger: none # disable triggers based on commits.
 pr: none # disable as a PR gate.
-name: 'Daily V1 PowerShell Snippet Execution Tests'
+name: 'Daily Beta PowerShell Snippet Execution Tests'
 schedules:
   - cron: "0 3 * * *" # everyday at 3AM UTC (off hours for Redmond, Nairobi and Montréal)
-    displayName: 'Daily V1 PowerShell Snippet Execution Tests'
+    displayName: 'Daily Beta PowerShell Snippet Execution Tests - Known Issues'
     branches:
       include:
       - dev
@@ -40,8 +40,8 @@ jobs:
   strategy:
     maxParallel: 1
     matrix:
-        PowerShellV1ExecutionTests:
-            projectFileName: PowerShellV1ExecutionTests
+        PowerShellBetaExecutionKnownFailureTests:
+            projectFileName: PowerShellBetaExecutionKnownFailureTests
   steps:
   - template: powershell-execution-tests-template.yml
     parameters:
