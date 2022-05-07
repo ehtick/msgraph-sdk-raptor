@@ -11,17 +11,6 @@ schedules:
       - dev
     always: true
 
-parameters:
-- name: BuildAgentPool
-  displayName: Build Agent Pool
-  type: string
-  default: MsGraphBuildAgentsWindowsRaptor
-
-- name: PipelineTimeout
-  displayName: PipelineTimeout
-  type: number
-  default: 600
-
 resources:
  repositories:
    - repository: microsoft-graph-docs
@@ -32,18 +21,11 @@ resources:
 
 variables:
   buildConfiguration: 'Release'
+  
+pool: MsGraphBuildAgentsWindowsRaptor
 
-jobs:
-- job: PowerShell
-  pool: ${{ parameters.BuildAgentPool }}
-  timeoutInMinutes: ${{ parameters.PipelineTimeout }}
-  strategy:
-    maxParallel: 1
-    matrix:
-        PowerShellV1ExecutionKnownFailureTests:
-            projectFileName: PowerShellV1ExecutionKnownFailureTests
-  steps:
-  - template: powershell-execution-tests-template.yml
-    parameters:
-      projectFileName: $(projectFileName)
-      testType: 'Execution'
+steps:
+- template: powershell-execution-tests-template.yml
+  parameters:
+    projectFileName: PowerShellV1ExecutionKnownFailureTests
+    testType: 'Execution'
