@@ -5,7 +5,7 @@ pr: none # disable as a PR gate.
 name: 'Daily Beta PowerShell Snippet Execution Tests'
 schedules:
   - cron: "0 3 * * *" # everyday at 3AM UTC (off hours for Redmond, Nairobi and Montréal)
-    displayName: 'Daily Beta PowerShell Snippet Execution Tests'
+    displayName: 'Daily Beta PowerShell Snippet Execution Tests - Known Issues'
     branches:
       include:
       - dev
@@ -27,5 +27,5 @@ pool: MsGraphBuildAgentsWindowsRaptor
 steps:
 - template: powershell-execution-tests-template.yml
   parameters:
-    projectFileName: PowerShellBetaExecutionTests
+    projectFileName: PowerShellBetaExecutionKnownFailureTests
     testType: 'Execution'
