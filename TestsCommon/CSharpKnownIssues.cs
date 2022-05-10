@@ -68,6 +68,7 @@ public static class CSharpKnownIssues
                 { "create-externalregistration-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Online meeting registration uses addAsync instead of createAsync", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/857")},
                 { "create-schema-from-connection-async-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, SnippetGenerationCreateAsyncSupport, SnippetGenerationCreateAsyncSupportGithubIssue) },
                 { "create-schema-from-connection-async-csharp-V1-compiles", new KnownIssue(Category.SnippetGeneration, SnippetGenerationCreateAsyncSupport, SnippetGenerationCreateAsyncSupportGithubIssue) },
+                { "create-unifiedroleeligibilityschedulerequest-from-unifiedroleeligibilityschedulerequests-adminremove-csharp-V1-compiles", new KnownIssue(Category.SnippetGeneration, "Http String Not Mapped Into Metadata-Existing Enum Type", GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/983")},
                 { "list-updatableasset-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "No way to typecast when odata.type is specified in url ", GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/146")},
                 { "update-deployment-1-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
                 { "update-deployment-2-csharp-Beta-compiles", NamespaceOdataTypeAnnotationsWithoutHashSymbolKnownIssue},
