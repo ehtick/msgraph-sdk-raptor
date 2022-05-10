@@ -348,7 +348,7 @@ public static class CSharpKnownIssues
                 { "list-custom-questions-csharp-Beta-executes", MissingDataKnownIssue with { GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/573"} },
                 { "list-unifiedrbacresourceaction-directory-csharp-Beta-executes", MissingDataKnownIssue with { GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/958"}},
                 { "list-unifiedrbacresourceaction-insights-csharp-Beta-executes", MissingDataKnownIssue with { GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/958"}},
-                { "list-unifiedroleassignmentschedulerequest-expand-relationships-csharp-V1-executes", new KnownIssue(Category.Documentation, "Expand Specified on Non-Navigational Property", GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-docs/issues/16826")},
+                { "list-unifiedroleassignmentschedulerequest-expand-relationships-csharp-V1-executes", new KnownIssue(Category.SnippetGeneration, "Expand Segment Contains Unincluded Property", GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/938")},
                 { "list-serviceplans-csharp-Beta-executes", MissingPermissionScopeKnownIssue },
                 { "list-supportedregions-csharp-Beta-executes", NeedsAnalysisKnownIssue },
                 { "list-registratrants-csharp-Beta-executes", NeedsAnalysisKnownIssue with{ GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/573" } },
