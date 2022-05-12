@@ -837,7 +837,29 @@ public static class CSharpKnownIssues
 
                 { "get-approval-csharp-V1-executes", new KnownIssue(Category.MissingData, "Missing Data known issue", "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/941") },
                 { "get-approvalstage-csharp-V1-executes", new KnownIssue(Category.MissingData, "Missing Data known issue", "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/941") },
-                { "list-approvalstage-csharp-V1-executes", new KnownIssue(Category.MissingData, "Missing Data known issue", "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/941") }
+                { "list-approvalstage-csharp-V1-executes", new KnownIssue(Category.MissingData, "Missing Data known issue", "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/941") },
+
+                { "channel-doesuserhaveaccess-csharp-Beta-executes", NeedsAnalysisKnownIssue},
+                { "channel-doesuserhaveaccess-externaluser-csharp-Beta-executes", NeedsAnalysisKnownIssue},
+                { "channel-doesuserhaveaccess-usingupn-csharp-Beta-executes", NeedsAnalysisKnownIssue},
+                { "cloudpcthisgetcloudpclaunchinfo-csharp-Beta-executes", NeedsAnalysisKnownIssue},
+                { "get-addlargegalleryviewoperation-1-csharp-Beta-executes", MissingDataKnownIssue with {GitHubIssue="https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/1037"}},
+                { "get-authenticationcontextclassreference-csharp-Beta-executes", NeedsAnalysisKnownIssue},
+                { "get-contentsharingsession-csharp-Beta-executes", NeedsAnalysisKnownIssue},
+                { "get-contentsharingsessions-csharp-Beta-executes", NeedsAnalysisKnownIssue},
+                { "get-delegatedadminaccessassignment-csharp-Beta-executes", MissingDataKnownIssue with {GitHubIssue="https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/1039"}},
+                { "get-delegatedadmincustomer-csharp-Beta-executes", MissingDataKnownIssue with {GitHubIssue="https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/1038"}},
+                { "get-delegatedadminrelationship-csharp-Beta-executes", MissingDataKnownIssue with {GitHubIssue="https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/1039"}},
+                { "get-delegatedadminrelationshipoperation-csharp-Beta-executes", MissingDataKnownIssue with {GitHubIssue="https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/1039"}},
+                { "get-delegatedadminrelationshiprequest-csharp-Beta-executes", MissingDataKnownIssue with {GitHubIssue="https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/1039"}},
+                { "get-documentsetversion-csharp-Beta-executes", NeedsAnalysisKnownIssue},
+                { "get-internaldomainfederation-csharp-Beta-executes", NeedsAnalysisKnownIssue},
+                { "get-sharedwithchannelteaminfo-csharp-Beta-executes", NeedsAnalysisKnownIssue},
+                { "list-associatedteaminfo-csharp-Beta-executes", MissingPermissionScopeKnownIssue},
+                { "list-delegatedadminservicemanagementdetails-csharp-Beta-executes", MissingDataKnownIssue with {GitHubIssue="https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/1038"}},
+                { "list-cloudpc-csharp-Beta-executes", NeedsAnalysisKnownIssue},
+                { "list-conversationmember-csharp-Beta-executes", NeedsAnalysisKnownIssue},
+
             };
     }
 }
