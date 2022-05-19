@@ -144,7 +144,7 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
         {
             var (codeToCompile, _) = GetCodeToCompile(testData.FileContent);
             var testNameAsFunctionName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(
-                ReplaceHyphensWithUnderscores(testData.TestName).ToLower()
+                ReplaceHyphensWithUnderscores(testData.TestName).ToLowerInvariant()
             );
             codeToCompile = codeToCompile
                 .Replace("msgraphsdk.NewGraphServiceClient(requestAdapter)", "msgraphsdk.NewGraphServiceClient(nil)")
