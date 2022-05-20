@@ -35,10 +35,10 @@ updates:
     time: "11:00"  #11am utc
     timezone: "GMT"
   open-pull-requests-limit: 10
-- package-ecosystem: gomod
-  directory: "/GoV1Tests/goDependencies"
-  schedule:
-    interval: daily
-    time: "11:00"  #11am utc
-    timezone: "GMT"
-  open-pull-requests-limit: 10
+#- package-ecosystem: gomod
+#  directory: "/GoV1Tests/goDependencies"
+#  schedule:
+#    interval: daily
+#    time: "11:00"  #11am utc
+#    timezone: "GMT"
+#  open-pull-requests-limit: 10
