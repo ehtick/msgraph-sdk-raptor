@@ -21,7 +21,7 @@ resources:
 
 parameters:
   - name: BuildAgent
-    default: 1es-MsGraphBuildAgentsWindowsPsSDK
+    default: 1es-MsGraphBuildAgentsWindowsRaptor
     displayName: Build Agent
 
 variables:
