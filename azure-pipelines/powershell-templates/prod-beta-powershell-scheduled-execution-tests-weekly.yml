@@ -26,6 +26,7 @@ parameters:
 
 variables:
   buildConfiguration: 'Release'
+  BUILDAGENT: ${{ parameters.BuildAgent }}
 
 pool: $(BUILDAGENT)
 
