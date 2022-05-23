@@ -19,10 +19,15 @@ resources:
      name: microsoftgraph/microsoft-graph-docs
      ref: main
 
+parameters:
+  - name: BuildAgent
+    default: 1es-MsGraphBuildAgentsWindowsPsSDK
+    displayName: Build Agent
+
 variables:
   buildConfiguration: 'Release'
 
-pool: MsGraphBuildAgentsWindowsRaptor
+pool: $(BUILDAGENT)
 
 steps:
 - template: powershell-execution-tests-template.yml
