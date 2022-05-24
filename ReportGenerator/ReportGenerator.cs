@@ -1,29 +1,41 @@
-﻿namespace ReportGenerator;
+﻿using System.Collections.Generic;
+namespace ReportGenerator;
 
 class ReportGenerator
 {
     static void Main(string[] args)
     {
-        KnownIssuesTextReport(Versions.V1, Languages.CSharp, IssueType.Execution);
-        KnownIssuesVisualReport(Versions.V1, Languages.CSharp, IssueType.Execution);
+        //Supported languages
+        List<Languages>supportedLanguages = new List<Languages>();
+        supportedLanguages.Add(Languages.CSharp);
+        supportedLanguages.Add(Languages.PowerShell);
+        
+         /*-------------------------------Csharp--------------------------------------------------------*/
+        KnownIssuesTextReport(Versions.V1, Languages.CSharp, IssueType.Execution, supportedLanguages);
+        KnownIssuesVisualReport(Versions.V1, Languages.CSharp, IssueType.Execution, supportedLanguages);
 
-        KnownIssuesTextReport(Versions.V1, Languages.CSharp, IssueType.Compilation);
-        KnownIssuesVisualReport(Versions.V1, Languages.CSharp, IssueType.Compilation);
+        KnownIssuesTextReport(Versions.V1, Languages.CSharp, IssueType.Compilation, supportedLanguages);
+        KnownIssuesVisualReport(Versions.V1, Languages.CSharp, IssueType.Compilation, supportedLanguages);
 
-        KnownIssuesTextReport(Versions.Beta, Languages.CSharp, IssueType.Compilation);
-        KnownIssuesVisualReport(Versions.Beta, Languages.CSharp, IssueType.Compilation);
+        KnownIssuesTextReport(Versions.Beta, Languages.CSharp, IssueType.Compilation, supportedLanguages);
+        KnownIssuesVisualReport(Versions.Beta, Languages.CSharp, IssueType.Compilation, supportedLanguages);
+        /*-------------------------------Powershell--------------------------------------------------------*/
+        KnownIssuesTextReport(Versions.V1, Languages.PowerShell, IssueType.Execution, supportedLanguages);
+        KnownIssuesVisualReport(Versions.V1, Languages.PowerShell, IssueType.Execution, supportedLanguages);
+
+        KnownIssuesTextReport(Versions.Beta, Languages.PowerShell, IssueType.Execution, supportedLanguages);
+        KnownIssuesVisualReport(Versions.Beta, Languages.PowerShell, IssueType.Execution, supportedLanguages);
     }
 
     // create text report for v1 execution known issues
-    private static void KnownIssuesTextReport(Versions version, Languages language, IssueType issueType)
+    private static void KnownIssuesTextReport(Versions version, Languages language, IssueType issueType, List<Languages>supportedLanguages)
     {
-        if (language != Languages.CSharp)
+        if (!supportedLanguages.Contains(language))
         {
             throw new NotImplementedException();
         }
 
         var issues = GetKnownIssues(version, language, issueType);
-
         var lang = language.AsString();
         var documentationLinks = TestDataGenerator.GetDocumentationLinks(version, language);
         var testNameSuffix = $"{lang}-{version}-{issueType.Suffix()}";
@@ -37,6 +49,7 @@ class ReportGenerator
             var testName = kv.Key;
             var knownIssue = kv.Value;
             var documentationLinkLookupKey = testName.Replace(testNameSuffix, $"{lang}-snippets.md");
+            Console.WriteLine("Look up "+ documentationLinkLookupKey);
             if (!documentationLinks.ContainsKey(documentationLinkLookupKey))
             {
                 unreferencedIssues.Add(testName);
@@ -87,16 +100,15 @@ class ReportGenerator
         var testNameSuffix = $"{lang}-{version}-{issueType.Suffix()}";
         return (issueType switch
         {
-            IssueType.Execution => CSharpKnownIssues.GetCSharpExecutionKnownIssues(),
-            IssueType.Compilation => KnownIssues.GetCompilationKnownIssues(language),
+            IssueType.Execution => language == Languages.CSharp ? CSharpKnownIssues.GetCSharpExecutionKnownIssues():PowerShellKnownIssues.GetPowerShellExecutionKnownIssues(),
+            IssueType.Compilation => language == Languages.CSharp ? KnownIssues.GetCompilationKnownIssues(language):null,
             _ => throw new ArgumentException($"Unknown issue type: {issueType}")
         }).Where(kv => kv.Key.EndsWith(testNameSuffix)).ToDictionary(kv => kv.Key, kv => kv.Value);
     }
-
     // create known issue visual report
-    private static void KnownIssuesVisualReport(Versions version, Languages language, IssueType issueType)
+    private static void KnownIssuesVisualReport(Versions version, Languages language, IssueType issueType, List<Languages>supportedLanguages)
     {
-        if (language != Languages.CSharp)
+        if (!supportedLanguages.Contains(language))
         {
             throw new NotImplementedException();
         }
