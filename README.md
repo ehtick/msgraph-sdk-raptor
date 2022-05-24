@@ -50,6 +50,12 @@ There are also 4 Java test projects, as listed below. These are all compilation 
 3. JavaV1Tests
 4. JavaV1KnownFailureTests
 
+Powershell has 4 execution test projects, as listed below.
+
+1. PowerShellBetaExecutionTests
+2. PowerShellBetaExecutionKnownFailureTests
+3. PowerShellV1ExecutionTests
+4. PowerShellV1ExecutionKnownFailureTests
 
 **NB: Typescript Tests**
 TypeScriptV1Tests relies on npm libraries that are not yet released. In order to execute these tests locally, users will be required to build kiota based npm packages and publish them locally.
@@ -138,6 +144,12 @@ The scheduled pipelines are categorized into daily and weekly schedules. A singl
 - [C# V1 Compilation Tests - Known Issues Table](./report/V1-csharp-compilation-known-issues.md)
 - [C# Beta Compilation Tests - Known Issues Distribution](./report/Beta-csharp-compilation-known-issues-report.html)
 - [C# Beta Compilation Tests - Known Issues Table](./report/Beta-csharp-compilation-known-issues.md)
+
+
+- [Powershell V1 Execution Tests - Known Issues Distribution](./report/V1-powershell-execution-known-issues-report.html)
+- [Powershell# V1 Execution Tests - Known Issues Table](./report/V1-powershell-execution-known-issues.md)
+- [Powershell Beta Execution Tests - Known Issues Distribution](./report/Beta-powershell-execution-known-issues-report.html)
+- [Powershell Beta Execution Tests - Known Issues Table](./report/Beta-powershell-execution-known-issues.md)
 
 
 ## Onboarding New Language Onto Raptor
