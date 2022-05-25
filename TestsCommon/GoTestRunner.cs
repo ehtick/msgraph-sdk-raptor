@@ -11,8 +11,7 @@ public static class GoTestRunner
 
     private const int TimeoutForGoInSeconds = 120;
 
-
-    // private const int TimeoutForProcessInSeconds = 10;
+    private const int TimeoutForCacheWarmupInSeconds = 6 * 60;
 
     /// <summary>
     /// template to compile snippets in
@@ -80,6 +79,7 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
         await CopyDependenciesFileIntoCompilationDirectory(version).ConfigureAwait(false);
         await DumpGoFiles(languageTestData).ConfigureAwait(false);
         await DownloadRequiredDependencies().ConfigureAwait(false);
+        await WarmUpCache(languageTestData.First()).ConfigureAwait(false);
     }
 
     private static string FormatCodeSnippetSpaces(string codeSnippetString)
@@ -144,7 +144,7 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
         {
             var (codeToCompile, _) = GetCodeToCompile(testData.FileContent);
             var testNameAsFunctionName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(
-                ReplaceHyphensWithUnderscores(testData.TestName).ToLowerInvariant()
+                ReplaceHyphensWithUnderscores(testData.TestName).ToLower(CultureInfo.CurrentCulture)
             );
             codeToCompile = codeToCompile
                 .Replace("msgraphsdk.NewGraphServiceClient(requestAdapter)", "msgraphsdk.NewGraphServiceClient(nil)")
@@ -169,6 +169,18 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
         {
             Assert.Fail($"Failed to download required dependencies: {stderr}");
         }
+    }
+
+    private static async Task WarmUpCache(LanguageTestData testData)
+    {
+        // Compile a single file to create a build cache
+        var compilePath = Path.Combine(CompilationDirectory, "src", testData.TestName + ".go");
+        _ = await ProcessSpawner.SpawnProcess(
+                "go",
+                $"build {compilePath}",
+                CompilationDirectory,
+                TimeoutForCacheWarmupInSeconds * 1000
+            ).ConfigureAwait(false);
     }
 
     private static async Task CompileSnippet(LanguageTestData testData)
