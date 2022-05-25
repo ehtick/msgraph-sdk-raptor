@@ -8,7 +8,7 @@ parameters:
 - name: BuildAgentPool
   displayName: Build Agent Pool
   type: string
-  default: MsGraphBuildAgentsWindowsRaptor
+  default: 1es-MsGraphBuildAgentsWindowsRaptor
 
 - name: PipelineTimeout
   displayName: PipelineTimeout
