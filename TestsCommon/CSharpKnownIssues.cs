@@ -125,7 +125,6 @@ public static class CSharpKnownIssues
                 { "participant-configuremixer-csharp-Beta-compiles", new KnownIssue(Category.Metadata, "ConfigureMixer doesn't exist in metadata") },
                 { "remove-group-from-rejectedsenderslist-of-group-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("group", "rejectedSender")) },
                 { "remove-user-from-rejectedsenderslist-of-group-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("group", "rejectedSender")) },
-                { "removeonpremisesagentfromanonpremisesagentgroup-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefShouldBeRemoved) },
                 { "securescorecontrolprofiles-update-csharp-Beta-compiles", new KnownIssue(Category.HTTP, HttpSnippetWrong + ": A list of SecureScoreControlStateUpdate objects should be provided instead of placeholder string.") },
                 { "shift-put-csharp-Beta-compiles", IdentitySetAndIdentityShouldNestAdditionalDataKnownIssue },
                 { "shift-put-csharp-V1-compiles", IdentitySetAndIdentityShouldNestAdditionalDataKnownIssue },
