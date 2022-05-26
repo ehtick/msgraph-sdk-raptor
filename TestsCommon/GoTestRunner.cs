@@ -186,7 +186,7 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
         {
             var code = await File.ReadAllTextAsync(compilePath).ConfigureAwait(false);
 
-            Assert.Fail($"{new CompilationOutputMessage(stderr, code, testData.DocsLink, testData.KnownIssueMessage, testData.IsCompilationKnownIssue, Languages.Java)}");
+            Assert.Fail($"{new CompilationOutputMessage(stderr, code, testData.DocsLink, testData.KnownIssueMessage, testData.IsCompilationKnownIssue, Languages.Go)}");
         }
         else
         {
