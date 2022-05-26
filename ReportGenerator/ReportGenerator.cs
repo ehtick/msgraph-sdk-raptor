@@ -1,36 +1,44 @@
-﻿using System.Collections.Generic;
-namespace ReportGenerator;
+﻿namespace ReportGenerator;
 
 class ReportGenerator
 {
+    static List<Languages> SupportedLanguages = new List<Languages>()
+    {
+        Languages.CSharp,
+        Languages.PowerShell
+    };
+
+    // PowerShell for example doesn't have stable snippet generation to fail generating reports
+    static List<Languages> LanguagesToCheckForUnreferencedIssues = new List<Languages>()
+    {
+        Languages.CSharp
+    };
+
     static void Main(string[] args)
     {
         //Supported languages
-        List<Languages>supportedLanguages = new List<Languages>();
-        supportedLanguages.Add(Languages.CSharp);
-        supportedLanguages.Add(Languages.PowerShell);
         
          /*-------------------------------Csharp--------------------------------------------------------*/
-        KnownIssuesTextReport(Versions.V1, Languages.CSharp, IssueType.Execution, supportedLanguages);
-        KnownIssuesVisualReport(Versions.V1, Languages.CSharp, IssueType.Execution, supportedLanguages);
+        KnownIssuesTextReport(Versions.V1, Languages.CSharp, IssueType.Execution);
+        KnownIssuesVisualReport(Versions.V1, Languages.CSharp, IssueType.Execution);
 
-        KnownIssuesTextReport(Versions.V1, Languages.CSharp, IssueType.Compilation, supportedLanguages);
-        KnownIssuesVisualReport(Versions.V1, Languages.CSharp, IssueType.Compilation, supportedLanguages);
+        KnownIssuesTextReport(Versions.V1, Languages.CSharp, IssueType.Compilation);
+        KnownIssuesVisualReport(Versions.V1, Languages.CSharp, IssueType.Compilation);
 
-        KnownIssuesTextReport(Versions.Beta, Languages.CSharp, IssueType.Compilation, supportedLanguages);
-        KnownIssuesVisualReport(Versions.Beta, Languages.CSharp, IssueType.Compilation, supportedLanguages);
+        KnownIssuesTextReport(Versions.Beta, Languages.CSharp, IssueType.Compilation);
+        KnownIssuesVisualReport(Versions.Beta, Languages.CSharp, IssueType.Compilation);
         /*-------------------------------Powershell--------------------------------------------------------*/
-        KnownIssuesTextReport(Versions.V1, Languages.PowerShell, IssueType.Execution, supportedLanguages);
-        KnownIssuesVisualReport(Versions.V1, Languages.PowerShell, IssueType.Execution, supportedLanguages);
+        KnownIssuesTextReport(Versions.V1, Languages.PowerShell, IssueType.Execution);
+        KnownIssuesVisualReport(Versions.V1, Languages.PowerShell, IssueType.Execution);
 
-        KnownIssuesTextReport(Versions.Beta, Languages.PowerShell, IssueType.Execution, supportedLanguages);
-        KnownIssuesVisualReport(Versions.Beta, Languages.PowerShell, IssueType.Execution, supportedLanguages);
+        KnownIssuesTextReport(Versions.Beta, Languages.PowerShell, IssueType.Execution);
+        KnownIssuesVisualReport(Versions.Beta, Languages.PowerShell, IssueType.Execution);
     }
 
     // create text report for v1 execution known issues
-    private static void KnownIssuesTextReport(Versions version, Languages language, IssueType issueType, List<Languages>supportedLanguages)
+    private static void KnownIssuesTextReport(Versions version, Languages language, IssueType issueType)
     {
-        if (!supportedLanguages.Contains(language))
+        if (!SupportedLanguages.Contains(language))
         {
             throw new NotImplementedException();
         }
@@ -40,19 +48,18 @@ class ReportGenerator
         var documentationLinks = TestDataGenerator.GetDocumentationLinks(version, language);
         var testNameSuffix = $"{lang}-{version}-{issueType.Suffix()}";
 
-        var unreferencedIssues = new HashSet<string>();
-
         var reportEntries = new List<ReportEntry>();
 
+        var unreferencedIssues = new HashSet<string>();
         foreach (KeyValuePair<string, KnownIssue> kv in issues)
         {
             var testName = kv.Key;
             var knownIssue = kv.Value;
             var documentationLinkLookupKey = testName.Replace(testNameSuffix, $"{lang}-snippets.md");
-            Console.WriteLine("Look up "+ documentationLinkLookupKey);
+            Console.WriteLine("Looking up "+ documentationLinkLookupKey);
             if (!documentationLinks.ContainsKey(documentationLinkLookupKey))
             {
-                unreferencedIssues.Add(testName);
+                unreferencedIssues.Add($"    {testName}");
             }
             else
             {
@@ -62,7 +69,7 @@ class ReportGenerator
                     testName,
                     documentationLink,
                     knownIssue
-                ));
+                ));    
             }
         }
 
@@ -72,10 +79,19 @@ class ReportGenerator
                 " please make sure that you have the latest changes from docs repo" +
                 " and remove the following from known issues list:" +
                 $"{Environment.NewLine}{string.Join(Environment.NewLine, unreferencedIssues)}";
-            throw new InvalidDataException(message);
+
+            if (LanguagesToCheckForUnreferencedIssues.Contains(language))
+            {
+                throw new InvalidDataException(message);
+            }
+            else
+            {
+                // only print message
+                Console.WriteLine(message);
+            }
         }
 
-        var fileName = $"{version}-{language.AsString()}-{issueType.LowerName()}-known-issues.md";
+        var fileName = $"{version}-{lang}-{issueType.LowerName()}-known-issues.md";
         WriteReportEntriesToFile(fileName, reportEntries);
     }
 
@@ -106,9 +122,9 @@ class ReportGenerator
         }).Where(kv => kv.Key.EndsWith(testNameSuffix)).ToDictionary(kv => kv.Key, kv => kv.Value);
     }
     // create known issue visual report
-    private static void KnownIssuesVisualReport(Versions version, Languages language, IssueType issueType, List<Languages>supportedLanguages)
+    private static void KnownIssuesVisualReport(Versions version, Languages language, IssueType issueType)
     {
-        if (!supportedLanguages.Contains(language))
+        if (!SupportedLanguages.Contains(language))
         {
             throw new NotImplementedException();
         }
