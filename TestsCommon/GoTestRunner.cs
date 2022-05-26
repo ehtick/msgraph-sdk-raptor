@@ -11,13 +11,12 @@ public static class GoTestRunner
 
     private const int TimeoutForGoInSeconds = 120;
 
-
-    // private const int TimeoutForProcessInSeconds = 10;
+    private const int TimeoutForCacheWarmupInSeconds = 6 * 60;
 
     /// <summary>
     /// template to compile snippets in
     /// </summary>
-    private const string SDKShellTemplate = @"package main
+    private const string SDKShellTemplate = @"package snippets
 
 import (
     ""log""
@@ -25,7 +24,7 @@ import (
 	msgraphsdk ""github.com/microsoftgraph/msgraph-sdk-go""
 )
 
-func //insert-testNameAsFunctionName-here() {
+func //Insert-capitalized-testNameAsFunctionName-here() {
     //insert-code-here
 
     if err != nil {
@@ -34,14 +33,6 @@ func //insert-testNameAsFunctionName-here() {
 }
 
 ";
-
-    private const string MainFileShellTemplate = @"package main
-    func main() {
-
-        // insert-current-testName-here()
-    }";
-    private static string MainFileContentFormatted = FormatCodeSnippetSpaces(MainFileShellTemplate);
-
     /// <summary>
     /// matches Go snippet from Go snippets markdown output
     /// </summary>
@@ -57,12 +48,14 @@ func //insert-testNameAsFunctionName-here() {
     {
         var goNewGuid = "go" + Guid.NewGuid();
         Console.WriteLine($"Generated guid is {goNewGuid}");
-        var raptorGoPath = Path.Combine(
+        var raptorGoBasePath = Path.Combine(
             Path.GetTempPath(),
             "raptor-go",
             goNewGuid);
-        Directory.CreateDirectory(raptorGoPath);
-        return raptorGoPath;
+        Directory.CreateDirectory(raptorGoBasePath);
+        var raptorSrcPath = Path.Combine(raptorGoBasePath, "src");
+        Directory.CreateDirectory(raptorSrcPath);
+        return raptorGoBasePath;
     }
 
     /// <summary>
@@ -86,6 +79,7 @@ func //insert-testNameAsFunctionName-here() {
         await CopyDependenciesFileIntoCompilationDirectory(version).ConfigureAwait(false);
         await DumpGoFiles(languageTestData).ConfigureAwait(false);
         await DownloadRequiredDependencies().ConfigureAwait(false);
+        await WarmUpCache(languageTestData.First()).ConfigureAwait(false);
     }
 
     private static string FormatCodeSnippetSpaces(string codeSnippetString)
@@ -149,12 +143,14 @@ func //insert-testNameAsFunctionName-here() {
         foreach(var testData in languageTestData)
         {
             var (codeToCompile, _) = GetCodeToCompile(testData.FileContent);
-            var testNameAsFunctionName = ReplaceHyphensWithUnderscores(testData.TestName);
+            var testNameAsFunctionName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(
+                ReplaceHyphensWithUnderscores(testData.TestName).ToLower(CultureInfo.CurrentCulture)
+            );
             codeToCompile = codeToCompile
                 .Replace("msgraphsdk.NewGraphServiceClient(requestAdapter)", "msgraphsdk.NewGraphServiceClient(nil)")
-                .Replace("//insert-testNameAsFunctionName-here", testNameAsFunctionName )
+                .Replace("//Insert-capitalized-testNameAsFunctionName-here", testNameAsFunctionName )
                 .Replace("result, err := graphClient.", "_, err := graphClient.");
-            var filePath = Path.Combine(CompilationDirectory, testData.TestName + ".go");
+            var filePath = Path.Combine(CompilationDirectory, "src", testData.TestName + ".go");
             await File.WriteAllTextAsync(filePath, codeToCompile).ConfigureAwait(false);
         }
     }
@@ -164,7 +160,7 @@ func //insert-testNameAsFunctionName-here() {
         //Download required packages
         var (stdout, stderr) = await ProcessSpawner.SpawnProcess(
             "go",
-            "get RaptorGoTests",
+            "get RaptorGoTests/src",
             CompilationDirectory,
             TimeoutForGoInSeconds * 1000
         ).ConfigureAwait(false);
@@ -175,29 +171,34 @@ func //insert-testNameAsFunctionName-here() {
         }
     }
 
+    private static async Task WarmUpCache(LanguageTestData testData)
+    {
+        // Compile a single file to create a build cache
+        var compilePath = Path.Combine(CompilationDirectory, "src", testData.TestName + ".go");
+        _ = await ProcessSpawner.SpawnProcess(
+                "go",
+                $"build {compilePath}",
+                CompilationDirectory,
+                TimeoutForCacheWarmupInSeconds * 1000
+            ).ConfigureAwait(false);
+    }
+
     private static async Task CompileSnippet(LanguageTestData testData)
     {
-        // Copy Main.go file to build directory
-        var mainFileDestination = Path.Combine(CompilationDirectory, "main.go");
-        var testNameAsFunctionName = ReplaceHyphensWithUnderscores(testData.TestName);
-        var mainFileContent = MainFileContentFormatted;
-        mainFileContent = mainFileContent.Replace("// insert-current-testName-here", testNameAsFunctionName);
-
-        await TestContext.Out.WriteLineAsync("Writing main function which will be entry point for run").ConfigureAwait(false);
-        await File.WriteAllTextAsync(mainFileDestination, mainFileContent).ConfigureAwait(false);
-
-        //Run the executable
+        //Compile file
+        var compilePath = Path.Combine(CompilationDirectory, "src", testData.TestName + ".go");
         var (stdout, stderr) = await ProcessSpawner.SpawnProcess(
                 "go",
-                $"build main.go {testData.TestName}.go",
+                $"build {compilePath}",
                 CompilationDirectory,
                 TimeoutForGoInSeconds * 1000
             ).ConfigureAwait(false);
 
         if (!string.IsNullOrEmpty(stderr))
         {
-            var code = await File.ReadAllTextAsync(Path.Combine(CompilationDirectory, $"{testData.TestName}.go")).ConfigureAwait(false);
-            Assert.Fail($"{new CompilationOutputMessage(stderr, code, testData.DocsLink, testData.KnownIssueMessage, testData.IsCompilationKnownIssue, Languages.Java)}");
+            var code = await File.ReadAllTextAsync(compilePath).ConfigureAwait(false);
+
+            Assert.Fail($"{new CompilationOutputMessage(stderr, code, testData.DocsLink, testData.KnownIssueMessage, testData.IsCompilationKnownIssue, Languages.Go)}");
         }
         else
         {

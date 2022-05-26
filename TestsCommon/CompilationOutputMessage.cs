@@ -85,6 +85,7 @@ public record CompilationOutputMessage(string CompilationResult, string Code, st
             Languages.CSharp => "GraphServiceClient graphClient = new GraphServiceClient( authProvider );",
             Languages.Java => "GraphServiceClient graphClient = GraphServiceClient.builder().authenticationProvider( authProvider ).buildClient();",
             Languages.TypeScript => "const graphServiceClient = GraphServiceClient.init({authProvider});",
+            Languages.Go => "graphClient := msgraphsdk.NewGraphServiceClient(nil)",
             _ => throw new NotImplementedException($"Language {Language} is not supported"),
         };
     }
