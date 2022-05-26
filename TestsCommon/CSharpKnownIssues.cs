@@ -117,6 +117,7 @@ public static class CSharpKnownIssues
                 { "delete-externalsponsor-from-connectedorganization-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "externalSponsor")) },
                 { "delete-internalsponsor-from-connectedorganization-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "internalSponsor")) },
                 { "remove-incompatiblegroup-from-accesspackage-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("accessPackage", "incompatibleGroups"))},
+                { "create-subjectrightsrequest-from--csharp-Beta-compiles", new KnownIssue(Category.Metadata, "siteLocations and mailboxLocations should be camelCase", "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/1072") },
 
                 { "create-onpremisesagentgroup-from-publishedresource-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefShouldBeRemoved) },
                 { "delete-publishedresource-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefShouldBeRemoved) },
@@ -130,6 +131,7 @@ public static class CSharpKnownIssues
                 { "shift-put-csharp-V1-compiles", IdentitySetAndIdentityShouldNestAdditionalDataKnownIssue },
                 { "update-openidconnectprovider-csharp-Beta-compiles", new KnownIssue(Category.HTTP, "OpenIdConnectProvider should be specified") },
                 { "create-connector-from-connectorgroup-csharp-Beta-compiles", new KnownIssue(Category.SDK, "Missing method") },
+                { "list-tenantusage-csharp-Beta-compiles", new KnownIssue(Category.Documentation, "tenantUsage is not yet defined in the metadata, but the docs page is published.", "https://github.com/microsoftgraph/microsoft-graph-docs/issues/17058") },
             };
     }
 
