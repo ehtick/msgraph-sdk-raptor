@@ -32,6 +32,8 @@ public static class CSharpKnownIssues
                 {"get-web-count-csharp-V1-compiles", SearchHeaderIsNotSupportedKnownIssue },
                 {"get-rooms-in-roomlist-csharp-Beta-compiles", new KnownIssue(Category.SDK, "SDK doesn't generate type segment in OData URL.", GitHubIssue: "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator/issues/239") },
                 {"get-rooms-in-roomlist-csharp-V1-compiles", new KnownIssue(Category.SDK, "SDK doesn't generate type segment in OData URL.", GitHubIssue: "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator/issues/239") },
+                {"create-externaldomainname-from--csharp-V1-compiles", new KnownIssue(Category.SDK, "SDK doesn't generate type segment in OData URL.", GitHubIssue: "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator/issues/239") },
+                {"list-externaldomainname-csharp-V1-compiles", new KnownIssue(Category.SDK, "SDK doesn't generate type segment in OData URL.", GitHubIssue: "https://github.com/microsoftgraph/MSGraph-SDK-Code-Generator/issues/239") },
                 { "create-externaldomainname-from--csharp-Beta-compiles", TypeCastIsNotSupportedKnownIssue},
                 { "list-externaldomainname-csharp-Beta-compiles", TypeCastIsNotSupportedKnownIssue},
                 { "reportroot-getm365appplatformusercounts-csv-csharp-Beta-compiles", MissingContentPropertyKnownIssue },
@@ -115,6 +117,7 @@ public static class CSharpKnownIssues
                 { "delete-externalsponsor-from-connectedorganization-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "externalSponsor")) },
                 { "delete-internalsponsor-from-connectedorganization-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("connectedOrganization", "internalSponsor")) },
                 { "remove-incompatiblegroup-from-accesspackage-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("accessPackage", "incompatibleGroups"))},
+                { "create-subjectrightsrequest-from--csharp-Beta-compiles", new KnownIssue(Category.Metadata, "siteLocations and mailboxLocations should be camelCase", "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/1072") },
 
                 { "create-onpremisesagentgroup-from-publishedresource-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefShouldBeRemoved) },
                 { "delete-publishedresource-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefShouldBeRemoved) },
@@ -122,12 +125,12 @@ public static class CSharpKnownIssues
                 { "participant-configuremixer-csharp-Beta-compiles", new KnownIssue(Category.Metadata, "ConfigureMixer doesn't exist in metadata") },
                 { "remove-group-from-rejectedsenderslist-of-group-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("group", "rejectedSender")) },
                 { "remove-user-from-rejectedsenderslist-of-group-csharp-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("group", "rejectedSender")) },
-                { "removeonpremisesagentfromanonpremisesagentgroup-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefShouldBeRemoved) },
                 { "securescorecontrolprofiles-update-csharp-Beta-compiles", new KnownIssue(Category.HTTP, HttpSnippetWrong + ": A list of SecureScoreControlStateUpdate objects should be provided instead of placeholder string.") },
                 { "shift-put-csharp-Beta-compiles", IdentitySetAndIdentityShouldNestAdditionalDataKnownIssue },
                 { "shift-put-csharp-V1-compiles", IdentitySetAndIdentityShouldNestAdditionalDataKnownIssue },
                 { "update-openidconnectprovider-csharp-Beta-compiles", new KnownIssue(Category.HTTP, "OpenIdConnectProvider should be specified") },
                 { "create-connector-from-connectorgroup-csharp-Beta-compiles", new KnownIssue(Category.SDK, "Missing method") },
+                { "list-tenantusage-csharp-Beta-compiles", new KnownIssue(Category.Documentation, "tenantUsage is not yet defined in the metadata, but the docs page is published.", "https://github.com/microsoftgraph/microsoft-graph-docs/issues/17058") },
             };
     }
 
