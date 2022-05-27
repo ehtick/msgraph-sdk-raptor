@@ -5,11 +5,6 @@ pr: none # disable as a PR gate.
 name: 'V1 PowerShell Snippet Execution Tests - Known Issues'
 
 parameters:
-- name: BuildAgentPool
-  displayName: Build Agent Pool
-  type: string
-  default: ubuntu-latest
-
 - name: PipelineTimeout
   displayName: PipelineTimeout
   type: number

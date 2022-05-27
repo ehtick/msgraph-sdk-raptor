@@ -19,14 +19,8 @@ resources:
      name: microsoftgraph/microsoft-graph-docs
      ref: main
 
-parameters:
-  - name: BuildAgent
-    default: ubuntu-latest
-    displayName: Build Agent
-
 variables:
   buildConfiguration: 'Release'
-  BUILDAGENT: ${{ parameters.BuildAgent }}
 
 pool:
   vmImage: 'ubuntu-latest'
