@@ -19,16 +19,11 @@ resources:
      name: microsoftgraph/microsoft-graph-docs
      ref: main
 
-parameters:
-  - name: BuildAgent
-    default: windows-raptor
-    displayName: Build Agent
-
 variables:
   buildConfiguration: 'Release'
-  BUILDAGENT: ${{ parameters.BuildAgent }}
 
-pool: $(BUILDAGENT)
+pool:
+  vmImage: 'ubuntu-latest'
 
 steps:
 - template: powershell-execution-tests-template.yml
