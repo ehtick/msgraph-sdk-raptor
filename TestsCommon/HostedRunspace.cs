@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Microsoft.PowerShell;
+using System.Runtime.InteropServices;
 
 namespace TestsCommon;
 
@@ -11,10 +12,14 @@ internal static class HostedRunSpace
     private static InitialSessionState CreateDefaultState()
     {
         var currentSessionState = InitialSessionState.CreateDefault2();
-        currentSessionState.ExecutionPolicy = ExecutionPolicy.Unrestricted;
-        currentSessionState.LanguageMode = PSLanguageMode.FullLanguage;
-        currentSessionState.ApartmentState = ApartmentState.STA;
-        currentSessionState.ThreadOptions = PSThreadOptions.UseNewThread;
+        var isWindowsPlatform = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        if (isWindowsPlatform)
+        {
+            currentSessionState.ExecutionPolicy = ExecutionPolicy.Unrestricted;
+            currentSessionState.LanguageMode = PSLanguageMode.FullLanguage;
+            currentSessionState.ApartmentState = ApartmentState.STA;
+            currentSessionState.ThreadOptions = PSThreadOptions.UseNewThread;
+        }
         currentSessionState.ImportPSModule("Microsoft.Graph.Authentication");
         return currentSessionState;
     }
