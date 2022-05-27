@@ -28,7 +28,8 @@ variables:
 
 jobs:
 - job: PowerShellV1ExecutionTests
-  pool: ${{ parameters.BuildAgentPool }}
+  pool:
+    vmImage: 'ubuntu-latest'
   timeoutInMinutes: ${{ parameters.PipelineTimeout }}
   strategy:
     maxParallel: 1

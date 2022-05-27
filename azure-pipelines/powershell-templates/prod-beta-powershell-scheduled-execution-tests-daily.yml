@@ -28,7 +28,8 @@ variables:
   buildConfiguration: 'Release'
   BUILDAGENT: ${{ parameters.BuildAgent }}
 
-pool: $(BUILDAGENT)
+pool:
+  vmImage: 'ubuntu-latest'
 
 steps:
 - template: powershell-execution-tests-template.yml

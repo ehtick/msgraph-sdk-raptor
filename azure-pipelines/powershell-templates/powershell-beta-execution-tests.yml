@@ -5,11 +5,6 @@ pr: none # disable as a PR gate.
 name: 'Beta PowerShell Snippet Execution Tests'
 
 parameters:
-- name: BuildAgentPool
-  displayName: Build Agent Pool
-  type: string
-  default: ubuntu-latest
-
 - name: PipelineTimeout
   displayName: PipelineTimeout
   type: number
@@ -28,7 +23,8 @@ variables:
 
 jobs:
 - job: PowerShellBetaExecutionTests
-  pool: ${{ parameters.BuildAgentPool }}
+  pool:
+    vmImage: 'ubuntu-latest'
   timeoutInMinutes: ${{ parameters.PipelineTimeout }}
   strategy:
     maxParallel: 1
