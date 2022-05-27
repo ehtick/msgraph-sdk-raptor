@@ -21,7 +21,7 @@ resources:
 
 parameters:
   - name: BuildAgent
-    default: windows-raptor
+    default: ubuntu-latest
     displayName: Build Agent
 
 variables:
