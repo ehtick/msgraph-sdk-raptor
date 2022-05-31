@@ -38,8 +38,8 @@ resources:
       endpoint: microsoftgraph
       name: microsoftgraph/msgraph-metadata
 
-pool:
-  vmImage: 'ubuntu-latest'
+pool: 
+  name: 1es-ubuntu-latest
 
 variables:
   - template: e2e-templates/variables.yml

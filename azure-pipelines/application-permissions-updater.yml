@@ -12,8 +12,8 @@ schedules:
       - dev
     always: true
 
-pool:
-  vmImage: 'ubuntu-latest'
+pool: 
+  name: 1es-ubuntu-latest
 
 variables:
   buildConfiguration: 'Release'

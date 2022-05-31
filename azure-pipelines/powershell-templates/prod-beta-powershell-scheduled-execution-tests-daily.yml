@@ -22,8 +22,8 @@ resources:
 variables:
   buildConfiguration: 'Release'
 
-pool:
-  vmImage: 'ubuntu-latest'
+pool: 
+  name: 1es-ubuntu-latest
 
 steps:
 - template: powershell-execution-tests-template.yml

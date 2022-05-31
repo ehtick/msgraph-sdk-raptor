@@ -23,8 +23,8 @@ variables:
 
 jobs:
 - job: PowerShellV1ExecutionKnownFailureTests
-  pool:
-    vmImage: 'ubuntu-latest'
+  pool: 
+    name: 1es-ubuntu-latest
   timeoutInMinutes: ${{ parameters.PipelineTimeout }}
   strategy:
     maxParallel: 1

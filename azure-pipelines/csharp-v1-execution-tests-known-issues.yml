@@ -11,8 +11,8 @@ resources:
      name: microsoftgraph/microsoft-graph-docs
      ref: main
 
-pool:
-  vmImage: 'ubuntu-latest'
+pool: 
+  name: 1es-ubuntu-latest
 
 
 variables:
