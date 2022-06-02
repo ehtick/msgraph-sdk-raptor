@@ -57,9 +57,9 @@ jobs:
     - template: java-templates/build-sdk.yml
     - template: java-templates/java-replace-local-path.yml
       parameters:
-        projectFileName: JavaV1KnownFailureTests
+        projectFileName: JavaV1KnownIssueTests
         javaPreviewLibPath: '$(Build.SourcesDirectory)'
     - template: compile-run-tests-template.yml
       parameters:
-        projectFileName: JavaV1KnownFailureTests
+        projectFileName: JavaV1KnownIssueTests
         runName: 'Preview Java Snippet Compilation Tests - Known Issues $(testRunTitle)'

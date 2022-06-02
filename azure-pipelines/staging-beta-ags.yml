@@ -50,5 +50,5 @@ variables:
 steps:
   - template: e2e-templates/steps.yml
     parameters:
-      shouldRunKnownFailures: false
+      shouldRunKnownIssues: false
       shouldRunSnippetGeneration: false

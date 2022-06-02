@@ -6,10 +6,10 @@ using MsGraphSDKSnippetsCompiler.Models;
 using NUnit.Framework;
 using TestsCommon;
 
-namespace PowerShellV1ExecutionKnownFailureTests;
+namespace PowerShellV1ExecutionKnownIssueTests;
 
 [TestFixture]
-public class SnippetExecutionV1KnownFailureTests
+public class SnippetExecutionV1KnownIssueTests
 {
     /// <summary>
     /// Gets TestCaseData for v1
@@ -27,7 +27,7 @@ public class SnippetExecutionV1KnownFailureTests
     /// Represents test runs generated from test case data
     /// </summary>
     [Test]
-    [RetryTestCaseSourceAttribute(typeof(SnippetExecutionV1KnownFailureTests), nameof(TestDataV1), MaxTries = 6)]
+    [RetryTestCaseSourceAttribute(typeof(SnippetExecutionV1KnownIssueTests), nameof(TestDataV1), MaxTries = 6)]
     public async Task Test(LanguageTestData testData)
     {
         await PowerShellTestRunner.Execute(testData).ConfigureAwait(false);

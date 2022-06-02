@@ -5,10 +5,10 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using TestsCommon;
 
-namespace TypeScriptV1KnownFailureTests
+namespace TypeScriptV1KnownIssueTests
 {
     [TestFixture]
-    public class KnownFailuresV1
+    public class KnownIssuesV1
     {
         /// <summary>
         /// Holds a static reference of errors from test evaluation
@@ -56,7 +56,7 @@ namespace TypeScriptV1KnownFailureTests
         /// <param name="docsLink">documentation page where the snippet is shown</param>
         /// <param name="version">Docs version (e.g. V1, Beta)</param>
         [Test]
-        [TestCaseSource(typeof(KnownFailuresV1), nameof(TestDataV1))]
+        [TestCaseSource(typeof(KnownIssuesV1), nameof(TestDataV1))]
         public void Test(LanguageTestData testData)
         {
             TypeScriptTestRunner.RunTest(testingPath,testData, NpmResults);

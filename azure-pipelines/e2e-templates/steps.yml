@@ -1,5 +1,5 @@
 parameters:
-  - name: shouldRunKnownFailures
+  - name: shouldRunKnownIssues
     type: boolean
     default: true
   - name: shouldRunSnippetGeneration
@@ -15,5 +15,5 @@ steps:
   - ${{ if eq(parameters.shouldRunSnippetGeneration, true) }}:
     - template: snippet-generation.yml
   - template: regular-tests.yml
-  - ${{ if eq(parameters.shouldRunKnownFailures, true) }}:
-    - template: known-failure-tests.yml
+  - ${{ if eq(parameters.shouldRunKnownIssues, true) }}:
+    - template: known-issue-tests.yml

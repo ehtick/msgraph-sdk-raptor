@@ -1,15 +1,15 @@
-﻿// Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using MsGraphSDKSnippetsCompiler.Models;
+
 using NUnit.Framework;
+
 using TestsCommon;
 
-namespace PowerShellBetaExecutionKnownFailureTests;
+namespace CsharpBetaExecutionKnownIssueTests;
 
 [TestFixture]
-public class SnippetExecutionBetaKnownFailureTests
+public class SnippetExecutionBetaKnownIssueTests
 {
     /// <summary>
     /// Gets TestCaseData for Beta
@@ -19,17 +19,20 @@ public class SnippetExecutionBetaKnownFailureTests
         new RunSettings
         {
             Version = Versions.Beta,
-            Language = Languages.PowerShell,
+            Language = Languages.CSharp,
             TestType = TestType.ExecutionKnownIssues
         });
 
     /// <summary>
     /// Represents test runs generated from test case data
     /// </summary>
+    /// <param name="fileName">snippet file name in docs repo</param>
+    /// <param name="docsLink">documentation page where the snippet is shown</param>
+    /// <param name="version">Docs version (e.g. V1, Beta)</param>
     [Test]
-    [RetryTestCaseSourceAttribute(typeof(SnippetExecutionBetaKnownFailureTests), nameof(TestDataBeta), MaxTries = 6)]
+    [RetryTestCaseSource(typeof(SnippetExecutionBetaKnownIssueTests), nameof(TestDataBeta), MaxTries = 3)]
     public async Task Test(LanguageTestData testData)
     {
-        await PowerShellTestRunner.Execute(testData).ConfigureAwait(false);
+        await CSharpTestRunner.Execute(testData).ConfigureAwait(false);
     }
 }

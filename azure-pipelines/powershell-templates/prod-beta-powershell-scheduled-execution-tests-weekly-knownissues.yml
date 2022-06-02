@@ -28,5 +28,5 @@ pool:
 steps:
 - template: powershell-execution-tests-template.yml
   parameters:
-    projectFileName: PowerShellBetaExecutionKnownFailureTests
+    projectFileName: PowerShellBetaExecutionKnownIssueTests
     testType: 'Execution'

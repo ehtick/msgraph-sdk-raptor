@@ -23,7 +23,7 @@ The compilation tests, test the successful compilation of the language-specific 
 The execution tests, other than testing compilation of the snippets, use the compiled binary to make a request to the demo tenant and reports error if there's a service exception i.e 4XX or 5xx response. Otherwise reports success.
 
 A test result for both compilation and execution tests includes:
-- Root cause, if it is a known failure
+- Root cause, if it is a known issue
 - Documentation page where the snippet appears
 - Piece of code that is to be compiled with line numbers
 - Compiler error message
@@ -31,9 +31,9 @@ A test result for both compilation and execution tests includes:
 There are 8 C# test projects in total as noted below. The first 4 C# tests below are compilation tests, the next 2 are execution tests and finally an arbitraryDllTest.
 
 1. CsharpBetaTests
-2. CsharpBetaKnownFailureTests
+2. CsharpBetaKnownIssueTests
 3. CsharpV1Tests
-4. CsharpV1KnownFailureTests
+4. CsharpV1KnownIssueTests
 
 5. CsharpBetaExecutionTests
 6. CsharpV1ExecutionTests
@@ -46,16 +46,16 @@ There are 8 C# test projects in total as noted below. The first 4 C# tests below
 There are also 4 Java test projects, as listed below. These are all compilation tests
 
 1. JavaBetaTests
-2. JavaBetaKnownFailureTests
+2. JavaBetaKnownIssueTests
 3. JavaV1Tests
-4. JavaV1KnownFailureTests
+4. JavaV1KnownIssueTests
 
 Powershell has 4 execution test projects, as listed below.
 
 1. PowerShellBetaExecutionTests
-2. PowerShellBetaExecutionKnownFailureTests
+2. PowerShellBetaExecutionKnownIssueTests
 3. PowerShellV1ExecutionTests
-4. PowerShellV1ExecutionKnownFailureTests
+4. PowerShellV1ExecutionKnownIssueTests
 
 **NB: Typescript Tests**
 TypeScriptV1Tests relies on npm libraries that are not yet released. In order to execute these tests locally, users will be required to build kiota based npm packages and publish them locally.
@@ -172,9 +172,9 @@ The scheduled pipelines are categorized into daily and weekly schedules. A singl
 5. Create projects to run the following tests:
     (If the language supports compilation step then the 4 tests below are expected)
     - BetaTests
-    - BetaKnownFailureTests
+    - BetaKnownIssueTests
     - V1Tests
-    - V1KnownFailureTests
+    - V1KnownIssueTests
       (And if applicable execution tests projects as below)
     - V1ExecutionTests
 
