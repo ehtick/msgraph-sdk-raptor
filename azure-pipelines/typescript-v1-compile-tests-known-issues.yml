@@ -59,5 +59,5 @@ steps:
 
 - template: compile-run-tests-template.yml
   parameters:
-    projectFileName: TypeScriptV1KnownFailureTests
+    projectFileName: TypeScriptV1KnownIssueTests
     runName: 'V1 TypeScript Snippet Compilation Tests - Known Issues $(testRunTitle)'

@@ -22,6 +22,6 @@ steps:
 - template: common-templates/checkout.yml
 - template: compile-run-tests-template.yml
   parameters:
-    projectFileName: CsharpV1ExecutionKnownFailureTests
+    projectFileName: CsharpV1ExecutionKnownIssueTests
     runName: 'V1 C# Snippet Execution Tests $(testRunTitle) - Known Issues'
     testType: 'Execution'

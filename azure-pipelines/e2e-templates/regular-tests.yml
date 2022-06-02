@@ -1,5 +1,5 @@
 # Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
-# Steps to run regular tests (that are expected to pass, i.e. no known failures)
+# Steps to run regular tests (that are expected to pass, i.e. no known issues)
 
 steps:
 - pwsh: |

@@ -45,9 +45,9 @@ jobs:
     - template: common-templates/checkout.yml
     - template: java-templates/java-replace-local-path.yml
       parameters:
-        projectFileName: JavaBetaKnownFailureTests
+        projectFileName: JavaBetaKnownIssueTests
         javaPreviewLibPath: ''
     - template: compile-run-tests-template.yml
       parameters:
-        projectFileName: JavaBetaKnownFailureTests
+        projectFileName: JavaBetaKnownIssueTests
         runName: 'Beta Java Snippet Compilation Tests - Known Issues $(testRunTitle)'

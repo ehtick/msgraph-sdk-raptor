@@ -5,10 +5,10 @@ using NUnit.Framework;
 using MsGraphSDKSnippetsCompiler.Models;
 using TestsCommon;
 
-namespace GoV1KnownFailureTests;
+namespace GoV1KnownIssueTests;
 
 [TestFixture]
-public class KnownFailuresV1
+public class KnownIssuesV1
 {
     private static IEnumerable<LanguageTestData> languageTestData => TestDataGenerator.GetLanguageTestCaseData(runSettings);
     private static RunSettings runSettings => new RunSettings(
@@ -28,7 +28,7 @@ public class KnownFailuresV1
     }
 
     /// <summary>
-    /// Gets TestCaseData for V1 known failures
+    /// Gets TestCaseData for V1 known issues
     /// TestCaseData contains snippet file name, version, docsLink, and test case name
     /// </summary>
     public static IEnumerable<TestCaseData> TestDataV1 => TestDataGenerator.GetTestCaseData(languageTestData, runSettings);
@@ -37,7 +37,7 @@ public class KnownFailuresV1
     /// Represents test runs generated from test case data
     /// </summary>
     [Test]
-    [TestCaseSource(typeof(KnownFailuresV1), nameof(TestDataV1))]
+    [TestCaseSource(typeof(KnownIssuesV1), nameof(TestDataV1))]
     public async Task Test(LanguageTestData testData)
     {
         await GoTestRunner.Compile(testData).ConfigureAwait(false);

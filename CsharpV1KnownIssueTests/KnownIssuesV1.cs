@@ -5,19 +5,19 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using TestsCommon;
 
-namespace CsharpBetaKnownFailureTests;
+namespace CsharpV1KnownIssueTests;
 
 [TestFixture]
-public class KnownFailuresBeta
+public class KnownIssuesV1
 {
     /// <summary>
-    /// Gets TestCaseData for Beta known failures
+    /// Gets TestCaseData for V1 known issues
     /// TestCaseData contains snippet file name, version and test case name
     /// </summary>
-    public static IEnumerable<TestCaseData> TestDataBeta => TestDataGenerator.GetTestCaseData(
+    public static IEnumerable<TestCaseData> TestDataV1 => TestDataGenerator.GetTestCaseData(
         new RunSettings
         {
-            Version = Versions.Beta,
+            Version = Versions.V1,
             Language = Languages.CSharp,
             TestType = TestType.CompilationKnownIssues
         });
@@ -29,7 +29,7 @@ public class KnownFailuresBeta
     /// <param name="docsLink">documentation page where the snippet is shown</param>
     /// <param name="version">Docs version (e.g. V1, Beta)</param>
     [Test]
-    [TestCaseSource(typeof(KnownFailuresBeta), nameof(TestDataBeta))]
+    [TestCaseSource(typeof(KnownIssuesV1), nameof(TestDataV1))]
     public void Test(LanguageTestData testData)
     {
         CSharpTestRunner.Compile(testData);

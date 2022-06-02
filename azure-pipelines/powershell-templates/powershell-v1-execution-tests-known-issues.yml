@@ -22,15 +22,15 @@ variables:
   buildConfiguration: 'Release'
 
 jobs:
-- job: PowerShellV1ExecutionKnownFailureTests
+- job: PowerShellV1ExecutionKnownIssueTests
   pool: 
     name: 1es-ubuntu-latest
   timeoutInMinutes: ${{ parameters.PipelineTimeout }}
   strategy:
     maxParallel: 1
     matrix:
-        PowerShellV1ExecutionKnownFailureTests:
-            projectFileName: PowerShellV1ExecutionKnownFailureTests
+        PowerShellV1ExecutionKnownIssueTests:
+            projectFileName: PowerShellV1ExecutionKnownIssueTests
   steps:
   - template: powershell-execution-tests-template.yml
     parameters:
