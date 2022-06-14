@@ -12,7 +12,7 @@ on:
 jobs:
   analyze:
     name: Analyze
-    runs-on: [self-hosted, 1ES.Pool=1es-ubuntu-github-latest]
+    runs-on: [self-hosted, 1ES.Pool=1es-ubuntu-msgraph-sdk-raptor-latest]
     permissions:
       actions: read
       contents: read

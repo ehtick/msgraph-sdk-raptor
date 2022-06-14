@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: [self-hosted, 1ES.Pool=1es-ubuntu-github-latest]
+    runs-on: [self-hosted, 1ES.Pool=1es-ubuntu-msgraph-sdk-raptor-latest]
 
     steps:
     - uses: actions/checkout@v2
