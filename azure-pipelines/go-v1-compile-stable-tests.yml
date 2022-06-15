@@ -1,0 +1,60 @@
+# Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+
+trigger: none # disable triggers based on commits.
+pr:
+  branches:
+    include:
+      - main
+      - dev
+  paths:
+    include:
+      - azure-pipelines/go*
+      - Go*
+      - TestsCommon/GoTestRunner.cs
+      - TestsCommon/GoKnownIssues.cs
+schedules:
+  - cron: "0 1 * * *" # everyday at 1AM UTC (off hours for Redmond, Nairobi and Montréal)
+    displayName: 'Daily V1 Go Snippet Compilation Tests - Stable Tests'
+    branches:
+      include:
+      - dev
+    always: true
+
+name: 'V1 Go Snippet Compilation Tests - Stable Tests'
+
+resources:
+ repositories:
+   - repository: microsoft-graph-docs
+     type: github
+     endpoint: microsoftgraph
+     name: microsoftgraph/microsoft-graph-docs
+     ref: main
+
+variables:
+  buildConfiguration: 'Release'
+
+pool:
+  name: 1es-ubuntu-latest
+
+jobs:
+  - job:
+    timeoutInMinutes: 120
+    steps:
+    - template: common-templates/checkout.yml
+
+    - task: GoTool@0
+      inputs:
+        version: '1.18'
+
+    - pwsh: |
+        $(Build.SourcesDirectory)/msgraph-sdk-raptor/azure-pipelines/e2e-templates/transformSettings.ps1 -RunSettingsPath $env:RunSettingsPath
+      env:
+        RunSettingsPath: '$(Build.SourcesDirectory)/msgraph-sdk-raptor/Test.runsettings'
+      displayName: 'Replace test settings parameters'
+
+    - script: dir $(Build.SourcesDirectory)
+
+    - template: compile-run-tests-template.yml
+      parameters:
+        projectFileName: GoV1Tests
+        runName: 'V1 Go Snippet Compilation Tests $(testRunTitle)'

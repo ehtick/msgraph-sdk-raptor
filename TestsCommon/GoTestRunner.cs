@@ -11,7 +11,7 @@ public static class GoTestRunner
 
     private const int TimeoutForGoInSeconds = 120;
 
-    private const int TimeoutForCacheWarmupInSeconds = 6 * 60;
+    private const int TimeoutForCacheWarmupInSeconds = 12 * 60;
 
     /// <summary>
     /// template to compile snippets in
@@ -165,7 +165,15 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
             TimeoutForGoInSeconds * 1000
         ).ConfigureAwait(false);
 
-        if (!string.IsNullOrEmpty(stderr))
+        if (string.IsNullOrEmpty(stderr))
+        {
+            return;
+        }
+
+        // special case empty lines or lines starting with "go: downloading" since they are not errors
+        // Workaround to be removed once go sdk fixes this.
+        if (stderr.Split(Environment.NewLine)
+            .Any(line => line.Trim() != string.Empty && !line.StartsWith("go: downloading")))
         {
             Assert.Fail($"Failed to download required dependencies: {stderr}");
         }

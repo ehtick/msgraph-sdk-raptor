@@ -11,6 +11,21 @@ namespace TestsCommon
         {
             return new Dictionary<string, KnownIssue>()
             {
+                { "accesspackage-filterbycurrentuser-go-V1-compiles", NeedsAnalysisKnownIssue},
+                { "accesspackage-getapplicablepolicyrequirements-go-V1-compiles", NeedsAnalysisKnownIssue},
+                { "accesspackageassignment-filterbycurrentuser-go-V1-compiles", NeedsAnalysisKnownIssue},
+                { "accesspackageassignmentrequest-cancel-go-V1-compiles", NeedsAnalysisKnownIssue},
+                { "accesspackageassignmentrequest-filterbycurrentuser-go-V1-compiles", NeedsAnalysisKnownIssue},
+                { "accessreviewhistoryinstance-generatedownloaduri-go-V1-compiles", NeedsAnalysisKnownIssue},
+                { "accessreviewinstance-acceptrecommendations-go-V1-compiles", NeedsAnalysisKnownIssue},
+                { "accessreviewinstance-applydecisions-go-V1-compiles", NeedsAnalysisKnownIssue},
+                { "accessreviewinstance-batchrecorddecisions-go-V1-compiles", NeedsAnalysisKnownIssue},
+                { "accessreviewinstance-filterbycurrentuser-go-V1-compiles", NeedsAnalysisKnownIssue},
+                { "accessreviewinstance-resetdecisions-go-V1-compiles", NeedsAnalysisKnownIssue},
+                { "accessreviewinstance-sendreminder-go-V1-compiles", NeedsAnalysisKnownIssue},
+                { "accessreviewinstance-stop-go-V1-compiles", NeedsAnalysisKnownIssue},
+                { "accessreviewinstancedecisionitem-filterbycurrentuser-go-V1-compiles", NeedsAnalysisKnownIssue},
+                { "accessreviewscheduledefinition-filterbycurrentuser-go-V1-compiles", NeedsAnalysisKnownIssue},
                 { "add-tab-to-chat-go-V1-compiles", NeedsAnalysisKnownIssue},
                 { "application-delete-owners-go-V1-compiles", NeedsAnalysisKnownIssue},
                 { "archive-team-go-V1-compiles", NeedsAnalysisKnownIssue},
