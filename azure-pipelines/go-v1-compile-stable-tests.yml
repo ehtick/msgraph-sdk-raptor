@@ -34,7 +34,7 @@ variables:
   buildConfiguration: 'Release'
 
 pool:
-  name: 1es-ubuntu-latest
+  name: 1es-ubuntu-msgraph-sdk-raptor-compute-latest
 
 jobs:
   - job:
