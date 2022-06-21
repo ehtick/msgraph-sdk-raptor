@@ -63,12 +63,12 @@
       }
     },
     {
-      "label": "Run CsharpBetaExecutionKnownFailureTests",
+      "label": "Run CsharpBetaExecutionKnownIssueTests",
       "type": "process",
       "command": "dotnet",
       "args": [
         "test",
-        "${workspaceFolder}/CsharpBetaExecutionKnownFailureTests/CsharpBetaExecutionKnownFailureTests.csproj",
+        "${workspaceFolder}/CsharpBetaExecutionKnownIssueTests/CsharpBetaExecutionKnownIssueTests.csproj",
         "--filter",
         "\"${input:testFilter}\""
       ],
@@ -76,12 +76,12 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Debug CsharpBetaExecutionKnownFailureTests",
+      "label": "Debug CsharpBetaExecutionKnownIssueTests",
       "type": "process",
       "command": "dotnet",
       "args": [
         "test",
-        "${workspaceFolder}/CsharpBetaExecutionKnownFailureTests/CsharpBetaExecutionKnownFailureTests.csproj",
+        "${workspaceFolder}/CsharpBetaExecutionKnownIssueTests/CsharpBetaExecutionKnownIssueTests.csproj",
         "--filter",
         "\"${input:testFilter}\""
       ],
@@ -127,12 +127,12 @@
       }
     },
     {
-      "label": "Run CsharpBetaKnownFailureTests",
+      "label": "Run CsharpBetaKnownIssueTests",
       "type": "process",
       "command": "dotnet",
       "args": [
         "test",
-        "${workspaceFolder}/CsharpBetaKnownFailureTests/CsharpBetaKnownFailureTests.csproj",
+        "${workspaceFolder}/CsharpBetaKnownIssueTests/CsharpBetaKnownIssueTests.csproj",
         "--filter",
         "\"${input:testFilter}\""
       ],
@@ -140,12 +140,12 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Debug CsharpBetaKnownFailureTests",
+      "label": "Debug CsharpBetaKnownIssueTests",
       "type": "process",
       "command": "dotnet",
       "args": [
         "test",
-        "${workspaceFolder}/CsharpBetaKnownFailureTests/CsharpBetaKnownFailureTests.csproj",
+        "${workspaceFolder}/CsharpBetaKnownIssueTests/CsharpBetaKnownIssueTests.csproj",
         "--filter",
         "\"${input:testFilter}\""
       ],
@@ -191,12 +191,12 @@
       }
     },
     {
-      "label": "Run CsharpV1ExecutionKnownFailureTests",
+      "label": "Run CsharpV1ExecutionKnownIssueTests",
       "type": "process",
       "command": "dotnet",
       "args": [
         "test",
-        "${workspaceFolder}/CsharpV1ExecutionKnownFailureTests/CsharpV1ExecutionKnownFailureTests.csproj",
+        "${workspaceFolder}/CsharpV1ExecutionKnownIssueTests/CsharpV1ExecutionKnownIssueTests.csproj",
         "--filter",
         "\"${input:testFilter}\""
       ],
@@ -204,12 +204,12 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Debug CsharpV1ExecutionKnownFailureTests",
+      "label": "Debug CsharpV1ExecutionKnownIssueTests",
       "type": "process",
       "command": "dotnet",
       "args": [
         "test",
-        "${workspaceFolder}/CsharpV1ExecutionKnownFailureTests/CsharpV1ExecutionKnownFailureTests.csproj",
+        "${workspaceFolder}/CsharpV1ExecutionKnownIssueTests/CsharpV1ExecutionKnownIssueTests.csproj",
         "--filter",
         "\"${input:testFilter}\""
       ],
@@ -255,12 +255,12 @@
       }
     },
     {
-      "label": "Run CsharpV1KnownFailureTests",
+      "label": "Run CsharpV1KnownIssueTests",
       "type": "process",
       "command": "dotnet",
       "args": [
         "test",
-        "${workspaceFolder}/CsharpV1KnownFailureTests/CsharpV1KnownFailureTests.csproj",
+        "${workspaceFolder}/CsharpV1KnownIssueTests/CsharpV1KnownIssueTests.csproj",
         "--filter",
         "\"${input:testFilter}\""
       ],
@@ -268,12 +268,12 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Debug CsharpV1KnownFailureTests",
+      "label": "Debug CsharpV1KnownIssueTests",
       "type": "process",
       "command": "dotnet",
       "args": [
         "test",
-        "${workspaceFolder}/CsharpV1KnownFailureTests/CsharpV1KnownFailureTests.csproj",
+        "${workspaceFolder}/CsharpV1KnownIssueTests/CsharpV1KnownIssueTests.csproj",
         "--filter",
         "\"${input:testFilter}\""
       ],
@@ -319,12 +319,12 @@
       }
     },
     {
-      "label": "Run JavaBetaKnownFailureTests",
+      "label": "Run JavaBetaKnownIssueTests",
       "type": "process",
       "command": "dotnet",
       "args": [
         "test",
-        "${workspaceFolder}/JavaBetaKnownFailureTests/JavaBetaKnownFailureTests.csproj",
+        "${workspaceFolder}/JavaBetaKnownIssueTests/JavaBetaKnownIssueTests.csproj",
         "--filter",
         "\"${input:testFilter}\""
       ],
@@ -332,12 +332,12 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Debug JavaBetaKnownFailureTests",
+      "label": "Debug JavaBetaKnownIssueTests",
       "type": "process",
       "command": "dotnet",
       "args": [
         "test",
-        "${workspaceFolder}/JavaBetaKnownFailureTests/JavaBetaKnownFailureTests.csproj",
+        "${workspaceFolder}/JavaBetaKnownIssueTests/JavaBetaKnownIssueTests.csproj",
         "--filter",
         "\"${input:testFilter}\""
       ],
@@ -383,12 +383,12 @@
       }
     },
     {
-      "label": "Run JavaV1KnownFailureTests",
+      "label": "Run JavaV1KnownIssueTests",
       "type": "process",
       "command": "dotnet",
       "args": [
         "test",
-        "${workspaceFolder}/JavaV1KnownFailureTests/JavaV1KnownFailureTests.csproj",
+        "${workspaceFolder}/JavaV1KnownIssueTests/JavaV1KnownIssueTests.csproj",
         "--filter",
         "\"${input:testFilter}\""
       ],
@@ -396,12 +396,12 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Debug JavaV1KnownFailureTests",
+      "label": "Debug JavaV1KnownIssueTests",
       "type": "process",
       "command": "dotnet",
       "args": [
         "test",
-        "${workspaceFolder}/JavaV1KnownFailureTests/JavaV1KnownFailureTests.csproj",
+        "${workspaceFolder}/JavaV1KnownIssueTests/JavaV1KnownIssueTests.csproj",
         "--filter",
         "\"${input:testFilter}\""
       ],
@@ -479,12 +479,50 @@
       }
     },
     {
-      "label": "Debug GoV1KnownFailureTests",
+      "label": "Debug GoV1KnownIssueTests",
       "type": "process",
       "command": "dotnet",
       "args": [
         "test",
-        "${workspaceFolder}/GoV1KnownFailureTests/GoV1KnownFailureTests.csproj",
+        "${workspaceFolder}/GoV1KnownIssueTests/GoV1KnownIssueTests.csproj",
+        "--filter",
+        "\"${input:testFilter}\""
+      ],
+      "isTestCommand": true,
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "VSTEST_HOST_DEBUG": "1"
+        }
+      }
+    },
+    {
+      "label": "Debug GoBetaTests",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "test",
+        "${workspaceFolder}/GoBetaTests/GoBetaTests.csproj",
+        "--filter",
+        "\"${input:testFilter}\""
+      ],
+      "isTestCommand": true,
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "VSTEST_HOST_DEBUG": "1"
+        }
+      }
+    },
+    {
+      "label": "Debug GoBetaKnownIssueTests",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "test",
+        "${workspaceFolder}/GoBetaKnownIssueTests/GoBetaKnownIssueTests.csproj",
         "--filter",
         "\"${input:testFilter}\""
       ],
