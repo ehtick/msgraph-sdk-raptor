@@ -9,7 +9,7 @@ public static class GoTestRunner
 {
     private readonly static string CompilationDirectory = InitializeCompilationDirectory();
 
-    private const int TimeoutForGoInSeconds = 120;
+    private const int TimeoutForGoInSeconds = 10 * 60;  // 10 min
 
     private const int TimeoutForCacheWarmupInSeconds = 12 * 60;
 
@@ -21,7 +21,7 @@ public static class GoTestRunner
 import (
     ""log""
 
-	msgraphsdk ""github.com/microsoftgraph/msgraph-sdk-go""
+	msgraphsdk ""github.com/microsoftgraph/<msgraph-sdk-version>""
 )
 
 func //Insert-capitalized-testNameAsFunctionName-here() {
@@ -43,6 +43,11 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
     /// uses Singleline so that (.*) matches new line characters as well
     /// </summary>
     private static readonly Regex GoSnippetRegex = new Regex(GoSnippetPattern, RegexOptions.Singleline | RegexOptions.Compiled);
+
+    private static readonly Dictionary<string, string> SourceRepository = new Dictionary<string, string>(){
+        {"V1", "msgraph-sdk-go"},
+        {"Beta", "msgraph-beta-sdk-go"}
+    };
 
     static string InitializeCompilationDirectory()
     {
@@ -77,7 +82,7 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
     {
         var version = languageTestData.First().Version;
         await CopyDependenciesFileIntoCompilationDirectory(version).ConfigureAwait(false);
-        await DumpGoFiles(languageTestData).ConfigureAwait(false);
+        await DumpGoFiles(languageTestData, version).ConfigureAwait(false);
         await DownloadRequiredDependencies().ConfigureAwait(false);
         await WarmUpCache(languageTestData.First()).ConfigureAwait(false);
     }
@@ -136,7 +141,7 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
         return stringContent.Replace("-", "_");
     }
 
-    public static async Task DumpGoFiles(IEnumerable<LanguageTestData> languageTestData)
+    public static async Task DumpGoFiles(IEnumerable<LanguageTestData> languageTestData, Versions version)
     {
         _ = languageTestData ?? throw new ArgumentNullException(nameof(languageTestData));
 
@@ -146,7 +151,9 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
             var testNameAsFunctionName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(
                 ReplaceHyphensWithUnderscores(testData.TestName).ToLower(CultureInfo.CurrentCulture)
             );
+            var sdkSource = SourceRepository[version.ToString()];
             codeToCompile = codeToCompile
+                .Replace("<msgraph-sdk-version>", sdkSource)
                 .Replace("msgraphsdk.NewGraphServiceClient(requestAdapter)", "msgraphsdk.NewGraphServiceClient(nil)")
                 .Replace("//Insert-capitalized-testNameAsFunctionName-here", testNameAsFunctionName )
                 .Replace("result, err := graphClient.", "_, err := graphClient.");
@@ -173,7 +180,7 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
         // special case empty lines or lines starting with "go: downloading" since they are not errors
         // Workaround to be removed once go sdk fixes this.
         if (stderr.Split(Environment.NewLine)
-            .Any(line => line.Trim() != string.Empty && !line.StartsWith("go: downloading")))
+            .Any(line => !string.IsNullOrEmpty(line.Trim()) && !line.StartsWith("go: downloading", StringComparison.InvariantCulture)))
         {
             Assert.Fail($"Failed to download required dependencies: {stderr}");
         }

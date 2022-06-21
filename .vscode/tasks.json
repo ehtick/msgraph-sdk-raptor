@@ -498,6 +498,25 @@
       }
     },
     {
+      "label": "Debug GoBetaTests",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "test",
+        "${workspaceFolder}/GoBetaTests/GoBetaTests.csproj",
+        "--filter",
+        "\"${input:testFilter}\""
+      ],
+      "isTestCommand": true,
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "VSTEST_HOST_DEBUG": "1"
+        }
+      }
+    },
+    {
       "label": "Run UnitTests",
       "type": "process",
       "command": "dotnet",
