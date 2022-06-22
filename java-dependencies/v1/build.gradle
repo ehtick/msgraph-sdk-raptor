@@ -11,7 +11,7 @@ dependencies {
     toCopy 'com.squareup.okhttp3:okhttp:4.10.0'
     toCopy 'com.azure:azure-identity:1.5.2'
     toCopy 'com.microsoft.graph:microsoft-graph-core:2.0.13'
-    toCopy 'com.microsoft.graph:microsoft-graph:5.27.0'
+    toCopy 'com.microsoft.graph:microsoft-graph:5.28.0'
 }
 task download(type: Copy) {
     from configurations.toCopy
