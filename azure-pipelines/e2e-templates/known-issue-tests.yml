@@ -10,7 +10,7 @@ steps:
   workingDirectory: $(Build.ArtifactStagingDirectory)
 
 - pwsh: |
-    $dllPath = (Get-ChildItem ./msgraph-sdk-dotnet/ -Include Microsoft.Graph.dll -Recurse | Where-Object { $_.FullName.Contains("netcoreapp") }).FullName
+    $dllPath = (Get-ChildItem ./msgraph-sdk-dotnet/ -Include Microsoft.Graph.dll -Recurse | Where-Object { $_.FullName.Contains("netstandard") } | Select-Object -First 1).FullName
     Write-Host "Path to Microsoft.Graph.dll: $dllPath"
 
     ./msgraph-sdk-raptor/azure-pipelines/e2e-templates/transformSettings.ps1 -Version "$(metadataVersion)" -TestType "CompilationKnownIssues" -DllPath "$dllPath" -Language "CSharp" -RunSettingsPath "$(runSettingsFile)"
