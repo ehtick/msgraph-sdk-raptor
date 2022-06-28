@@ -7,10 +7,15 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-        if (!(Get-Module -Name Microsoft.Graph -ListAvailable)) {
-            Install-Module Microsoft.Graph -Repository PSGallery -Scope AllUsers -Force -AllowClobber
-            Import-Module Microsoft.Graph -Global -Force 
+        $modules = Get-Module -Name Microsoft.Graph -ListAvailable
+        if ($modules.Count -gt 0 -and $modules[0].Version -eq "1.10.0") {
+          echo "Latest version already installed"
+        }else {
+          echo "Installing latest version"
+          Install-Module Microsoft.Graph -Repository PSGallery -Scope AllUsers -Force -AllowClobber
+          Import-Module Microsoft.Graph -Global -Force  
         }
+
 - template: ../common-templates/checkout.yml
 - template: ../compile-run-tests-template.yml
   parameters:
