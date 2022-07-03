@@ -14,13 +14,13 @@ pr:
       - TestsCommon/TypeScriptKnownIssues.cs
 schedules:
   - cron: "0 3 * * *" # everyday at 3AM UTC (off hours for Redmond, Nairobi and Montréal)
-    displayName: 'Daily V1 TypeScript Snippet Compilation Tests'
+    displayName: 'Daily V1 TypeScript Snippet Execution Tests'
     branches:
       include:
       - dev
     always: true
 
-name: 'V1 TypeScript Snippet Compilation Tests'
+name: 'V1 TypeScript Snippet Execution Tests'
 
 resources:
  repositories:
@@ -29,11 +29,6 @@ resources:
      endpoint: microsoftgraph
      name: microsoftgraph/microsoft-graph-docs
      ref: test-typescript-docs
-   - repository: msgraph-sdk-typescript
-     type: github
-     endpoint: microsoftgraph
-     name: microsoftgraph/msgraph-sdk-typescript
-     ref: dev
 
 variables:
   buildConfiguration: 'Release'
@@ -41,12 +36,9 @@ variables:
 pool:
   name: 1es-ubuntu-latest
 
+
 steps:
 - template: common-templates/checkout.yml
-
-- checkout: msgraph-sdk-typescript
-  clean: true
-  fetchDepth: 1
 
 - task: NodeTool@0
   inputs:
@@ -59,25 +51,14 @@ steps:
     customCommand: 'install -g typescript'
 
 - pwsh: |
-    $(Build.SourcesDirectory)/msgraph-sdk-raptor/azure-pipelines/e2e-templates/transformSettings.ps1 -RunSettingsPath $env:RunSettingsPath -Language $env:Language -Version $env:Version -TestType $env:TestType
+    $(Build.SourcesDirectory)/msgraph-sdk-raptor/azure-pipelines/e2e-templates/transformSettings.ps1 -RunSettingsPath $env:RunSettingsPath
   env:
     RunSettingsPath: '$(Build.SourcesDirectory)/msgraph-sdk-raptor/Test.runsettings'
-    Language: 'TypeScript'
-    Version: 'v1.0'
-    TestType: 'CompilationStable'
   displayName: 'Replace test settings parameters'
-
-- pwsh: $(Build.SourcesDirectory)/msgraph-sdk-raptor/azure-pipelines/typescript-templates/prepare-typescript-folder.ps1
-  displayName: 'Create npm directory'
-  env:
-    NPM_USERNAME: $(NPM_USERNAME)
-    NPM_PASSWORD: $(NPM_PASSWORD)
-    NPM_EMAIL: $(NPM_EMAIL)
 
 - script: dir $(Build.SourcesDirectory)
 
 - template: compile-run-tests-template.yml
   parameters:
-    projectFileName: TypeScriptV1Tests
-    runName: 'V1 TypeScript Snippet Compilation Tests $(testRunTitle)'
-
+    projectFileName: TypeScriptV1ExecutionKnownIssueTests
+    runName: 'V1 TypeScript Snippet Execution Tests - Known Issues $(testRunTitle)'

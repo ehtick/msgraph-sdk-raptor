@@ -42,3 +42,10 @@ updates:
     time: "11:00"  #11am utc
     timezone: "GMT"
   open-pull-requests-limit: 10
+- package-ecosystem: npm
+  directory: "/TypeScriptV1Tests/TsDependecies"
+  schedule:
+    interval: daily
+    time: "11:00"  #11am utc
+    timezone: "GMT"
+  open-pull-requests-limit: 10

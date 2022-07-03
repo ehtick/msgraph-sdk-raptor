@@ -5,10 +5,10 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using TestsCommon;
 
-namespace TypeScriptV1Tests
+namespace TypeScriptV1ExecutionTests
 {
     [TestFixture]
-    public class SnippetCompileV1Tests
+    public class SnippetExecutionV1Tests
     {
         private static RunSettings runSettings => new RunSettings(
             TestContext.Parameters,
@@ -16,7 +16,7 @@ namespace TypeScriptV1Tests
             {
                 Version = Versions.V1,
                 Language = Languages.TypeScript,
-                TestType = TestType.CompilationStable
+                TestType = TestType.ExecutionStable
             }
         );
 
@@ -45,10 +45,10 @@ namespace TypeScriptV1Tests
         /// Represents test runs generated from test case data
         /// </summary>
         [Test]
-        [TestCaseSource(typeof(SnippetCompileV1Tests), nameof(TestDataV1))]
+        [TestCaseSource(typeof(SnippetExecutionV1Tests), nameof(TestDataV1))]
         public async Task Test(LanguageTestData testData)
         {
-            await testRunner.RunCompilationTests(testData).ConfigureAwait(false);
+            await testRunner.RunExecutionTests(testData).ConfigureAwait(false);
         }
     }
 }

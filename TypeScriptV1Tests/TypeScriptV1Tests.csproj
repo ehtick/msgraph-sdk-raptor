@@ -1,6 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="$(MSBuildProjectDirectory)\..\RaptorShared.targets" />
+
+  <ItemGroup>
+    <None Remove="TsDependecies\package-lock.json" />
+    <None Remove="TsDependecies\package.json" />
+    <None Remove="TsDependecies\tsconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TsDependecies\package-lock.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TsDependecies\package.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TsDependecies\tsconfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />

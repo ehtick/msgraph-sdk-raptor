@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"module": "CommonJS",
+		"esModuleInterop": true,
+		"target": "ES2018",
+        "moduleResolution": "node",
+        "downlevelIteration": true
+	},
+	"include": ["."],
+	"exclude": ["node_modules"],
+	"lib": ["es2015", "es2016", "es2017", "es2018", "es2019", "es2020"]
+}

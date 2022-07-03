@@ -12,8 +12,8 @@
         /// <summary>
         /// Gets known issues
         /// </summary>
-        /// <returns>A mapping of test names into known CSharp issues</returns>
-        public static Dictionary<string, KnownIssue> GetTypescriptCompilationKnownIssues()
+        /// <returns>A mapping of test names into known TypeScript issues</returns>
+        public static Dictionary<string, KnownIssue> GetTypeScriptCompilationKnownIssues()
         {
             return new Dictionary<string, KnownIssue>()
             {
@@ -111,6 +111,28 @@
                 {"update-plannertask-typescript-V1-compiles", NeedsAnalysisKnownIssue },
 
             };
+        }
+
+
+        /// <summary>
+        /// Gets known issues
+        /// </summary>
+        /// <returns>A mapping of test names into known TypeScript issues</returns>
+        public static Dictionary<string, KnownIssue> GetTypeScriptExecutionKnownIssues()
+        {
+            var executionIssues =  new Dictionary<string, KnownIssue>()
+            {
+                {"update-plannertask-typescript-V1-compiles", NeedsAnalysisKnownIssue },
+            };
+
+            // add all compilation known issues
+            var compilationIssues = GetTypeScriptCompilationKnownIssues();
+            foreach(var issuePair in compilationIssues){
+                if(!executionIssues.ContainsKey(issuePair.Key))
+                    executionIssues.Add(issuePair.Key, issuePair.Value);
+            }
+
+            return executionIssues;
         }
 
     }

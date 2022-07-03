@@ -162,7 +162,7 @@ public static class KnownIssues
         {
             Languages.CSharp => GetCSharpCompilationKnownIssues(),
             Languages.Java => GetJavaCompilationKnownIssues(),
-            Languages.TypeScript => GetTypescriptCompilationKnownIssues(),
+            Languages.TypeScript => GetTypeScriptCompilationKnownIssues(),
             Languages.Go => GetGoCompilationKnownIssues(),
             _ => new Dictionary<string, KnownIssue>(),
         };
@@ -179,6 +179,7 @@ public static class KnownIssues
         {
             Languages.CSharp => GetCSharpExecutionKnownIssues(),
             Languages.PowerShell => GetPowerShellExecutionKnownIssues(),
+            Languages.TypeScript => GetTypeScriptExecutionKnownIssues(),
             _ => new Dictionary<string, KnownIssue>()
         };
     }

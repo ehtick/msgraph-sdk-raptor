@@ -4,19 +4,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using TestsCommon;
-
-namespace TypeScriptV1Tests
+namespace TypeScriptV1KnownIssueTests
 {
     [TestFixture]
-    public class SnippetCompileV1Tests
+    public class KnownIssuesV1
     {
+
         private static RunSettings runSettings => new RunSettings(
             TestContext.Parameters,
             new RunSettings()
             {
                 Version = Versions.V1,
                 Language = Languages.TypeScript,
-                TestType = TestType.CompilationStable
+                TestType = TestType.ExecutionKnownIssues
             }
         );
 
@@ -35,6 +35,7 @@ namespace TypeScriptV1Tests
             await testRunner.PrepareEnvironment(languageTestData).ConfigureAwait(false);
         }
 
+
         /// <summary>
         /// Gets TestCaseData for V1
         /// TestCaseData contains snippet file name, version and test case name
@@ -45,10 +46,10 @@ namespace TypeScriptV1Tests
         /// Represents test runs generated from test case data
         /// </summary>
         [Test]
-        [TestCaseSource(typeof(SnippetCompileV1Tests), nameof(TestDataV1))]
+        [TestCaseSource(typeof(KnownIssuesV1), nameof(TestDataV1))]
         public async Task Test(LanguageTestData testData)
         {
-            await testRunner.RunCompilationTests(testData).ConfigureAwait(false);
+            await testRunner.RunExecutionTests(testData).ConfigureAwait(false);
         }
     }
 }
