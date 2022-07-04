@@ -14,13 +14,13 @@ pr:
       - TestsCommon/TypeScriptKnownIssues.cs
 schedules:
   - cron: "0 3 * * *" # everyday at 3AM UTC (off hours for Redmond, Nairobi and Montréal)
-    displayName: 'Daily V1 TypeScript Snippet Execution Tests'
+    displayName: 'Daily V1 TypeScript Snippet Execution Tests - Known Issues'
     branches:
       include:
       - dev
     always: true
 
-name: 'V1 TypeScript Snippet Execution Tests'
+name: 'V1 TypeScript Snippet Execution Tests - Known Issues'
 
 resources:
  repositories:
