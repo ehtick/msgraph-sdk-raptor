@@ -19,20 +19,29 @@ public static class GoTestRunner
     private const string SDKShellTemplate = @"package snippets
 
 import (
-    ""log""
+    //insert-optional-log-here
+    //insert-optional-time-here
 
-	msgraphsdk ""github.com/microsoftgraph/<msgraph-sdk-version>""
+    msgraphsdk ""github.com/microsoftgraph/<msgraph-sdk-version>""
+    //insert-optional-models-import
+    //insert-optional-config-import
 )
 
 func //Insert-capitalized-testNameAsFunctionName-here() {
     //insert-code-here
 
-    if err != nil {
-		log.Fatal(err)
-	}
+    //insert-optional-error-here
 }
 
 ";
+
+
+    private const string ErrorLog = @"
+        if err != nil {
+            log.Fatal(err)
+        }
+    ";
+
     /// <summary>
     /// matches Go snippet from Go snippets markdown output
     /// </summary>
@@ -43,6 +52,7 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
     /// uses Singleline so that (.*) matches new line characters as well
     /// </summary>
     private static readonly Regex GoSnippetRegex = new Regex(GoSnippetPattern, RegexOptions.Singleline | RegexOptions.Compiled);
+    private static readonly Regex ConfigParentRegex =  new Regex("graphClient\\.(.)*", RegexOptions.Compiled);  // Don't match newline
 
     private static readonly Dictionary<string, string> SourceRepository = new Dictionary<string, string>(){
         {"V1", "msgraph-sdk-go"},
@@ -141,6 +151,38 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
         return stringContent.Replace("-", "_");
     }
 
+     /// <summary>
+    /// Helper method to simplify the modification SDKShellTemplate above to include optional code
+    /// </summary>
+     private static string ReplaceOrRemove(this string stringval, bool condition, string text, string replacement){
+        if(condition)
+            return stringval.Replace(text, replacement);
+
+        return stringval.Replace(text,"");
+    }
+
+    private static string ParseCodeStringForRequiredConfig(this string codeContentString){
+        var configParentStringMatch = ConfigParentRegex.Match(codeContentString);
+        var configParentString = "";
+        if (configParentStringMatch.Success)
+        {
+            configParentString = configParentStringMatch.Groups[0].Value;
+        }
+        else
+        {
+            Assert.Fail("Regex {0}, against code {1} Failed", ConfigParentRegex, codeContentString);
+        }
+        var configSegments = configParentString.Split(".");
+        var configSegmentsRequired = configSegments[1..^1];
+        var requiredConfigPath = string.Join("/",configSegmentsRequired.Select(segment => segment.Split("(").First()))
+            .Replace("ById", "/Item")
+            .Replace("$", "")
+            .ToLower(CultureInfo.CurrentCulture);
+        var basepath = "github.com/microsoftgraph/<msgraph-sdk-version>/";
+        var requiredConfig = basepath + requiredConfigPath;
+        return requiredConfig;
+    }
+
     public static async Task DumpGoFiles(IEnumerable<LanguageTestData> languageTestData, Versions version)
     {
         _ = languageTestData ?? throw new ArgumentNullException(nameof(languageTestData));
@@ -152,11 +194,20 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
                 ReplaceHyphensWithUnderscores(testData.TestName).ToLower(CultureInfo.CurrentCulture)
             );
             var sdkSource = SourceRepository[version.ToString()];
+            if(codeToCompile.Contains("graphconfig"))
+            {
+                string requiredConfig = codeToCompile.ParseCodeStringForRequiredConfig();
+                codeToCompile = codeToCompile.Replace("//insert-optional-config-import", $"graphconfig \"{requiredConfig}\"");
+            }
             codeToCompile = codeToCompile
                 .Replace("<msgraph-sdk-version>", sdkSource)
                 .Replace("msgraphsdk.NewGraphServiceClient(requestAdapter)", "msgraphsdk.NewGraphServiceClient(nil)")
                 .Replace("//Insert-capitalized-testNameAsFunctionName-here", testNameAsFunctionName )
-                .Replace("result, err := graphClient.", "_, err := graphClient.");
+                .Replace("result, err := graphClient.", "_, err := graphClient.")
+                .ReplaceOrRemove(codeToCompile.Contains("time.Parse"), "//insert-optional-time-here", "\"time\"")
+                .ReplaceOrRemove(codeToCompile.Contains("err := graphClient"), "//insert-optional-log-here", "\"log\"")
+                .ReplaceOrRemove(codeToCompile.Contains("err := graphClient"), "//insert-optional-error-here", ErrorLog)
+                .ReplaceOrRemove(codeToCompile.Contains("graphmodels"), "//insert-optional-models-import","graphmodels \"github.com/microsoftgraph/msgraph-sdk-go/models\"");
             var filePath = Path.Combine(CompilationDirectory, "src", testData.TestName + ".go");
             await File.WriteAllTextAsync(filePath, codeToCompile).ConfigureAwait(false);
         }
