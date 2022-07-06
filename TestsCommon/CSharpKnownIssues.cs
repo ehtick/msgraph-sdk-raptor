@@ -221,7 +221,6 @@ public static class CSharpKnownIssues
                 { "event-delta-calendarview-csharp-Beta-executes", NeedsAnalysisKnownIssue },
                 { "get-accesspackageassignmentpolicy-csharp-Beta-executes", MissingDataKnownIssue with {GitHubIssue="https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/940"}},
                 { "get-accesspackageassignmentpolicy-expand-customextensionhandlers-csharp-Beta-executes", MissingDataKnownIssue with {GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/940"}},
-                { "get-accesspackageassignmentpolicy-csharp-V1-executes", MissingDataKnownIssue with {GitHubIssue="https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/940"}},
                 { "get-accesspackageassignmentrequest-csharp-Beta-executes", MissingDataKnownIssue },
                 { "get-accesspackageassignmentresourcerole-csharp-Beta-executes", MissingDataKnownIssue },
                 { "get-accesspackageresourceenvironment-csharp-Beta-executes", MissingDataKnownIssue },
@@ -700,7 +699,6 @@ public static class CSharpKnownIssues
                 { "accessreviewinstance-filterbycurrentuser-csharp-V1-executes", SDKFunctionParameterKnownIssue },
                 { "accessreviewinstancedecisionitem-filterbycurrentuser-csharp-V1-executes", SDKFunctionParameterKnownIssue },
 
-                { "get-alert-csharp-V1-executes", EphemeralAlertDataKnownIssue },
 
                 { "get-appconsentrequest-csharp-V1-executes", NoProgrammaticWayKnownIssue with { GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/612" } },
                 { "get-userconsentrequest-csharp-V1-executes", NoProgrammaticWayKnownIssue with { GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/612" } },
@@ -723,11 +721,7 @@ public static class CSharpKnownIssues
 
                 { "get-printconnector-csharp-V1-executes", NoProgrammaticWayKnownIssue with { GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/624" } },
 
-                { "get-printershare-capabilities-csharp-V1-executes", PermissionsMoreThanOnePermissionKnownIssue },
-                { "get-printershare-csharp-V1-executes", PermissionsMoreThanOnePermissionKnownIssue },
                 { "list-printjob-2-csharp-V1-executes", PermissionsMoreThanOnePermissionKnownIssue },
-                { "list-group-csharp-V1-executes", PermissionsMoreThanOnePermissionKnownIssue },
-                { "list-user-csharp-V1-executes", PermissionsMoreThanOnePermissionKnownIssue },
 
                 { "get-printoperation-csharp-V1-executes", PermissionsMoreThanOnePermissionKnownIssue },
 
@@ -832,7 +826,6 @@ public static class CSharpKnownIssues
                 { "accesspackage-filterbycurrentuser-csharp-V1-executes", SDKFunctionParameterKnownIssue },
                 { "accesspackageassignment-filterbycurrentuser-csharp-V1-executes", MissingPermissionScopeKnownIssue },
                 { "accesspackageassignmentrequest-filterbycurrentuser-csharp-V1-executes", MissingPermissionScopeKnownIssue },
-                { "get-accesspackageassignmentrequest-csharp-V1-executes", MissingPermissionScopeKnownIssue },
                 { "workbook-tablerowoperationresult-csharp-V1-executes", MissingPermissionScopeKnownIssue },
 
                 { "get-attendancereport-by-id-csharp-V1-executes", NoProgrammaticWayKnownIssue with { GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/792" } },
@@ -843,9 +836,7 @@ public static class CSharpKnownIssues
                 { "list-all-bundles-csharp-V1-executes", NoProgrammaticWayKnownIssue with { GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/938"}},
                 { "list-attendancerecord-csharp-V1-executes", NoProgrammaticWayKnownIssue with { GitHubIssue = "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/792" }},
 
-                { "get-approval-csharp-V1-executes", new KnownIssue(Category.MissingData, "Missing Data known issue", "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/941") },
                 { "get-approvalstage-csharp-V1-executes", new KnownIssue(Category.MissingData, "Missing Data known issue", "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/941") },
-                { "list-approvalstage-csharp-V1-executes", new KnownIssue(Category.MissingData, "Missing Data known issue", "https://github.com/microsoftgraph/msgraph-sdk-raptor/issues/941") },
 
                 { "channel-doesuserhaveaccess-csharp-Beta-executes", NeedsAnalysisKnownIssue},
                 { "channel-doesuserhaveaccess-externaluser-csharp-Beta-executes", NeedsAnalysisKnownIssue},
