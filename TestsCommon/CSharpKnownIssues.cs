@@ -131,6 +131,7 @@ public static class CSharpKnownIssues
                 { "update-openidconnectprovider-csharp-Beta-compiles", new KnownIssue(Category.HTTP, "OpenIdConnectProvider should be specified") },
                 { "create-connector-from-connectorgroup-csharp-Beta-compiles", new KnownIssue(Category.SDK, "Missing method") },
                 { "list-tenantusage-csharp-Beta-compiles", new KnownIssue(Category.Documentation, "tenantUsage is not yet defined in the metadata, but the docs page is published.", "https://github.com/microsoftgraph/microsoft-graph-docs/issues/17058") },
+                { "list-administrativeunit-member-refs-csharp-V1-compiles", NeedsAnalysisKnownIssue },
             };
     }
 
