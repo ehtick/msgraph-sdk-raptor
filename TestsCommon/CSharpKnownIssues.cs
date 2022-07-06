@@ -868,6 +868,32 @@ public static class CSharpKnownIssues
                 { "list-cloudpc-csharp-Beta-executes", NeedsAnalysisKnownIssue},
                 { "list-conversationmember-csharp-Beta-executes", NeedsAnalysisKnownIssue},
 
+                { "get-list-2-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-drive-by-site-id-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-richlongrunningoperation-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "list-subsites-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-servicehealth-with-issues-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "site-list-drives-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-previous-versions-listitem-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-servicehealth-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-site-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-columns-from-site-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-columns-from-list-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-temporaryaccesspassauthenticationmethod-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "servicehealthissue-incidentreport-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "list-samlorwsfedexternaldomainfederation-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-administrativeunit-members-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-list-item-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "list-checklistitem-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-temporaryaccesspassauthenticationmethodconfiguration-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-groupsettings-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-checklistitem-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-samlorwsfedexternaldomainfederation-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-list-1-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-single-version-listitem-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-list-multi-expand-csharp-V1-executes", NeedsAnalysisKnownIssue },
+                { "get-list-items-csharp-V1-executes", NeedsAnalysisKnownIssue },
+
             };
     }
 }
