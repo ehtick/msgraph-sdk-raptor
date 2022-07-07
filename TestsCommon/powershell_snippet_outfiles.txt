@@ -1,0 +1,3 @@
+Get-MgUserOnenoteResourceContent
+Get-MgUserMessageContent
+Get-MgUserOnlineMeetingAttendeeReport

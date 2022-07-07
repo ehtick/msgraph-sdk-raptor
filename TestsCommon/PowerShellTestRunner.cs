@@ -41,7 +41,6 @@ public static class PowerShellTestRunner
     public static async Task Execute(LanguageTestData testData)
     {
         ArgumentNullException.ThrowIfNull(testData);
-
         var snippet = GetSnippetToExecute(testData.FileContent);
         var graphCommandDetails = GetGraphCommandDetails(testData, snippet);
         var delegatedScopes = await GetScopes(testData, graphCommandDetails.Uri, graphCommandDetails.Method)
@@ -260,6 +259,14 @@ public static class PowerShellTestRunner
         try
         {
             var snippetWithIdentifiers = ReplaceIdentifiers(formattedSnippet);
+            if (RequiresOutFile(snippetWithIdentifiers))
+            {
+                var splittedString = snippetWithIdentifiers.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                int splittedStringCount = splittedString.Length;
+                string lastString = splittedString[splittedStringCount - 2];
+                var modifiedLastItem = lastString + " -OutFile outfile.txt";
+                snippetWithIdentifiers = snippetWithIdentifiers.Replace(lastString, modifiedLastItem);
+            }
             return snippetWithIdentifiers;
         }
         catch (Exception ex)
@@ -267,6 +274,18 @@ public static class PowerShellTestRunner
             Assert.Fail($"{formattedSnippet}{Environment.NewLine}{ex.Message}");
             throw;
         }
+    }
+
+    private static bool RequiresOutFile(string snippetWithIdentifiers)
+    {
+        string path = @"powershell_snippet_outfiles.txt";
+            string[] lines = File.ReadAllLines(path);
+            for(int i = 0; i < lines.Length-1; i++)
+            {
+                if (snippetWithIdentifiers.Contains(lines[i]))
+                    return true;
+            }
+        return false;
     }
 
     private static Match ExtractPowerShellSnippet(string fileContent)
@@ -294,6 +313,8 @@ public static class PowerShellTestRunner
 
     private static string ReplaceIdentifiers(string codeSnippet)
     {
+        //Requires outfile
+
         var psIdentifierReplacer = PsIdentifiersReplacer.Instance;
         codeSnippet = psIdentifierReplacer.ReplaceIds(codeSnippet);
         return codeSnippet;
