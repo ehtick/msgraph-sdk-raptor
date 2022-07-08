@@ -20,7 +20,7 @@ namespace TypeScriptV1KnownIssueTests
             }
         );
 
-        private static IEnumerable<LanguageTestData> languageTestData => TestDataGenerator.GetLanguageTestCaseData(runSettings);
+        private static IEnumerable<LanguageTestData> languageTestData => TestDataGenerator.GetExecutionLanguageTestData(runSettings);
 
         private TypeScriptTestRunner testRunner;
 
@@ -32,7 +32,7 @@ namespace TypeScriptV1KnownIssueTests
         public async Task TestsSetUp()
         {
             testRunner = new TypeScriptTestRunner();
-            await testRunner.PrepareEnvironment(languageTestData).ConfigureAwait(false);
+            await testRunner.PrepareEnvironment(languageTestData, true).ConfigureAwait(false);
         }
 
 

@@ -20,7 +20,7 @@ namespace TypeScriptV1ExecutionTests
             }
         );
 
-        private static IEnumerable<LanguageTestData> languageTestData => TestDataGenerator.GetLanguageTestCaseData(runSettings);
+        private static IEnumerable<LanguageTestData> languageTestData => TestDataGenerator.GetExecutionLanguageTestData(runSettings);
 
         private TypeScriptTestRunner testRunner;
 
@@ -32,7 +32,7 @@ namespace TypeScriptV1ExecutionTests
         public async Task TestsSetUp()
         {
             testRunner = new TypeScriptTestRunner();
-            await testRunner.PrepareEnvironment(languageTestData).ConfigureAwait(false);
+            await testRunner.PrepareEnvironment(languageTestData, true).ConfigureAwait(false);
         }
 
         /// <summary>

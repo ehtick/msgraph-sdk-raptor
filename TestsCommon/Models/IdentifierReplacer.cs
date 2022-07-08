@@ -6,6 +6,7 @@ internal static class IdentifierRegexes
 {
     internal static readonly Regex CsharpIdRegex = new(@"{([A-Za-z0-9\.]+)\-id}", RegexOptions.Compiled);
     internal static readonly Regex PowerShellIdRegex = new(@"\$([a-zA-Z0-9\.]+)Id", RegexOptions.Compiled | RegexOptions.Multiline);
+    internal static readonly Regex TypeScriptIdRegex = new(@"([A-Za-z0-9\.]+)\-id", RegexOptions.Compiled);
 }
 
 public class PsIdentifiersReplacer : IdentifierReplacer
@@ -14,6 +15,16 @@ public class PsIdentifiersReplacer : IdentifierReplacer
 
     private static readonly Lazy<PsIdentifiersReplacer> lazy = new(() => new PsIdentifiersReplacer());
     public PsIdentifiersReplacer() : base(IdentifierRegexes.PowerShellIdRegex)
+    {
+    }
+}
+
+public class TypeScriptIdentifiersReplacer : IdentifierReplacer
+{
+    public static new TypeScriptIdentifiersReplacer Instance => lazy.Value;
+
+    private static readonly Lazy<TypeScriptIdentifiersReplacer> lazy = new(() => new TypeScriptIdentifiersReplacer());
+    public TypeScriptIdentifiersReplacer() : base(IdentifierRegexes.TypeScriptIdRegex)
     {
     }
 }

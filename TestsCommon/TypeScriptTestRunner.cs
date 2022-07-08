@@ -1,20 +1,29 @@
-﻿using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Reflection;
+using System.Collections.Concurrent;
+using Azure.Core;
 
 namespace TestsCommon
 {
     public class TypeScriptTestRunner
     {
         private readonly string CompilationDirectory;
+        private readonly string BuildDirectory;
+        private readonly string BackUpDirectory;
         public TypeScriptTestRunner()
         {
-            var NewGuid = "ts -" + Guid.NewGuid();
-            CompilationDirectory = Path.Combine(
-                Path.GetTempPath(),
-                "raptor-typescript",
-                NewGuid);
+            var NewGuid = "ts-" + Guid.NewGuid();
+            CompilationDirectory = Path.Combine(Path.GetTempPath(), "raptor-typescript", NewGuid);
+
+            BuildDirectory = Path.Combine(CompilationDirectory, "test_build");
+            BackUpDirectory = Path.Combine(CompilationDirectory, "failed_tests");
+            _config = TestsSetup.Config.Value;
         }
+
+        /// <summary>
+        /// Holds a reference of errors from test evaluation
+        /// </summary>
+        private Dictionary<string, List<Diagnostic>> NpmResults = new Dictionary<string, List<Diagnostic>>();
 
         /// <summary>
         /// compiled version of the TypeScript markdown regular expression
@@ -23,56 +32,118 @@ namespace TestsCommon
         private static readonly Regex RegExp = new Regex(@"```typescript(.*)```", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
-        /// compiled version of the Typescript Compilation Error
-        /// </summary>
-        private static readonly Regex TSErrorRegExp = new Regex(@"(error )(TS\d{4}):(.+)", RegexOptions.Singleline | RegexOptions.Compiled);
-
-        /// <summary>
-        /// compiled version of the Typescript Compuilation Error
-        /// </summary>
-        private static readonly Regex TSErrorPositions = new Regex(@"(ts\()(\d+),(\d+)(\):)(.+)", RegexOptions.Singleline | RegexOptions.Compiled);
-
-        /// <summary>
         /// compiled typescript bulk error
         /// </summary>
         private static readonly Regex TSBatchErrorRegExp = new Regex(@"(.+\.ts)\((\d+),(\d+).+(TS\d+): (.+)", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
-        /// Holds a reference of errors from test evaluation
+        /// compiled version of the Typescript Execution Error Message RegEx
         /// </summary>
-        private Dictionary<string, List<Diagnostic>> NpmResults = new Dictionary<string, List<Diagnostic>>();
+        private static readonly Regex TSExecutionMessageRegExp = new Regex(@"_message.+'(.+)'", RegexOptions.Multiline | RegexOptions.Compiled);
 
+        /// <summary>
+        /// compiled version of the Typescript Execution Error Code RegEx
+        /// </summary>
+        private static readonly Regex TSExecutionCodeRegExp = new Regex(@"_code.+'(.+)'", RegexOptions.Multiline | RegexOptions.Compiled);
+
+        /// <summary>
+        /// compiled Regex to extract all declarations
+        /// </summary>
+        private static readonly Regex RegExpDeclaration = new Regex(@"new (.+?)\(", RegexOptions.Singleline | RegexOptions.Compiled);
+
+        /// <summary>
+        /// compiled Regex to extract executed url from Typescript Script
+        /// </summary>
+        private static readonly Regex urlRegex = new Regex(@"url: (.+)", RegexOptions.Multiline | RegexOptions.Compiled);
+
+        /// <summary>
+        /// compiled Regex to extract http Method from Typescript Script
+        /// </summary>
+        private static readonly Regex methodRegex = new Regex(@"httpMethod: (.+)", RegexOptions.Multiline | RegexOptions.Compiled);
+
+        private readonly RaptorConfig _config;
 
         /// <summary>
         /// template to compile snippets in
         /// </summary>
-        private const string SDKShellTemplate = @"import { FetchRequestAdapter } from '@microsoft/kiota-http-fetchlibrary';
-import { GraphServiceClient } from '@microsoft/msgraph-sdk-javascript';
-import { ClientSecretCredential } from '@azure/identity';
+        private const string SDKShellTemplate = @"import { GraphServiceClient } from '@microsoft/msgraph-sdk-javascript';
+import { ClientSecretCredential, UsernamePasswordCredential } from '@azure/identity';
 import { AzureIdentityAuthenticationProvider } from '@microsoft/kiota-authentication-azure';
 //insert-imports-here
 
-const authProvider = new AzureIdentityAuthenticationProvider(new ClientSecretCredential(""tenantId"", ""clientId"", ""clientSecret""));
+// set the boolean value in generation logic
+const clientCredFlow : boolean =  true;
+
+const defaultProvider = new AzureIdentityAuthenticationProvider(new ClientSecretCredential(""//insert-tenantid-here"", ""//insert-clientid-here"", ""//insert-clientsecret-here""));
+
+const tokenCredentials = new UsernamePasswordCredential(""//insert-tenantid-here"", ""//insert-clientid-here"", ""//insert-username-here"", ""//insert-password-here"");
+const scopes = [""//insert-scopes-here""];
+const tokenProvider = new AzureIdentityAuthenticationProvider(tokenCredentials, scopes);
+
+const authProvider = clientCredFlow ? defaultProvider : tokenProvider;
 //insert-code-here
+//insert-console-here
 ";
-        private const string DeclarationPattern = @"new (.+?)\(";
-        private static readonly Regex RegExpDeclaration = new Regex(DeclarationPattern, RegexOptions.Singleline | RegexOptions.Compiled);
 
-        private const string BUILD_DIR = "test_build";
-        private const string BACKUP_DIR = "failed_tests";
+        private const string LogResults = @"result().then(resp => {
+    console.log(resp);
+});
+";
 
-        public async Task PrepareEnvironment(IEnumerable<LanguageTestData> languageTestData)
+        private const string BUILD_REQ_PREFIX = "build-req-";
+
+        public async Task PrepareEnvironment(IEnumerable<LanguageTestData> languageTestData, bool executionTests = false)
         {
             ArgumentNullException.ThrowIfNull(languageTestData);
 
-            var buildDirectory = Path.Combine(CompilationDirectory, BUILD_DIR);
-            Directory.CreateDirectory(buildDirectory);
-            Directory.CreateDirectory(Path.Combine(CompilationDirectory, BACKUP_DIR));
+            Directory.CreateDirectory(BuildDirectory);
+            Directory.CreateDirectory(BackUpDirectory);
 
+            await TestContext.Out.WriteLineAsync("Generating TS Files").ConfigureAwait(false);
+            await dumpFiles(BuildDirectory, languageTestData).ConfigureAwait(false);
             await TestContext.Out.WriteLineAsync("Setting up node directory").ConfigureAwait(false);
-            await dumpFiles(buildDirectory, languageTestData).ConfigureAwait(false);
-            await prepareNPM(buildDirectory).ConfigureAwait(false);
+            await prepareNPM(BuildDirectory).ConfigureAwait(false);
+            await TestContext.Out.WriteLineAsync("Compiling TS Files").ConfigureAwait(false);
             await buildProject().ConfigureAwait(false);
+            if (executionTests)
+            {
+                await TestContext.Out.WriteLineAsync("Generating Scope Metadata").ConfigureAwait(false);
+                await generateRequestInformationFiles(languageTestData).ConfigureAwait(false);
+            }
+        }
+
+        private async Task generateRequestInformationFiles(IEnumerable<LanguageTestData> languageTestData)
+        {
+            Regex regexStatement = new Regex(@"await(.+)\.(\w+)\((.+)?\);", RegexOptions.Multiline | RegexOptions.Compiled);
+            Regex regexTail = new Regex("(.+)(const.result.+=.+)", RegexOptions.Singleline | RegexOptions.Compiled);
+            var RequestDetailsSnippetTemplate = @"const req = //request-statement
+const url = req.URL
+const method = req.httpMethod;
+console.log(""url: "" + url);
+console.log(""httpMethod: "" + method);";
+
+            foreach (var testData in languageTestData)
+            {
+                var fileName = $"{testData.FormattedFileName}.ts";
+                var jsFileName = $"{testData.FormattedFileName}.js";
+
+                if (NpmResults.ContainsKey(fileName)) continue;
+                var newFileName = $"{BUILD_REQ_PREFIX}{jsFileName}";
+
+                var fileContent = await File.ReadAllTextAsync(Path.Combine(BuildDirectory, jsFileName)).ConfigureAwait(false);
+
+                // generate
+                var match = regexStatement.Match(fileContent);
+
+                var requestPath = match.Groups[1].Value;
+                var requestCommand = match.Groups[2].Value;
+                var requestStatement = requestPath + ".create###RequestInformation()".Replace("###", requestCommand.ToFirstCharacterUpperCase());
+                var result = RequestDetailsSnippetTemplate.Replace("//request-statement", requestStatement);
+
+                // write new files
+                var newSnippet = regexTail.Match(fileContent).Groups[1].Value + result;
+                await File.WriteAllTextAsync(Path.Combine(BuildDirectory, newFileName), newSnippet).ConfigureAwait(false);
+            }
         }
 
         private static async Task prepareNPM(string compilationDirectory)
@@ -144,7 +215,8 @@ const authProvider = new AzureIdentityAuthenticationProvider(new ClientSecretCre
                 var codeToCompile = SDKShellTemplate
                                         .Replace("//insert-code-here", codeSnippetFormatted)
                                         .Replace("\r\n", "\n").Replace("\n", "\r\n")
-                                        .Replace("--imports--", generatedImports);
+                                        .Replace("//insert-imports-here", generatedImports)
+                                        .ReplaceOrRemove(codeSnippetFormatted.Contains("const result = async () => {"), "//insert-console-here", LogResults);
 
 
 #pragma warning disable CA1308 // Normalize strings to uppercase
@@ -162,14 +234,11 @@ const authProvider = new AzureIdentityAuthenticationProvider(new ClientSecretCre
         /// <returns></returns>
         private async Task buildProject()
         {
-            var buildDir = Path.Combine(CompilationDirectory, BUILD_DIR);
-            var backUpDir = Path.Combine(CompilationDirectory, BACKUP_DIR);
-
             int maxRetryCounts = 10;
             int retryCount = 0;
             while (retryCount < maxRetryCounts)
             {
-                var (stdOut, stdErr) = await executeProcess(buildDir, "tsc", "-p tsconfig.json --outDir ./build", 600, false).ConfigureAwait(false);
+                var (stdOut, stdErr) = await executeProcess(BuildDirectory, "tsc", "-p tsconfig.json", 600, false).ConfigureAwait(false);
                 var errors = parseNPMErrors($"{stdOut}{stdErr}");
 
                 // add errroes to global error dictionary
@@ -182,7 +251,7 @@ const authProvider = new AzureIdentityAuthenticationProvider(new ClientSecretCre
 
                     this.NpmResults[item.Key] = payload;
 
-                    File.Move(Path.Combine(buildDir, item.Key), Path.Combine(backUpDir, item.Key));
+                    File.Move(Path.Combine(BuildDirectory, item.Key), Path.Combine(BackUpDirectory, item.Key));
                 }
 
                 if (errors.Count == 0) break;
@@ -247,13 +316,9 @@ const authProvider = new AzureIdentityAuthenticationProvider(new ClientSecretCre
         /// <param name="testData">Test data containing information such as snippet file name</param>
         public async Task RunCompilationTests(LanguageTestData testData)
         {
-            var backupDirectory = Path.Combine(CompilationDirectory, BACKUP_DIR);
             ArgumentNullException.ThrowIfNull(testData);
 
-#pragma warning disable CA1308 // Normalize strings to uppercase
-            var fileName = $"{testData.FileName.ToLowerInvariant().Replace(" ", "-")}.ts";
-#pragma warning restore CA1308 // Normalize strings to uppercase
-
+            var fileName = $"{testData.FormattedFileName}.ts";
 
             if (!NpmResults.ContainsKey(fileName))
             {
@@ -264,76 +329,152 @@ const authProvider = new AzureIdentityAuthenticationProvider(new ClientSecretCre
                 var diagnostic = this.NpmResults[fileName];
 
                 var compilationResultsModel = new CompilationResultsModel(false, diagnostic, testData.FileName);
-                var fileContent = await File.ReadAllTextAsync(Path.Combine(backupDirectory, fileName)).ConfigureAwait(false);
+                var fileContent = await File.ReadAllTextAsync(Path.Combine(BackUpDirectory, fileName)).ConfigureAwait(false);
                 var compilationOutputMessage = new CompilationOutputMessage(compilationResultsModel.ToString(), fileContent, testData.DocsLink, testData.KnownIssueMessage, testData.IsCompilationKnownIssue, Languages.TypeScript);
                 Assert.Fail($"{compilationOutputMessage}");
             }
         }
 
         /// <summary>
-        /// 1. Fetches snippet from docs repo
-        /// 2. Asserts that there is one and only one snippet in the file
-        /// 3. Wraps snippet with compilable template
-        /// 4. Attempts to compile and reports errors if there is any
+        /// Returns a pair holding (url , httpMethod) extracted from a typecsript call
+        /// </summary>
+        /// <returns></returns>
+        private async Task<(string, string)> readSnippetMethodAndUrl(LanguageTestData testData)
+        {
+            var fileName = $"{BUILD_REQ_PREFIX}{testData.FormattedFileName}.js";
+            var (stdOut, stdErr) = await executeProcess(BuildDirectory, "node", $"{fileName}", 600).ConfigureAwait(false);
+            var npmResult = stdOut + stdErr;
+
+            var method = methodRegex.Match(npmResult).Groups[1].Value;
+            var url = urlRegex.Match(npmResult).Groups[1].Value;
+
+            return (url, method);
+        }
+
+        private async Task<string> saveFileAndExecute(string genFileName, string jsFileName, Scope[] scopes = null)
+        {
+            var genFileLocation = Path.Combine(BuildDirectory, genFileName);
+            var jsFileLocation = Path.Combine(BuildDirectory, jsFileName);
+
+            var fileContent = await File.ReadAllTextAsync(jsFileLocation).ConfigureAwait(false);
+            var isEducation = fileContent.Contains("education");
+
+            var tenantId = isEducation ? _config.EducationTenantID : _config.TenantID;
+            var clientId = isEducation ? _config.EducationClientID : _config.ClientID;
+            var clientSecret = isEducation ? _config.EducationClientSecret : _config.ClientSecret;
+
+            string scopVal = scopes == null ? "" : String.Join("\",\"", scopes.Select(x => x.value).ToArray());
+            var formatedContent = fileContent
+                .Replace("//insert-tenantid-here", tenantId)
+                .Replace("//insert-clientid-here", clientId)
+                .Replace("//insert-clientsecret-here", clientSecret)
+                .Replace("//insert-username-here", _config.Username)
+                .Replace("//insert-password-here", _config.Password)
+                .Replace("//insert-scopes-here", scopVal);
+
+            if (scopes != null)
+            {
+                // scopes are only provided in delegated authetication
+                formatedContent = formatedContent.Replace("const clientCredFlow : boolean =  true;", "const clientCredFlow : boolean =  false;");
+                await TestContext.Out.WriteLineAsync("Executing " + genFileName + " with tokens " + scopVal).ConfigureAwait(false);
+            }
+
+            var contentToExecute = TypeScriptIdentifiersReplacer.Instance.ReplaceIds(formatedContent);
+
+            await File.WriteAllTextAsync(genFileLocation, contentToExecute).ConfigureAwait(false);
+            var (stdOut, stdErr) = await executeProcess(BuildDirectory, "node", $"{genFileName}", 600).ConfigureAwait(false);
+            return stdOut + stdErr;
+        }
+
+        /// <summary>
+        /// Injects a token and replaces all ids with valid ids for execution
+        /// </summary>
+        private async Task<string> executeWithApplicationToken(LanguageTestData testData, string jsFileName)
+        {
+            var genFileName = $"app-token-{jsFileName}";
+            return await saveFileAndExecute(genFileName, jsFileName).ConfigureAwait(false);
+        }
+
+        private async Task<string> executeWithDelegatedToken(LanguageTestData testData, string jsFileName)
+        {
+            var (graphUrl, graphMethod) = await readSnippetMethodAndUrl(testData).ConfigureAwait(false);
+            var delegatedScopes = await PermissionScopes.GetScopes(testData, graphUrl, graphMethod).ConfigureAwait(false);
+            var genFileName = $"scope-token-{jsFileName}";
+            return await saveFileAndExecute(genFileName, jsFileName, delegatedScopes).ConfigureAwait(false);
+        }
+
+        private static bool isAuthError(string errorMsg) => errorMsg.ContainsAny("AuthenticationRequiredError", "403", "Forbidden", "ErrorAccessDenied", "authentication");
+
+        /// <summary>
+        /// Returns the (generated filename , build output)
+        /// </summary>
+        private async Task<string> executeScript(LanguageTestData testData, string jsFileName)
+        {
+            var result = await executeWithApplicationToken(testData, jsFileName).ConfigureAwait(false);
+            if (isAuthError(result))
+            {
+                try
+                {
+                    result = await executeWithDelegatedToken(testData, jsFileName).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    await TestContext.Out.WriteLineAsync(ex.Message).ConfigureAwait(false);
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Executes a precompiled TS file , using the js output, using Nods
         /// </summary>
         /// <param name="testData">Test data containing information such as snippet file name</param>
         public async Task RunExecutionTests(LanguageTestData testData)
         {
-            var buildDirectory = Path.Combine(CompilationDirectory, BUILD_DIR, "build");
-
             ArgumentNullException.ThrowIfNull(testData);
 
-#pragma warning disable CA1308 // Normalize strings to uppercase
-            var fileName = $"{testData.FileName.ToLowerInvariant().Replace(" ", "-")}.js";
-#pragma warning restore CA1308 // Normalize strings to uppercase
+            var jsFileName = $"{testData.FormattedFileName}.js";
+            var fileName = $"{testData.FormattedFileName}.ts";
 
-            var fileLocation = Path.Combine(buildDirectory, fileName);
-            var (stdOut, stdErr) = await executeProcess(buildDirectory, "node", $"{fileName}", 600).ConfigureAwait(false);
+            // file failed compilation, dont try execution
 
-            var buildOutPut = stdOut + stdErr;
-            var hasErrorLine = TSErrorRegExp.Match(buildOutPut);
+            if (NpmResults.ContainsKey(fileName))
+            {
 
-            if (!hasErrorLine.Success)
+                var diagnostic = this.NpmResults[fileName];
+
+                var compilationResultsModel = new CompilationResultsModel(false, diagnostic, testData.FileName);
+                var fileContent = await File.ReadAllTextAsync(Path.Combine(BackUpDirectory, fileName)).ConfigureAwait(false);
+                var compilationOutputMessage = new CompilationOutputMessage(compilationResultsModel.ToString(), fileContent, testData.DocsLink, testData.KnownIssueMessage, testData.IsCompilationKnownIssue, Languages.TypeScript);
+                Assert.Fail($"{compilationOutputMessage}");
+            }
+
+            // update file with token
+            var buildOutPut = await executeScript(testData, jsFileName).ConfigureAwait(false);
+
+            if (!buildOutPut.Contains("Error"))
             {
                 Assert.Pass();
             }
             else
             {
+                // file execution failed
+                var hasErrorCode = TSExecutionCodeRegExp.Match(buildOutPut);
+                var hasErrorMessage = TSExecutionMessageRegExp.Match(buildOutPut);
 
-                var errorCode = hasErrorLine.Groups[2].Value;
-                var errorMessage = hasErrorLine.Groups[3].Value.Trim();
+                var errorCode = hasErrorCode.Success ? hasErrorCode.Groups[1].Value.Trim() : "Unknown Error";
+                var errorMessage = hasErrorMessage.Success ? hasErrorMessage.Groups[1].Value.Trim() : buildOutPut;
 
-                string[] lines = buildOutPut.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
-                var diagnostic = new List<Diagnostic>();
-                foreach (string line in lines)
-                {
-
-                    var errorPositionsMatch = TSErrorPositions.Match(line);
-                    if (errorPositionsMatch.Success)
-                    {
-                        var errorPositionStart = int.Parse(errorPositionsMatch.Groups[2].Value, CultureInfo.InvariantCulture);
-                        var errorPositionEnd = int.Parse(errorPositionsMatch.Groups[3].Value, CultureInfo.InvariantCulture);
-
-                        diagnostic.Add(
-                            Diagnostic.Create(
-                                new DiagnosticDescriptor(errorCode,
-                                                                "Error during TypeScript compilation",
-                                                                errorMessage,
-                                                                errorCode,
-                                                                DiagnosticSeverity.Error,
-                                                                true),
-                                                    Location.Create(fileName,
-                                                                                    new TextSpan(0, 5),
-                                                                                    new LinePositionSpan(
-                                                                                        new LinePosition(errorPositionStart, 0),
-                                                                                        new LinePosition(errorPositionStart, errorPositionEnd))))
-                            );
-                    }
-                }
+                var diagnostic = new List<Diagnostic>{
+                    Diagnostic.Create(
+                        new DiagnosticDescriptor(errorCode,"Error during TypeScript execution Test",errorMessage,errorCode,DiagnosticSeverity.Error,true),
+                        Location.Create(fileName,new TextSpan(0, 5),new LinePositionSpan( new LinePosition(11, 0), new LinePosition(18, 20)))
+                    )
+                };
 
                 var compilationResultsModel = new CompilationResultsModel(false, diagnostic, testData.FileName);
-                var fileContent = await File.ReadAllTextAsync(fileLocation).ConfigureAwait(false);
+                var fileContent = await File.ReadAllTextAsync(Path.Combine(BuildDirectory, fileName)).ConfigureAwait(false);
                 var compilationOutputMessage = new CompilationOutputMessage(compilationResultsModel.ToString(), fileContent, testData.DocsLink, testData.KnownIssueMessage, testData.IsCompilationKnownIssue, Languages.TypeScript);
                 Assert.Fail($"{compilationOutputMessage}");
             }

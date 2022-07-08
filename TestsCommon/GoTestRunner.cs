@@ -151,16 +151,6 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
         return stringContent.Replace("-", "_");
     }
 
-     /// <summary>
-    /// Helper method to simplify the modification SDKShellTemplate above to include optional code
-    /// </summary>
-     private static string ReplaceOrRemove(this string stringval, bool condition, string text, string replacement){
-        if(condition)
-            return stringval.Replace(text, replacement);
-
-        return stringval.Replace(text,"");
-    }
-
     private static string ParseCodeStringForRequiredConfig(this string codeContentString){
         var configParentStringMatch = ConfigParentRegex.Match(codeContentString);
         var configParentString = "";
