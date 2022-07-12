@@ -17,6 +17,7 @@ public static class GraphDocsDirectory
     /// the repo is always in microsoft-graph-docs folder under RootDirectory defined above
     /// </summary>
     /// <param name="version">Docs version (e.g. V1 or Beta)</param>
+    /// <param name="language">Language being compiled</param>
     /// <returns>
     /// C# snippets directory
     /// </returns>
