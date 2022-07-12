@@ -26,9 +26,7 @@ public class SnippetExecutionBetaTests
     /// <summary>
     /// Represents test runs generated from test case data
     /// </summary>
-    /// <param name="fileName">snippet file name in docs repo</param>
-    /// <param name="docsLink">documentation page where the snippet is shown</param>
-    /// <param name="version">Docs version (e.g. V1, Beta)</param>
+    /// <param name="testData">The Languages test data</param>
     [Test]
     [RetryTestCaseSource(typeof(SnippetExecutionBetaTests), nameof(TestDataBeta), MaxTries = 3)]
     public async Task Test(LanguageTestData testData)

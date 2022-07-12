@@ -6,6 +6,7 @@ public static class BaseTestRunner
     /// Embeds C# snippet from docs repo into a compilable template
     /// </summary>
     /// <param name="snippet">code snippet from docs repo</param>
+    /// <param name="SDKShellTemplate">The template for the sdk code</param>
     /// <returns>
     /// code snippet embedded into compilable template
     /// </returns>

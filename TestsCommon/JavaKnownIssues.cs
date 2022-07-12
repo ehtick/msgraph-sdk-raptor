@@ -5,7 +5,6 @@ internal static class JavaKnownIssues
     /// <summary>
     /// Gets known issues
     /// </summary>
-    /// <param name="versionEnum">version to get the known issues for</param>
     /// <returns>A mapping of test names into known Java issues</returns>
     internal static Dictionary<string, KnownIssue> GetJavaCompilationKnownIssues()
     {

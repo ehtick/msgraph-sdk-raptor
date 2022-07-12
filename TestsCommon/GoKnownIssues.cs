@@ -5,7 +5,6 @@ namespace TestsCommon
         /// <summary>
         /// Gets known issues
         /// </summary>
-        /// <param name="versionEnum">version to get the known issues for</param>
         /// <returns>A mapping of test names into known Go issues</returns>
         public static Dictionary<string, KnownIssue> GetGoCompilationKnownIssues()
         {
