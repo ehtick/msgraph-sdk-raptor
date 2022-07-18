@@ -37,7 +37,7 @@ pool:
 
 jobs:
   - job:
-    timeoutInMinutes: 120
+    timeoutInMinutes: 240
     steps:
     - template: common-templates/checkout.yml
 
