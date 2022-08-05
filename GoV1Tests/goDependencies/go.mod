@@ -2,7 +2,7 @@ module RaptorGoTests
 
 go 1.18
 
-require github.com/microsoftgraph/msgraph-sdk-go v0.31.0
+require github.com/microsoftgraph/msgraph-sdk-go v0.32.0
 
 require (
 	github.com/cjlapao/common-go v0.0.20 // indirect
@@ -12,7 +12,7 @@ require (
 	github.com/microsoft/kiota-http-go v0.5.2 // indirect
 	github.com/microsoft/kiota-serialization-json-go v0.5.5 // indirect
 	github.com/microsoft/kiota-serialization-text-go v0.4.1 // indirect
-	github.com/microsoftgraph/msgraph-sdk-go-core v0.26.2 // indirect
+	github.com/microsoftgraph/msgraph-sdk-go-core v0.27.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/stretchr/testify v1.7.2 // indirect
 	github.com/yosida95/uritemplate/v3 v3.0.2 // indirect
