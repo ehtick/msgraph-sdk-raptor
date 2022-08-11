@@ -2,7 +2,7 @@ module RaptorGoTests
 
 go 1.18
 
-require github.com/microsoftgraph/msgraph-beta-sdk-go v0.33.0
+require github.com/microsoftgraph/msgraph-beta-sdk-go v0.34.0
 
 require (
 	github.com/cjlapao/common-go v0.0.20 // indirect
