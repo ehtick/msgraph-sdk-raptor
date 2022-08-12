@@ -221,7 +221,7 @@ func //Insert-capitalized-testNameAsFunctionName-here() {
         // special case empty lines or lines starting with "go: downloading" since they are not errors
         // Workaround to be removed once go sdk fixes this.
         if (stderr.Split(Environment.NewLine)
-            .Any(line => !string.IsNullOrEmpty(line.Trim()) && !line.StartsWith("go: downloading", StringComparison.InvariantCulture)))
+            .Any(line => !string.IsNullOrEmpty(line.Trim()) && !line.StartsWith("go: ", StringComparison.InvariantCulture)))
         {
             Assert.Fail($"Failed to download required dependencies: {stderr}");
         }
