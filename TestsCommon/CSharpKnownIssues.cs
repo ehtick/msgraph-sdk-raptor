@@ -86,6 +86,7 @@ public static class CSharpKnownIssues
                 { "create-tokenlifetimepolicy-from-application-csharp-Beta-compiles", new KnownIssue(Category.HTTP, RefNeeded) },
                 { "accessreviewinstancedecisionitem-recordalldecisions-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "missing filterbycurrentuser param", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/868") },
                 { "synchronization-secrets-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "Property Segment in Odata URL not handled", "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/485")},
+                { "sensitivitylabelthisevaluateremoval-csharp-Beta-compiles", new KnownIssue(Category.SnippetGeneration, "case of dotnet Security namespace renamed to SecurityNamespace not handled", GitHubIssue: "https://github.com/microsoftgraph/microsoft-graph-devx-api/issues/1138")},
 
                 { "team-put-schedule-2-csharp-Beta-compiles", NeedsAnalysisKnownIssue},
                 { "update-passwordlessmicrosoftauthenticatorauthenticationmethodconfiguration-csharp-Beta-compiles", NeedsAnalysisKnownIssue },
