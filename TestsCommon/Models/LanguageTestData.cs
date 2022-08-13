@@ -44,4 +44,8 @@ public record LanguageTestData(
                     }
                 }
                 ));
+
+#pragma warning disable CA1308 // Normalize strings to uppercase
+        public string FormattedFileName => FileName.ToLowerInvariant().Replace(" ", "-");
+#pragma warning restore CA1308 // Normalize strings to uppercase
     }

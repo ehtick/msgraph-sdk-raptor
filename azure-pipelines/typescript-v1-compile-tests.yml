@@ -10,7 +10,6 @@ pr:
     include:
       - azure-pipelines/typescript*
       - TypeScript*
-      - TestsCommon/MicrosoftGraphTypeScriptCompiler.cs
       - TestsCommon/TypeScriptTestRunner.cs
       - TestsCommon/TypeScriptKnownIssues.cs
 schedules:
@@ -34,34 +33,32 @@ resources:
 variables:
   buildConfiguration: 'Release'
 
-jobs:
-  - job: TypeScriptV1Tests
-    displayName: 'V1 TypeScript Snippet Compilation Tests'
-    pool: 'MsGraphBuildAgentsLinux'
-    timeoutInMinutes: 30
+pool:
+  name: 1es-ubuntu-latest
 
-    steps:
-    - template: common-templates/checkout.yml
 
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '16.x'
-        checkLatest: true
+steps:
+- template: common-templates/checkout.yml
 
-    - task: Npm@1
-      inputs:
-        command: 'custom'
-        customCommand: 'install -g typescript'
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+    checkLatest: true
 
-    - pwsh: |
-        $(Build.SourcesDirectory)/msgraph-sdk-raptor/azure-pipelines/e2e-templates/transformSettings.ps1 -RunSettingsPath $env:RunSettingsPath
-      env:
-        RunSettingsPath: '$(Build.SourcesDirectory)/msgraph-sdk-raptor/Test.runsettings'
-      displayName: 'Replace test settings parameters'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'install -g typescript'
 
-    - script: dir $(Build.SourcesDirectory)
+- pwsh: |
+    $(Build.SourcesDirectory)/msgraph-sdk-raptor/azure-pipelines/e2e-templates/transformSettings.ps1 -RunSettingsPath $env:RunSettingsPath
+  env:
+    RunSettingsPath: '$(Build.SourcesDirectory)/msgraph-sdk-raptor/Test.runsettings'
+  displayName: 'Replace test settings parameters'
 
-    - template: compile-run-tests-template.yml
-      parameters:
-        projectFileName: TypeScriptV1Tests
-        runName: 'V1 TypeScript Snippet Compilation Tests $(testRunTitle)'
+- script: dir $(Build.SourcesDirectory)
+
+- template: compile-run-tests-template.yml
+  parameters:
+    projectFileName: TypeScriptV1Tests
+    runName: 'V1 TypeScript Snippet Compilation Tests $(testRunTitle)'

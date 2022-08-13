@@ -1,0 +1,64 @@
+# Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+
+trigger: none # disable triggers based on commits.
+pr:
+  branches:
+    include:
+      - dev
+      - main
+  paths:
+    include:
+      - azure-pipelines/typescript*
+      - TypeScript*
+      - TestsCommon/TypeScriptTestRunner.cs
+      - TestsCommon/TypeScriptKnownIssues.cs
+schedules:
+  - cron: "0 3 * * *" # everyday at 3AM UTC (off hours for Redmond, Nairobi and Montréal)
+    displayName: 'Daily V1 TypeScript Snippet Execution Tests'
+    branches:
+      include:
+      - dev
+    always: true
+
+name: 'V1 TypeScript Snippet Execution Tests'
+
+resources:
+ repositories:
+   - repository: microsoft-graph-docs
+     type: github
+     endpoint: microsoftgraph
+     name: microsoftgraph/microsoft-graph-docs
+     ref: test-typescript-docs
+
+variables:
+  buildConfiguration: 'Release'
+
+pool:
+  name: 1es-ubuntu-msgraph-sdk-raptor-compute-latest
+
+
+steps:
+- template: common-templates/checkout.yml
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+    checkLatest: true
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'install -g typescript'
+
+- pwsh: |
+    $(Build.SourcesDirectory)/msgraph-sdk-raptor/azure-pipelines/e2e-templates/transformSettings.ps1 -RunSettingsPath $env:RunSettingsPath
+  env:
+    RunSettingsPath: '$(Build.SourcesDirectory)/msgraph-sdk-raptor/Test.runsettings'
+  displayName: 'Replace test settings parameters'
+
+- script: dir $(Build.SourcesDirectory)
+
+- template: compile-run-tests-template.yml
+  parameters:
+    projectFileName: TypeScriptV1ExecutionTests
+    runName: 'V1 TypeScript Snippet Execution Tests $(testRunTitle)'

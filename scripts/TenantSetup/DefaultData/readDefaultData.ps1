@@ -242,6 +242,15 @@ $unifiedRoleAssignment = Invoke-RequestHelper -Uri "roleManagement/directory/rol
     Select-Object -First 1
 $identifiers = Add-Identifier $identifiers @("unifiedRoleAssignment") $unifiedRoleAssignment.id
 
+$unifiedRoleManagementPolicy = Invoke-RequestHelper "policies/roleManagementPolicies?`$filter=scopeId eq '/' and scopeType eq 'DirectoryRole'&`$top=1"
+$identifiers = Add-Identifier $identifiers @("unifiedRoleManagementPolicy") $unifiedRoleManagementPolicy.id
+
+$unifiedRoleManagementPolicyRule = Invoke-RequestHelper "policies/roleManagementPolicies/$($unifiedRoleManagementPolicy.id)/rules?`$top=1"
+$identifiers = Add-Identifier $identifiers @("unifiedRoleManagementPolicy", "unifiedRoleManagementPolicyRule") $unifiedRoleManagementPolicyRule.id
+
+$unifiedRoleManagementPolicyAssignment = Invoke-RequestHelper "policies/roleManagementPolicyAssignments?`$filter=scopeId eq '/' and scopeType eq 'Directory'&`$top=1"
+$identifiers = Add-Identifier $identifiers @("unifiedRoleManagementPolicyAssignment") $unifiedRoleManagementPolicyAssignment.id
+
 # existing constant value in the tenant
 $identifiers = Add-Identifier $identifiers @("identityUserFlowAttribute") "city"
 

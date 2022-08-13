@@ -3,12 +3,12 @@
     <Import Project="$(MSBuildProjectDirectory)\..\RaptorShared.targets" />
 
     <ItemGroup>
-        <PackageReference Include="FluentAssertions" Version="6.6.0" />
+        <PackageReference Include="FluentAssertions" Version="6.7.0" />
         <PackageReference Include="FluentAssertions.Analyzers" Version="0.17.2" />
         <PackageReference Include="NUnit" Version="3.13.3" />
         <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-         <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.2.2" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0" />
+         <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.2.6" />
     </ItemGroup>
 
     <ItemGroup>

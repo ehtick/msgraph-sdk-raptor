@@ -41,7 +41,6 @@ public static class PowerShellTestRunner
     public static async Task Execute(LanguageTestData testData)
     {
         ArgumentNullException.ThrowIfNull(testData);
-
         var snippet = GetSnippetToExecute(testData.FileContent);
         var graphCommandDetails = GetGraphCommandDetails(testData, snippet);
         var delegatedScopes = await GetScopes(testData, graphCommandDetails.Uri, graphCommandDetails.Method)
@@ -268,7 +267,6 @@ public static class PowerShellTestRunner
             throw;
         }
     }
-
     private static Match ExtractPowerShellSnippet(string fileContent)
     {
         var match = PowerShellSnippetRegex.Match(fileContent);

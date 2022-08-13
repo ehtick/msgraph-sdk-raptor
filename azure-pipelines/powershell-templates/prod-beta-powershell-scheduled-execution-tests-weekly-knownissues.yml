@@ -1,0 +1,32 @@
+# Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+
+trigger: none # disable triggers based on commits.
+pr: none # disable as a PR gate.
+name: 'Weekly Beta PowerShell Snippet Execution Tests - Known issues'
+schedules:
+  - cron: "0 3 * * WED"  # every Wednesday at 4AM UTC (off hours for Redmond, Nairobi and Montréal)
+    displayName: 'Weekly Beta PowerShell Snippet Execution Tests'
+    branches:
+      include:
+      - dev
+    always: true
+
+resources:
+ repositories:
+   - repository: microsoft-graph-docs
+     type: github
+     endpoint: microsoftgraph
+     name: microsoftgraph/microsoft-graph-docs
+     ref: main
+
+variables:
+  buildConfiguration: 'Release'
+
+pool: 
+  name: 1es-ubuntu-latest
+
+steps:
+- template: powershell-execution-tests-template.yml
+  parameters:
+    projectFileName: PowerShellBetaExecutionKnownIssueTests
+    testType: 'Execution'

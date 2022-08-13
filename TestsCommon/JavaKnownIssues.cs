@@ -5,7 +5,6 @@ internal static class JavaKnownIssues
     /// <summary>
     /// Gets known issues
     /// </summary>
-    /// <param name="versionEnum">version to get the known issues for</param>
     /// <returns>A mapping of test names into known Java issues</returns>
     internal static Dictionary<string, KnownIssue> GetJavaCompilationKnownIssues()
     {
@@ -593,6 +592,37 @@ internal static class JavaKnownIssues
                 { "update-mailboxsettings-1-java-V1-compiles", NeedsAnalysisKnownIssue },
                 { "update-mailboxsettings-2-java-V1-compiles", NeedsAnalysisKnownIssue },
                 { "update-printsettings-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "create-externaldomainname-from--java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "create-plannerplan-from-planner-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "create-unifiedroleassignmentschedulerequest-from--java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "create-unifiedroleassignmentschedulerequest-from-unifiedroleassignmentschedulerequests-selfactivate-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "create-unifiedroleeligibilityschedulerequest-from--java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "create-unifiedroleeligibilityschedulerequest-from-unifiedroleeligibilityschedulerequests-adminremove-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "get-samlorwsfedexternaldomainfederation-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "get-unifiedroleassignmentschedulerequest-expand-relationships-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "get-unifiedroleassignmentschedulerequest-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "get-unifiedroleeligibilityschedulerequest-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "list-devices-memberof-startswith-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "list-devices-transitivememberof-startswith-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "list-externaldomainname-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "list-groups-memberof-startswith-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "list-groups-transitivemembers-startswith-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "list-samlorwsfedexternaldomainfederation-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "unifiedroleassignmentscheduleinstancethisfilterbycurrentuser-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "unifiedroleassignmentschedulerequestthisfilterbycurrentuser-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "unifiedroleassignmentschedulethisfilterbycurrentuser-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "unifiedroleeligibilityscheduleinstancethisfilterbycurrentuser-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "unifiedroleeligibilityschedulerequestthisfilterbycurrentuser-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "unifiedroleeligibilityschedulethisfilterbycurrentuser-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "update-samlorwsfedexternaldomainfederation-java-V1-compiles", NeedsAnalysisKnownIssue },
+                { "bookingbusiness-getstaffavailability-java-Beta-compiles", NeedsAnalysisKnownIssue },
+                { "create-delegatedadminrelationshiprequest-from--java-Beta-compiles", NeedsAnalysisKnownIssue },
+                { "get-delegatedadminrelationshiprequest-java-Beta-compiles", NeedsAnalysisKnownIssue },
+                { "get-sitesettings-java-Beta-compiles", NeedsAnalysisKnownIssue },
+                { "list-devices-memberof-startswith-java-Beta-compiles", NeedsAnalysisKnownIssue },
+                { "list-devices-transitivememberof-startswith-java-Beta-compiles", NeedsAnalysisKnownIssue },
+                { "list-groups-memberof-startswith-java-Beta-compiles", NeedsAnalysisKnownIssue },
+                { "list-groups-transitivemembers-startswith-java-Beta-compiles", NeedsAnalysisKnownIssue },
 
                 { "call-updatemetadata-java-Beta-compiles", new KnownIssue(Category.Metadata, "updateMetadata doesn't exist in metadata") },
                 { "create-directoryobject-from-featurerolloutpolicy-java-Beta-compiles", new KnownIssue(Category.Metadata, GetContainsTargetRemoveMessage("featureRolloutPolicy", "appliesTo"))},

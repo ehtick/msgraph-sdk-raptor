@@ -2,6 +2,7 @@
 using static TestsCommon.CSharpKnownIssues;
 using static TestsCommon.PowerShellKnownIssues;
 using static TestsCommon.TypeScriptKnownIssues;
+using static TestsCommon.GoKnownIssues;
 
 namespace TestsCommon;
 
@@ -12,6 +13,7 @@ public enum Category
     Raptor,
     SDK,
     HTTP,
+    OpenApi,
     Metadata,
     MetadataPreprocessing,
     SnippetGeneration,
@@ -48,6 +50,7 @@ public static class KnownIssues
 
     #region HTTP Snippet Issues
     internal const string HttpSnippetWrong = "Http snippet should be fixed";
+    internal const string OpenApiIssue = "Generated yml files from OpenApi updates on the SDK has an issue";
     internal const string RefNeeded = "URL needs to end with /$ref for reference types";
     internal const string RefShouldBeRemoved = "URL shouldn't end with /$ref";
     #endregion
@@ -96,6 +99,7 @@ public static class KnownIssues
     internal static readonly KnownIssue CountIsNotSupportedKnownIssue = new KnownIssue(Category.SDK, CountIsNotSupported, CountIsNotSupportedGithubIssue);
     internal static readonly KnownIssue SDKFunctionParameterKnownIssue = new KnownIssue(Category.SDK, GitHubIssue: "https://github.com/microsoftgraph/msgraph-sdk-dotnet/issues/1156");
     internal static readonly KnownIssue HTTPKnownIssue = new KnownIssue(Category.HTTP, CustomMessage: HttpSnippetWrong);
+    internal static readonly KnownIssue OpenAPIKnownIssue = new KnownIssue(Category.OpenApi, CustomMessage: OpenApiIssue);
     internal static readonly KnownIssue NeedsAnalysisKnownIssue = new KnownIssue(Category.NeedsAnalysis, CustomMessage: NeedsAnalysisText);
     internal static readonly KnownIssue MissingDataKnownIssue = new KnownIssue(Category.MissingData, CustomMessage: MissingDataText);
     internal static readonly KnownIssue NoProgrammaticWayKnownIssue = new KnownIssue(Category.NoProgrammaticWay, CustomMessage: NoProgrammaticWayText);
@@ -161,8 +165,9 @@ public static class KnownIssues
         {
             Languages.CSharp => GetCSharpCompilationKnownIssues(),
             Languages.Java => GetJavaCompilationKnownIssues(),
-            Languages.TypeScript => GetTypescriptCompilationKnownIssues(),
-            _ => new Dictionary<string, KnownIssue>()
+            Languages.TypeScript => GetTypeScriptCompilationKnownIssues(),
+            Languages.Go => GetGoCompilationKnownIssues(),
+            _ => new Dictionary<string, KnownIssue>(),
         };
     }
 
@@ -177,6 +182,7 @@ public static class KnownIssues
         {
             Languages.CSharp => GetCSharpExecutionKnownIssues(),
             Languages.PowerShell => GetPowerShellExecutionKnownIssues(),
+            Languages.TypeScript => GetTypeScriptExecutionKnownIssues(),
             _ => new Dictionary<string, KnownIssue>()
         };
     }

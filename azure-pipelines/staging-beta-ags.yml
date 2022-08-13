@@ -38,8 +38,8 @@ parameters:
   type: string
   default: 'https://graph.microsoft.com/stagingbeta/$metadata'
 
-pool:
-  vmImage: 'ubuntu-latest'
+pool: 
+  name: 1es-ubuntu-latest
 
 variables:
   - template: e2e-templates/variables.yml
@@ -50,5 +50,5 @@ variables:
 steps:
   - template: e2e-templates/steps.yml
     parameters:
-      shouldRunKnownFailures: false
+      shouldRunKnownIssues: false
       shouldRunSnippetGeneration: false

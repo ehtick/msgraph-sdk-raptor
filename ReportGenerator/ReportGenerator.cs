@@ -2,8 +2,23 @@
 
 class ReportGenerator
 {
+    static List<Languages> SupportedLanguages = new List<Languages>()
+    {
+        Languages.CSharp,
+        Languages.PowerShell
+    };
+
+    // PowerShell for example doesn't have stable snippet generation to fail generating reports
+    static List<Languages> LanguagesToCheckForUnreferencedIssues = new List<Languages>()
+    {
+        Languages.CSharp
+    };
+
     static void Main(string[] args)
     {
+        //Supported languages
+        
+         /*-------------------------------Csharp--------------------------------------------------------*/
         KnownIssuesTextReport(Versions.V1, Languages.CSharp, IssueType.Execution);
         KnownIssuesVisualReport(Versions.V1, Languages.CSharp, IssueType.Execution);
 
@@ -12,34 +27,39 @@ class ReportGenerator
 
         KnownIssuesTextReport(Versions.Beta, Languages.CSharp, IssueType.Compilation);
         KnownIssuesVisualReport(Versions.Beta, Languages.CSharp, IssueType.Compilation);
+        /*-------------------------------Powershell--------------------------------------------------------*/
+        KnownIssuesTextReport(Versions.V1, Languages.PowerShell, IssueType.Execution);
+        KnownIssuesVisualReport(Versions.V1, Languages.PowerShell, IssueType.Execution);
+
+        KnownIssuesTextReport(Versions.Beta, Languages.PowerShell, IssueType.Execution);
+        KnownIssuesVisualReport(Versions.Beta, Languages.PowerShell, IssueType.Execution);
     }
 
     // create text report for v1 execution known issues
     private static void KnownIssuesTextReport(Versions version, Languages language, IssueType issueType)
     {
-        if (language != Languages.CSharp)
+        if (!SupportedLanguages.Contains(language))
         {
             throw new NotImplementedException();
         }
 
         var issues = GetKnownIssues(version, language, issueType);
-
         var lang = language.AsString();
         var documentationLinks = TestDataGenerator.GetDocumentationLinks(version, language);
         var testNameSuffix = $"{lang}-{version}-{issueType.Suffix()}";
 
-        var unreferencedIssues = new HashSet<string>();
-
         var reportEntries = new List<ReportEntry>();
 
+        var unreferencedIssues = new HashSet<string>();
         foreach (KeyValuePair<string, KnownIssue> kv in issues)
         {
             var testName = kv.Key;
             var knownIssue = kv.Value;
             var documentationLinkLookupKey = testName.Replace(testNameSuffix, $"{lang}-snippets.md");
+            Console.WriteLine("Looking up "+ documentationLinkLookupKey);
             if (!documentationLinks.ContainsKey(documentationLinkLookupKey))
             {
-                unreferencedIssues.Add(testName);
+                unreferencedIssues.Add($"    {testName}");
             }
             else
             {
@@ -49,7 +69,7 @@ class ReportGenerator
                     testName,
                     documentationLink,
                     knownIssue
-                ));
+                ));    
             }
         }
 
@@ -59,10 +79,19 @@ class ReportGenerator
                 " please make sure that you have the latest changes from docs repo" +
                 " and remove the following from known issues list:" +
                 $"{Environment.NewLine}{string.Join(Environment.NewLine, unreferencedIssues)}";
-            throw new InvalidDataException(message);
+
+            if (LanguagesToCheckForUnreferencedIssues.Contains(language))
+            {
+                throw new InvalidDataException(message);
+            }
+            else
+            {
+                // only print message
+                Console.WriteLine(message);
+            }
         }
 
-        var fileName = $"{version}-{language.AsString()}-{issueType.LowerName()}-known-issues.md";
+        var fileName = $"{version}-{lang}-{issueType.LowerName()}-known-issues.md";
         WriteReportEntriesToFile(fileName, reportEntries);
     }
 
@@ -87,16 +116,15 @@ class ReportGenerator
         var testNameSuffix = $"{lang}-{version}-{issueType.Suffix()}";
         return (issueType switch
         {
-            IssueType.Execution => CSharpKnownIssues.GetCSharpExecutionKnownIssues(),
-            IssueType.Compilation => KnownIssues.GetCompilationKnownIssues(language),
+            IssueType.Execution => language == Languages.CSharp ? CSharpKnownIssues.GetCSharpExecutionKnownIssues():PowerShellKnownIssues.GetPowerShellExecutionKnownIssues(),
+            IssueType.Compilation => language == Languages.CSharp ? KnownIssues.GetCompilationKnownIssues(language):null,
             _ => throw new ArgumentException($"Unknown issue type: {issueType}")
         }).Where(kv => kv.Key.EndsWith(testNameSuffix)).ToDictionary(kv => kv.Key, kv => kv.Value);
     }
-
     // create known issue visual report
     private static void KnownIssuesVisualReport(Versions version, Languages language, IssueType issueType)
     {
-        if (language != Languages.CSharp)
+        if (!SupportedLanguages.Contains(language))
         {
             throw new NotImplementedException();
         }

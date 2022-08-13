@@ -1,5 +1,5 @@
 # Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
-# Steps to run regular tests (that are expected to pass, i.e. no known failures)
+# Steps to run regular tests (that are expected to pass, i.e. no known issues)
 
 steps:
 - pwsh: |
@@ -9,7 +9,7 @@ steps:
   workingDirectory: $(Build.ArtifactStagingDirectory)
 
 - pwsh: |
-    $dllPath = (Get-ChildItem ./msgraph-sdk-dotnet/ -Include Microsoft.Graph.dll -Recurse | Where-Object { $_.FullName.Contains("netcoreapp") }).FullName
+    $dllPath = (Get-ChildItem ./msgraph-sdk-dotnet/ -Include Microsoft.Graph.dll -Recurse | Where-Object { $_.FullName.Contains("netstandard") }| Select-Object -First 1).FullName
     Write-Host "Path to Microsoft.Graph.dll: $dllPath"
 
     ./msgraph-sdk-raptor/azure-pipelines/e2e-templates/transformSettings.ps1 -Version "$(metadataVersion)" -TestType "CompilationStable" -DllPath "$dllPath" -Language "CSharp" -RunSettingsPath "$(runSettingsFile)"

@@ -1,0 +1,60 @@
+# Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+# Steps to run known issue tests
+# Running these tests can be useful to see if staging metadata (or any input metadata) has fixes for known issues
+
+steps:
+- pwsh: |
+    $KnownIssueTestDirectory = "KnownIssues"
+    mkdir $KnownIssueTestDirectory
+  displayName: 'Create directories for test output'
+  workingDirectory: $(Build.ArtifactStagingDirectory)
+
+- pwsh: |
+    $dllPath = (Get-ChildItem ./msgraph-sdk-dotnet/ -Include Microsoft.Graph.dll -Recurse | Where-Object { $_.FullName.Contains("netstandard") } | Select-Object -First 1).FullName
+    Write-Host "Path to Microsoft.Graph.dll: $dllPath"
+
+    ./msgraph-sdk-raptor/azure-pipelines/e2e-templates/transformSettings.ps1 -Version "$(metadataVersion)" -TestType "CompilationKnownIssues" -DllPath "$dllPath" -Language "CSharp" -RunSettingsPath "$(runSettingsFile)"
+
+    Write-Host "--- Test.runsettings file ---"
+    Get-Content "$(runSettingsFile)"
+    Write-Host "-----------------------------"
+  displayName: 'Transform .runsettings file for known issues'
+  workingDirectory: '$(Build.SourcesDirectory)'
+
+
+- task: DotNetCoreCLI@2
+  displayName: 'Csharp Compilation Tests for Known Issues'
+  inputs:
+    command: 'test'
+    projects: '**/CSharpArbitraryDllTests.csproj'
+    arguments: '--configuration $(buildConfiguration) --logger trx --results-directory $(Build.ArtifactStagingDirectory)/KnownIssues --settings $(runSettingsFile)'
+    publishTestResults: false
+  continueOnError: true
+  env:
+    RAPTOR_CONFIGCONNECTIONSTRING: $(RAPTOR_CONFIGCONNECTIONSTRING)
+
+- pwsh: |
+    $trxFilePathRegex = "$(Build.ArtifactStagingDirectory)/KnownIssues/*.trx"
+    $trxFilePath = (Resolve-Path $trxFilePathRegex).Path
+    $txtFilePath = "$(Build.ArtifactStagingDirectory)/KnownIssues/PassedTests.txt"
+
+    Write-Host "--- Passed Tests ---"
+    ./msgraph-sdk-raptor/scripts/tasks/filterTests.ps1  -trxFilePath $trxFilePath -outcome Passed -txtOutputFilePath $txtFilePath
+    Write-Host "--------------------"
+  displayName: 'Print unexpected test results'
+  workingDirectory: '$(Build.SourcesDirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish known issue test results as artifact'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/KnownIssues'
+    ArtifactName: 'KnownIssues'
+    publishLocation: 'Container'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'VSTest'
+    searchFolder: '$(Build.ArtifactStagingDirectory)/KnownIssues'
+    testResultsFiles: '**/*.trx'
+    testRunTitle: '[$(metadataVersion)] Raptor Known Issues [Metadata:$(metadataURL)]'
+  displayName: 'Publish Test Results for Known Issues'

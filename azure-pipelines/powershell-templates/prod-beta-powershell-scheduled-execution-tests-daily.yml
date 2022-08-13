@@ -11,17 +11,6 @@ schedules:
       - dev
     always: true
 
-parameters:
-- name: BuildAgentPool
-  displayName: Build Agent Pool
-  type: string
-  default: MsGraphBuildAgentsWindowsRaptor
-
-- name: PipelineTimeout
-  displayName: PipelineTimeout
-  type: number
-  default: 600
-
 resources:
  repositories:
    - repository: microsoft-graph-docs
@@ -33,19 +22,11 @@ resources:
 variables:
   buildConfiguration: 'Release'
 
-jobs:
-- job: PowerShell
-  pool: ${{ parameters.BuildAgentPool }}
-  timeoutInMinutes: ${{ parameters.PipelineTimeout }}
-  strategy:
-    maxParallel: 2
-    matrix:
-        PowerShellBetaExecutionTests:
-            projectFileName: PowerShellBetaExecutionTests
-        PowerShellBetaExecutionKnownFailureTests:
-            projectFileName: PowerShellBetaExecutionKnownFailureTests
-  steps:
-  - template: powershell-execution-tests-template.yml
-    parameters:
-      projectFileName: $(projectFileName)
-      testType: 'Execution'
+pool: 
+  name: 1es-ubuntu-latest
+
+steps:
+- template: powershell-execution-tests-template.yml
+  parameters:
+    projectFileName: PowerShellBetaExecutionTests
+    testType: 'Execution'

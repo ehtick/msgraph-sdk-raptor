@@ -56,7 +56,7 @@ jobs:
                 }
               }
             }' -f project=$PROJECT_ID -f issue=$ISSUE_ID --jq '.data.addProjectNextItem.projectNextItem.id')"
-          
+
           echo 'ITEM_ID='$item_id >> $GITHUB_ENV
 
       - name: Set Triage
@@ -68,7 +68,7 @@ jobs:
               $project: ID!
               $item: ID!
               $status_field: ID!
-              $status_value: String!              
+              $status_value: String!
             ) {
               set_status: updateProjectNextItemField(input: {
                 projectId: $project

@@ -11,8 +11,8 @@ resources:
      name: microsoftgraph/microsoft-graph-docs
      ref: main
 
-pool:
-  vmImage: 'ubuntu-latest'
+pool: 
+  name: 1es-ubuntu-latest
 
 variables:
   buildConfiguration: 'Release'
@@ -21,6 +21,6 @@ steps:
 - template: common-templates/checkout.yml
 - template: compile-run-tests-template.yml
   parameters:
-    projectFileName: CsharpBetaExecutionKnownFailureTests
+    projectFileName: CsharpBetaExecutionKnownIssueTests
     runName: 'Beta C# Snippet Execution Tests $(testRunTitle) - Known Issues'
     testType: 'Execution'

@@ -10,7 +10,6 @@ pr:
     include:
       - azure-pipelines/typescript*
       - TypeScript*
-      - TestsCommon/MicrosoftGraphTypeScriptCompiler.cs
       - TestsCommon/TypeScriptTestRunner.cs
       - TestsCommon/TypeScriptKnownIssues.cs
 schedules:
@@ -39,48 +38,46 @@ resources:
 variables:
   buildConfiguration: 'Release'
 
-jobs:
-  - job: TypeScriptV1Tests
-    displayName: 'V1 TypeScript Snippet Compilation Tests'
-    pool: 'MsGraphBuildAgentsLinux'
-    timeoutInMinutes: 30
+pool:
+  name: 1es-ubuntu-latest
 
-    steps:
-    - template: common-templates/checkout.yml
+steps:
+- template: common-templates/checkout.yml
 
-    - checkout: msgraph-sdk-typescript
-      clean: true
-      fetchDepth: 1
+- checkout: msgraph-sdk-typescript
+  clean: true
+  fetchDepth: 1
 
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '16.x'
-        checkLatest: true
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+    checkLatest: true
 
-    - task: Npm@1
-      inputs:
-        command: 'custom'
-        customCommand: 'install -g typescript'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'install -g typescript'
 
-    - pwsh: |
-        $(Build.SourcesDirectory)/msgraph-sdk-raptor/azure-pipelines/e2e-templates/transformSettings.ps1 -RunSettingsPath $env:RunSettingsPath -Language $env:Language -Version $env:Version -TestType $env:TestType
-      env:
-        RunSettingsPath: '$(Build.SourcesDirectory)/msgraph-sdk-raptor/Test.runsettings'
-        Language: 'TypeScript'
-        Version: 'v1.0'
-        TestType: 'CompilationStable'
-      displayName: 'Replace test settings parameters'
+- pwsh: |
+    $(Build.SourcesDirectory)/msgraph-sdk-raptor/azure-pipelines/e2e-templates/transformSettings.ps1 -RunSettingsPath $env:RunSettingsPath -Language $env:Language -Version $env:Version -TestType $env:TestType
+  env:
+    RunSettingsPath: '$(Build.SourcesDirectory)/msgraph-sdk-raptor/Test.runsettings'
+    Language: 'TypeScript'
+    Version: 'v1.0'
+    TestType: 'CompilationStable'
+  displayName: 'Replace test settings parameters'
 
-    - pwsh: $(Build.SourcesDirectory)/msgraph-sdk-raptor/azure-pipelines/typescript-templates/prepare-typescript-folder.ps1
-      displayName: 'Create npm directory'
-      env:
-        NPM_USERNAME: $(NPM_USERNAME)
-        NPM_PASSWORD: $(NPM_PASSWORD)
-        NPM_EMAIL: $(NPM_EMAIL)
+- pwsh: $(Build.SourcesDirectory)/msgraph-sdk-raptor/azure-pipelines/typescript-templates/prepare-typescript-folder.ps1
+  displayName: 'Create npm directory'
+  env:
+    NPM_USERNAME: $(NPM_USERNAME)
+    NPM_PASSWORD: $(NPM_PASSWORD)
+    NPM_EMAIL: $(NPM_EMAIL)
 
-    - script: dir $(Build.SourcesDirectory)
+- script: dir $(Build.SourcesDirectory)
 
-    - template: compile-run-tests-template.yml
-      parameters:
-        projectFileName: TypeScriptV1Tests
-        runName: 'V1 TypeScript Snippet Compilation Tests $(testRunTitle)'
+- template: compile-run-tests-template.yml
+  parameters:
+    projectFileName: TypeScriptV1Tests
+    runName: 'V1 TypeScript Snippet Compilation Tests $(testRunTitle)'
+

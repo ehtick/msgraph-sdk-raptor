@@ -65,6 +65,19 @@ public static class TestDataGenerator
     }
 
     /// <summary>
+    /// Converts LanguageTestData to TestCaseData
+    /// </summary>
+    /// <param name="languageTestData">Test data provided</param>
+    /// <returns>
+    /// TestCaseData to be consumed by C# compilation tests
+    /// </returns>
+    public static IEnumerable<TestCaseData> GetLanguageTestCaseData(IEnumerable<LanguageTestData> languageTestData)
+    {
+        return from testData in languageTestData
+               select new TestCaseData(testData).SetName(testData.TestName).SetProperty("Owner", testData.Owner);
+    }
+
+    /// <summary>
     /// For each snippet file creates a test case which takes the file name and version as reference
     /// Test case name is also set to to unique name based on file name
     /// </summary>
@@ -101,22 +114,40 @@ public static class TestDataGenerator
     /// <param name="runSettings">Test run settings</param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     /// <returns>
-    /// TestCaseData to be consumed by C# execution tests
+    /// TestCaseData to be consumed by execution tests
     /// </returns>
     public static IEnumerable<TestCaseData> GetExecutionTestData(RunSettings runSettings)
     {
         ArgumentNullException.ThrowIfNull(runSettings);
 
+        return GetExecutionLanguageTestData(runSettings)
+            .Select(executionTestData => new TestCaseData(executionTestData).SetName(executionTestData.KnownIssueTestNamePrefix + executionTestData.TestName).SetProperty("Owner", executionTestData.Owner));
+    }
+
+    /// <summary>
+    /// For each snippet file creates a test case which takes the file name and version as reference
+    /// Test case name is also set to to unique name based on file name
+    /// </summary>
+    /// <param name="runSettings">Test run settings</param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <returns>
+    /// LanguageTestData to be consumed by tests
+    /// </returns>
+    public static IEnumerable<LanguageTestData> GetExecutionLanguageTestData(RunSettings runSettings)
+    {
+        ArgumentNullException.ThrowIfNull(runSettings);
+
         bool CsharpFilter(LanguageTestData executionTestData) => executionTestData.FileContent.Contains("GetAsync()");
         bool PowerShellFilter(LanguageTestData executionTestData) => executionTestData.FileContent.Contains("Get-");
+        bool TypeScriptFilter(LanguageTestData executionTestData) => executionTestData.FileContent.Contains("get()");
         Func<LanguageTestData, bool> languageFilter = runSettings.Language switch
         {
             Languages.CSharp => CsharpFilter,
             Languages.PowerShell => PowerShellFilter,
+            Languages.TypeScript => TypeScriptFilter,
             _ => throw new ArgumentOutOfRangeException(nameof(runSettings))
         };
-        return GetExecutionTestDataInternal(runSettings).Where(languageFilter)
-            .Select(executionTestData => new TestCaseData(executionTestData).SetName(executionTestData.KnownIssueTestNamePrefix + executionTestData.TestName).SetProperty("Owner", executionTestData.Owner));
+        return GetExecutionTestDataInternal(runSettings).Where(languageFilter);
     }
 
     private static IEnumerable<LanguageTestData> GetExecutionTestDataInternal(RunSettings runSettings)

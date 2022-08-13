@@ -43,7 +43,7 @@ jobs:
       env:
         RAPTOR_CONFIGCONNECTIONSTRING : ${{ secrets.RAPTOR_CONFIGCONNECTIONSTRING }}
     - name: push reports
-      uses: actions-x/commit@v4
+      uses: actions-x/commit@v6
       with:
         directory: '/home/runner/work/msgraph-sdk-raptor/msgraph-sdk-raptor/msgraph-sdk-raptor' # multi-repo checkout requires this
         token: ${{ secrets.PAT }}

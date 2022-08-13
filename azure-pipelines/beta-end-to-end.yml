@@ -39,8 +39,8 @@ resources:
       name: microsoftgraph/msgraph-metadata
 
 parameters:
-- name: shouldRunKnownFailures
-  displayName: 'Should we run known failure tests?'
+- name: shouldRunKnownIssues
+  displayName: 'Should we run known issue tests?'
   type: boolean
   default: true
 
@@ -49,8 +49,8 @@ parameters:
   type: string
   default: 'https://graph.microsoft.com/stagingbeta/$metadata'
 
-pool:
-  vmImage: 'ubuntu-latest'
+pool: 
+  name: 1es-ubuntu-latest
 
 variables:
   - template: e2e-templates/variables.yml
@@ -61,4 +61,4 @@ variables:
 steps:
   - template: e2e-templates/steps.yml
     parameters:
-      shouldRunKnownFailures: ${{ parameters.shouldRunKnownFailures }}
+      shouldRunKnownIssues: ${{ parameters.shouldRunKnownIssues }}
